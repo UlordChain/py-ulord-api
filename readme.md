@@ -1,4 +1,4 @@
-# py-ulord-api
+# py-UP-api
 
 Ulord-platform HTTP Client Library
 
