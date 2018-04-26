@@ -12,8 +12,10 @@ class BaseConfig(object):
         self.ipfs_host = '127.0.0.1'
         self.ipfs_port = 5001
         self.ulord_url = "http://192.168.14.67:5000/v1"
+        # self.ulord_url = "http://127.0.0.1:5000/v1"
         self.ulord_head = {
             "appkey": "37fd0c5e3eeb11e8a12af48e3889c8ab"
+            # "appkey": "2b111d70452f11e89c2774e6e2f53324"
         }
         self.ulord_publish = "/transactions/publish/"
         self.ulord_publish_data = {
@@ -32,21 +34,20 @@ class BaseConfig(object):
         self.ulord_queryblog = "/content/list/"
         self.ulord_querybalance = "/transactions/balance/"
         self.ulord_checkbought = "/transactions/check/"
-        self.ulord_userpublished = "/content/published/"
-        self.ulord_userbought = "/content/bought/"
-        # {
-        #     'username':用户名,
-        #     'claim_id':博客ID
-        # }
-        # return :
-        # {
-        #     "errcode":0/other,
-        #     "reason":"success/资源不存在"
-        # }
+        self.ulord_userpublished = "/content/publish/list/"
+        self.ulord_userbought = "/content/consume/list/"
+        self.ulord_in = "/transactions/account/in/"
+        self.ulord_out = "/transactions/account/out/"
+        self.ulord_billings = "/transactions/publish/account/"
+        self.ulord_publish_num = "/transactions/publish/count/"
+        self.ulord_view = "/content/view/"
+        self.ulord_billings_detail = "/transactions/account/inout/"
 
         # TODO ulord other URL
         self.password = "123"
         self.username = "shuxudong"
+        # self.password = "123"
+        # self.username = "cln"
 
         # activity
         self.activity = True
@@ -59,4 +60,12 @@ class BaseConfig(object):
 
 
 baseconfig = BaseConfig()
+
+
+class DevConfig(object):
+    Debug = True
+    SECRET_KEY = "ulord platform is good"
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///sqlite.db'
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    JSON_AS_ASCII = False # support chinese
 
