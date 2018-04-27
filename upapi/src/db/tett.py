@@ -24,14 +24,14 @@ app.config.from_object(DevConfig)
 db = SQLAlchemy(app)
 
 
-resources_tags = db.Table('baseresources_tags',
-                        db.Column('baseresources_id', db.String(45), db.ForeignKey('BaseResources.id')),
+resource_tags = db.Table('resource_tags',
+                        db.Column('resource_id', db.String(45), db.ForeignKey('resource.id')),
                         db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')))
 
 
-users_resources = db.Table('users_resources',
+users_resource = db.Table('users_resource',
                         db.Column('user_id',db.Integer, db.ForeignKey('users.id')),
-                        db.Column('resource_id', db.Integer, db.ForeignKey('BaseResources.id')))
+                        db.Column('resource_id', db.Integer, db.ForeignKey('resource.id')))
 
 
 class User(db.Model):
@@ -49,8 +49,8 @@ class User(db.Model):
     pay_password = db.Column(db.String(128))
     boughts = db.relationship(
         'Resource',
-        secondary=users_resources,
-        backref=db.backref('resources', lazy='dynamic')
+        secondary=users_resource,
+        backref=db.backref('resource', lazy='dynamic')
     )
 
     def hash_password(self, password):
@@ -60,8 +60,7 @@ class User(db.Model):
         return pwd_context.verify(password, self.password_hash)
 
 
-class BaseResource(db.Model):
-    __tablename__ = 'BaseResources'
+class Resource(db.Model):
     id = db.Column(db.String(45), primary_key=True)
     title = db.Column(db.String(32), index=True)
     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -69,45 +68,30 @@ class BaseResource(db.Model):
     amount = db.Column(db.Float, index=True)
     tags = db.relationship(
         'Tag',
-        secondary=resources_tags,
-        backref=db.backref('resources', lazy='dynamic'))
+        secondary=resource_tags,
+        backref=db.backref('resource', lazy='dynamic'))
     description = db.Column(db.String(128))
     views = db.Column(db.Integer)
     date = db.Column(db.Integer)
     claimID = db.Column(db.String(40))
+    resource_type = db.Column(db.String(10))
+
+    __mapper_args__ = {
+        'polymorphic_on': resource_type
+    }
 
 
-# class Resource():
-#     __tablename__ = 'resources'
-#     id = db.Column(db.String(45), primary_key=True)
-#     title = db.Column(db.String(32), index=True)
-#     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     body = db.Column(db.String(46))
-#     amount = db.Column(db.Float, index=True)
-#     tags = db.relationship(
-#         'Tag',
-#         secondary=resources_tags,
-#         backref=db.backref('resources', lazy='dynamic'))
-#     description = db.Column(db.String(128))
-#     views = db.Column(db.Integer)
-#     date = db.Column(db.Integer)
-#     claimID = db.Column(db.String(40))
+class Content(Resource):
+    __mapper_args__ = {
+        'polymorphic_identity': 'content'
+    }
 
-# class Ads():
-#     __tablename__ = 'ads'
-#     id = db.Column(db.String(45), primary_key=True)
-#     title = db.Column(db.String(32), index=True)
-#     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     body = db.Column(db.String(46))
-#     amount = db.Column(db.Float, index=True)
-#     tags = db.relationship(
-#         'Tag',
-#         secondary=resources_tags,
-#         backref=db.backref('resources', lazy='dynamic'))
-#     description = db.Column(db.String(128))
-#     views = db.Column(db.Integer)
-#     date = db.Column(db.Integer)
-#     claimID = db.Column(db.String(40))
+
+class Ads(Resource):
+    __mapper_args__ = {
+        'polymorphic_identity': 'ad'
+    }
+
 
 class Tag(db.Model):
     __tablename__ = 'tags'
@@ -127,7 +111,7 @@ class Billing(db.Model):
     payer = db.Column(db.Integer, index=True)
     amount = db.Column(db.Float)
     payee = db.Column(db.Integer, index=True)
-    titleid = db.Column(db.String, db.ForeignKey('BaseResources.id')) # title_id foreign key
+    titleid = db.Column(db.String, db.ForeignKey('resource.id')) # title_id foreign key
 
     # Reserved field
     pre1 = db.Column(db.String())
