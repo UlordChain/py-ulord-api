@@ -4,23 +4,26 @@
 # @Date  : 2018/4/20 0020
 # @Description: this ia used for creating database and create db model
 
+from uuid import uuid1
 import os, sys
 
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from passlib.apps import custom_app_context as pwd_context
-from flask_cors import CORS
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-sys.path.append('../')
 from upapi.config import DevConfig
+from upapi.src.utils.errcode import _errcodes
+
+# config
+default_wallet = 'test'
+default_pay_password = '123l.'
+
 
 # initialization
 app = Flask(__name__)
 
 app.config.from_object(DevConfig)
 
-# cors = CORS(app, resources={r"/*": {"origins": "*"}})
 db = SQLAlchemy(app)
 
 
@@ -37,7 +40,7 @@ users_resource = db.Table('users_resource',
 class User(db.Model):
 
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.String(45), primary_key=True)
     username = db.Column(db.String(32), index = True)
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(32))
@@ -56,9 +59,40 @@ class User(db.Model):
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
 
+    @classmethod
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
+    @classmethod
+    def add(self, username, password, id=str(uuid1()), email=None, cellphone=None, wallet=default_wallet, pay_password=default_pay_password):
+        if User.query.filter_by(username=username).first() is not None:
+            return _errcodes.get(60000)
+        user = User()
+        user.username = username
+        user.hash_password(password)
+        user.id = id
+        user.email = email
+        user.cellphone = cellphone
+        user.wallet = wallet
+        user.pay_password = pay_password
+        db.session.add(user)
+        db.session.commit()
+        return _errcodes.update()
+
+    @classmethod        
+    def modify(self, userid, **kwargs):
+        user = self.query.filter_by(id=userid).first()
+        for kwarg in kwargs:
+            if kwarg in self.__dict__.keys():
+                user.kwarg = kwargs[kwarg]
+                print("{0}:{1}".format(kwarg, kwargs[kwarg]))
+            else:
+                print("{} doesn's in user's attributes".format(kwarg))
+
+
+    @classmethod
+    def delete(self, userid):
+        pass
 
 class Resource(db.Model):
     id = db.Column(db.String(45), primary_key=True)
@@ -107,7 +141,7 @@ class Tag(db.Model):
 
 class Billing(db.Model):
     __tablename__ = 'billings'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(45), primary_key=True)
     payer = db.Column(db.Integer, index=True)
     amount = db.Column(db.Float)
     payee = db.Column(db.Integer, index=True)
