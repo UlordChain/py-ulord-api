@@ -3,7 +3,7 @@
 # @Author: PuJi
 # @Date  : 2018/4/19 0019
 
-import os
+import os,json
 
 
 class BaseConfig(object):
@@ -68,4 +68,19 @@ class DevConfig(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///sqlite.db'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     JSON_AS_ASCII = False # support chinese
+    test = 12
 
+def init():
+    config = {}
+    config.update({
+        "BaseConfig": baseconfig.__dict__,
+        "DevConfig": DevConfig().__dict__
+    })
+    with open('config', 'w') as target:
+        json.dump(config, target, ensure_ascii=False, indent=2)
+    return True
+
+
+if __name__ == '__main__':
+    test = DevConfig()
+    print(test.__dict__)

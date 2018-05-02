@@ -84,15 +84,22 @@ class User(db.Model):
         user = self.query.filter_by(id=userid).first()
         for kwarg in kwargs:
             if kwarg in self.__dict__.keys():
-                user.kwarg = kwargs[kwarg]
-                print("{0}:{1}".format(kwarg, kwargs[kwarg]))
+                setattr(user, kwarg, kwargs[kwarg])
+                # user[kwarg] = kwargs[kwarg]
+                # print("{0}:{1}".format(kwarg, kwargs[kwarg]))
             else:
                 print("{} doesn's in user's attributes".format(kwarg))
-
+        db.session.commit()
 
     @classmethod
     def delete(self, userid):
-        pass
+        user = self.query.filter_by(id=userid).first()
+        if user is not None:
+            db.session.delete(user)
+            db.session.commit()
+        else:
+            print("current user(userid={0}) hasn't found.".format(userid))
+
 
 class Resource(db.Model):
     id = db.Column(db.String(45), primary_key=True)

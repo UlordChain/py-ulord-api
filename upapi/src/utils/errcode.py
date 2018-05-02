@@ -84,7 +84,7 @@ _errcodes={
 
 
 def return_result(errcode=0,reason=None,result=None):
-    if errcode==0:
+    if errcode == 0:
         res=copy.deepcopy(_errcodes[0])
         if reason is not None:
             res.update({'reason':reason})
@@ -101,4 +101,12 @@ def return_result(errcode=0,reason=None,result=None):
 
 
 if __name__ == '__main__':
-    print(_errcodes)
+    print(return_result(0, "success", "result"))
+    print(_errcodes.get(0))
+    print(return_result(0, "failed", "test"))
+    print(_errcodes.get(0))
+    print("--------------------")
+    print(return_result(10001, "failed!", "test"))
+    print(_errcodes.get(10001))
+    print(return_result(10001, "success", "ttt"))
+    print(_errcodes.get(10001))

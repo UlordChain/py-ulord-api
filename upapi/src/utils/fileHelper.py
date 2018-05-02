@@ -102,6 +102,12 @@ class FileHelper():
         # get project root path
         return os.path.split(os.getcwd())[0]
 
+    # def atomicWrite(self, dest, content, mode="w"):
+    #     try:
+    #         with open(dest+"-tmpnew", mode) as f:
+    #             f.write(content)
+    #             f.flush()
+    #             os.fsync(f.fileno())
 
 fileHelper = FileHelper()
 

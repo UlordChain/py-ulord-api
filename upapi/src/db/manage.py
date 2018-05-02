@@ -4,40 +4,50 @@
 # @Date  : 2018/4/20 0020
 # @Description: this ia used for creating database and create db model
 
-import os, sys
+from uuid import uuid1
+import os, sys, time
 
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from passlib.apps import custom_app_context as pwd_context
-from flask_cors import CORS
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-sys.path.append('../')
 from upapi.config import DevConfig
+from upapi.src.utils.errcode import _errcodes
+
+# config
+default_wallet = 'test'
+default_pay_password = '123l.'
+
 
 # initialization
 app = Flask(__name__)
 
 app.config.from_object(DevConfig)
 
-# cors = CORS(app, resources={r"/*": {"origins": "*"}})
 db = SQLAlchemy(app)
 
 
-resources_tags = db.Table('baseresources_tags',
-                        db.Column('baseresources_id', db.String(45), db.ForeignKey('BaseResources.id')),
+resource_tags = db.Table('resource_tags',
+                        db.Column('resource_id', db.String(45), db.ForeignKey('resource.id')),
                         db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')))
 
 
-users_resources = db.Table('users_resources',
+users_resource = db.Table('users_resource',
                         db.Column('user_id',db.Integer, db.ForeignKey('users.id')),
-                        db.Column('resource_id', db.Integer, db.ForeignKey('BaseResources.id')))
+                        db.Column('resource_id', db.Integer, db.ForeignKey('resource.id')))
+
+
+# class Base(db.Model):
+#TODO:Extracting public methods
+#     @classmethod
+#     def add(cls, **kwargs):
+#         pass
 
 
 class User(db.Model):
 
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.String(45), primary_key=True)
     username = db.Column(db.String(32), index = True)
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(32))
@@ -49,19 +59,63 @@ class User(db.Model):
     pay_password = db.Column(db.String(128))
     boughts = db.relationship(
         'Resource',
-        secondary=users_resources,
-        backref=db.backref('resources', lazy='dynamic')
+        secondary=users_resource,
+        backref=db.backref('resource', lazy='dynamic')
     )
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
 
+    @classmethod
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
 
+    @classmethod
+    def add(self, username, password, id=str(uuid1()), email=None, cellphone=None, wallet=default_wallet,
+            pay_password=default_pay_password):
+        if self.query.filter_by(username=username).first() is not None:
+            return _errcodes.get(60000)
+        user = User()
+        user.username = username
+        user.hash_password(password)
+        user.id = id
+        user.email = email
+        user.cellphone = cellphone
+        user.wallet = wallet
+        user.pay_password = pay_password
+        db.session.add(user)
+        db.session.commit()
+        return _errcodes.update()
 
-class BaseResource(db.Model):
-    __tablename__ = 'BaseResources'
+    @classmethod
+    def modify(self, userid, **kwargs):
+        user = self.query.filter_by(id=userid).first()
+        for kwarg in kwargs:
+            if kwarg in self.__dict__.keys():
+                setattr(user, kwarg, kwargs[kwarg])
+                # user[kwarg] = kwargs[kwarg]
+                # print("{0}:{1}".format(kwarg, kwargs[kwarg]))
+            else:
+                print("{} doesn's in user's attributes".format(kwarg))
+        db.session.commit()
+
+    @classmethod
+    def delete(self, userid):
+        user = self.query.filter_by(id=userid).first()
+        if user is not None:
+            db.session.delete(user)
+            db.session.commit()
+        else:
+            print("current user(userid={0}) hasn't found.".format(userid))
+
+    def generateToken(self, expired=86400):
+        # generate token,expired is Token expiration time. /s
+        self.token = str(uuid1())
+        self.timestamp = int(time.time()) + expired
+        db.session.conmmmit()
+
+
+class Resource(db.Model):
     id = db.Column(db.String(45), primary_key=True)
     title = db.Column(db.String(32), index=True)
     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -69,45 +123,45 @@ class BaseResource(db.Model):
     amount = db.Column(db.Float, index=True)
     tags = db.relationship(
         'Tag',
-        secondary=resources_tags,
-        backref=db.backref('resources', lazy='dynamic'))
+        secondary=resource_tags,
+        backref=db.backref('resource', lazy='dynamic'))
     description = db.Column(db.String(128))
     views = db.Column(db.Integer)
     date = db.Column(db.Integer)
     claimID = db.Column(db.String(40))
+    resource_type = db.Column(db.String(10))
+
+    __mapper_args__ = {
+        'polymorphic_on': resource_type
+    }
+
+    @classmethod
+    def add(self, title, userid, body, amount=None, tags=None, description=default_wallet):
+        if self.query.filter_by(title=title).first() is not None:
+            return _errcodes.get(60000)
+        resource = Resource()
+        resource.title = title
+        resource.userid = userid
+        resource.body = body
+        resource.amount = amount
+        resource.tags = tags
+        resource.description = description
+        db.session.add(resource)
+        db.session.commit()
+        return _errcodes.update()
 
 
-# class Resource():
-#     __tablename__ = 'resources'
-#     id = db.Column(db.String(45), primary_key=True)
-#     title = db.Column(db.String(32), index=True)
-#     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     body = db.Column(db.String(46))
-#     amount = db.Column(db.Float, index=True)
-#     tags = db.relationship(
-#         'Tag',
-#         secondary=resources_tags,
-#         backref=db.backref('resources', lazy='dynamic'))
-#     description = db.Column(db.String(128))
-#     views = db.Column(db.Integer)
-#     date = db.Column(db.Integer)
-#     claimID = db.Column(db.String(40))
+class Content(Resource):
+    __mapper_args__ = {
+        'polymorphic_identity': 'content'
+    }
 
-# class Ads():
-#     __tablename__ = 'ads'
-#     id = db.Column(db.String(45), primary_key=True)
-#     title = db.Column(db.String(32), index=True)
-#     userid = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     body = db.Column(db.String(46))
-#     amount = db.Column(db.Float, index=True)
-#     tags = db.relationship(
-#         'Tag',
-#         secondary=resources_tags,
-#         backref=db.backref('resources', lazy='dynamic'))
-#     description = db.Column(db.String(128))
-#     views = db.Column(db.Integer)
-#     date = db.Column(db.Integer)
-#     claimID = db.Column(db.String(40))
+
+class Ads(Resource):
+    __mapper_args__ = {
+        'polymorphic_identity': 'ad'
+    }
+
 
 class Tag(db.Model):
     __tablename__ = 'tags'
@@ -123,11 +177,11 @@ class Tag(db.Model):
 
 class Billing(db.Model):
     __tablename__ = 'billings'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(45), primary_key=True)
     payer = db.Column(db.Integer, index=True)
     amount = db.Column(db.Float)
     payee = db.Column(db.Integer, index=True)
-    titleid = db.Column(db.String, db.ForeignKey('BaseResources.id')) # title_id foreign key
+    titleid = db.Column(db.String, db.ForeignKey('resource.id')) # title_id foreign key
 
     # Reserved field
     pre1 = db.Column(db.String())

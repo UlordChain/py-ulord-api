@@ -81,9 +81,7 @@ class Udfs():
             self.udfs_json['Bootstrap'] = ["/ip4/114.67.37.2/tcp/20515/ipfs/QmctwnuHwE8QzH4yxuAPtM469BiCPK5WuT9KaTK3ArwUHu"]
             self.udfs_json['Datastore']['StorageMax'] = '0MB'
             with open(self.udfs_config, 'w') as target:
-                json.dump(self.udfs_json, target)
-                # for line in json.dumps(self.udfs_json):
-                #     target.write(line)
+                json.dump(self.udfs_json, target, indent=2)
             self.log.debug("end modify udfs config")
         else:
             self.log.error("error get udfs config.Restart init...")

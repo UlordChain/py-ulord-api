@@ -1,0 +1,46 @@
+{
+  "DevConfig": {}, 
+  "BaseConfig": {
+    "ipfs_host": "127.0.0.1", 
+    "ulord_billings": "/transactions/publish/account/", 
+    "ulord_publish_data": {
+      "tag": [
+        "blockchain", 
+        "IPFS"
+      ], 
+      "ipfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF", 
+      "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息", 
+      "content_type": ".txt", 
+      "author": "justin", 
+      "price": 0.1, 
+      "title": "第一篇技术博客", 
+      "pay_password": "123"
+    }, 
+    "ulord_head": {
+      "appkey": "37fd0c5e3eeb11e8a12af48e3889c8ab"
+    }, 
+    "ulord_url": "http://192.168.14.67:5000/v1", 
+    "ulord_userpublished": "/content/publish/list/", 
+    "ulord_publish": "/transactions/publish/", 
+    "ulord_paytouser": "/transactions/paytouser/", 
+    "ulord_transaction": "/transactions/consume/", 
+    "utilspath": "E:\\ulord\\py-ulord-api\\upapi\\utils", 
+    "ulord_in": "/transactions/account/in/", 
+    "ulord_billings_detail": "/transactions/account/inout/", 
+    "ulord_publish_num": "/transactions/publish/count/", 
+    "ipfs_port": 5001, 
+    "username": "shuxudong", 
+    "ulord_checkbought": "/transactions/check/", 
+    "ulord_out": "/transactions/account/out/", 
+    "ulord_regist": "/transactions/createwallet/", 
+    "ulord_queryblog": "/content/list/", 
+    "ulord_view": "/content/view/", 
+    "ulord_userbought": "/content/consume/list/", 
+    "password": "123", 
+    "pubkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\public.pem", 
+    "privkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\private.pem", 
+    "amount": 10, 
+    "activity": true, 
+    "ulord_querybalance": "/transactions/balance/"
+  }
+}
