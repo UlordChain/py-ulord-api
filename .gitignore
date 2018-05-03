@@ -2,6 +2,10 @@
 *.db
 *.sqlite
 
+# encrypt
+upapi/src/utils/private.pem
+upapi/src/utils/public.pem
+upapi/src/utils/random_generator
 
 # test
 /test
