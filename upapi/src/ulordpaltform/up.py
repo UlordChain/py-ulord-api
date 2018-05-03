@@ -7,7 +7,7 @@ import logging
 import requests
 
 from upapi.config import baseconfig
-
+from upapi.src.utils.errcode import return_result
 
 class UlordHelper(object):
     # a helper to help request the ulord paltform
@@ -47,10 +47,7 @@ class UlordHelper(object):
             self.log.debug(r.json())
             return r.json()
         else:
-            return {
-                "errcode": 50000,
-                "reason": "调用API网络错误"
-            }
+            return
 
     def put(self, url):
         r = requests.get(url=url, headers=self.ulord_head)
@@ -60,10 +57,7 @@ class UlordHelper(object):
             self.log.debug(r.json())
             return r.json()
         else:
-            return {
-                "errcode": 50000,
-                "reason": "调用API网络错误"
-            }
+            return return_result(50000)
 
     def regist(self, username, password):
         # regist wallet address from the ulord platform
@@ -104,10 +98,7 @@ class UlordHelper(object):
             }
             return self.post(self.ulord_paytouser, data)
         else:
-            return {
-                "errcode": 60300,
-                "reason": "活动取消"
-            }
+            return return_result(60300)
 
     def queryblog(self, page=1, num=10):
         # query the blog list from the ulord platform.method is get
@@ -196,3 +187,5 @@ class UlordHelper(object):
             'id': dbID
         }
         return self.post(self.ulord_view, data)
+
+ulord_helper = UlordHelper()

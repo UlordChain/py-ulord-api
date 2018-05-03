@@ -13,11 +13,7 @@ from passlib.apps import custom_app_context as pwd_context
 
 from upapi.config import DevConfig
 from upapi.src.utils.errcode import _errcodes
-
-# config
-default_wallet = 'test'
-default_pay_password = '123l.'
-
+from upapi.src.utils.Checker import checker
 
 # initialization
 app = Flask(__name__)
@@ -71,21 +67,30 @@ class User(db.Model):
         return pwd_context.verify(password, self.password_hash)
 
     @classmethod
-    def add(self, username, password, id=str(uuid1()), email=None, cellphone=None, wallet=default_wallet,
-            pay_password=default_pay_password):
+    def add(self, username, password, id=str(uuid1()), email=None, cellphone=None, wallet=None, pay_password=None):
         if self.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
+        if email and not checker.isMail(email):
+            return _errcodes.get(60105)
+        if cellphone and not checker.isCellphone(cellphone):
+            return _errcodes.get(60106)
         user = User()
         user.username = username
         user.hash_password(password)
         user.id = id
         user.email = email
         user.cellphone = cellphone
-        user.wallet = wallet
-        user.pay_password = pay_password
+        if wallet:
+            user.wallet = wallet
+        else:
+            user.wallet = username
+        if pay_password:
+            user.pay_password = pay_password
+        else:
+            user.pay_password = self.password_hash
         db.session.add(user)
         db.session.commit()
-        return _errcodes.update()
+        return user
 
     @classmethod
     def modify(self, userid, **kwargs):
@@ -136,7 +141,7 @@ class Resource(db.Model):
     }
 
     @classmethod
-    def add(self, title, userid, body, amount=None, tags=None, description=default_wallet):
+    def add(self, title, userid, body, amount=None, tags=None, description=None):
         if self.query.filter_by(title=title).first() is not None:
             return _errcodes.get(60000)
         resource = Resource()

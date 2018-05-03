@@ -11,6 +11,7 @@ class BaseConfig(object):
     def __init__(self):
         self.ipfs_host = '127.0.0.1'
         self.ipfs_port = 5001
+        self.token_expired = 86400 # Token expiration time. /s
         self.ulord_url = "http://192.168.14.67:5000/v1"
         # self.ulord_url = "http://127.0.0.1:5000/v1"
         self.ulord_head = {

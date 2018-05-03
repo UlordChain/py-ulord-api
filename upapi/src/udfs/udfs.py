@@ -24,7 +24,7 @@ class Udfs():
         if self.udfs_init:
             self.modify_config()
         self.start()
-        self.connect = UdfsHelper() # TODO: mutil helper to download faster
+        self.connect = UdfsHelper() # TODO: multi helper to download faster
 
     def get_pid(self):
         if os.path.isfile(self.lock):
