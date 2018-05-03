@@ -6,6 +6,8 @@
 # test
 /test
 
+# udfs config
+upapi/src/udfs/config
 
 # Database migrations
 
