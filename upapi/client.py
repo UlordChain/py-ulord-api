@@ -3,6 +3,10 @@
 # @Author: PuJi
 # @Date  : 2018/4/17 0017
 
+import pprint, sys, os
+path = os.path.split(os.getcwd())[0]
+sys.path.append(path)
+
 from uuid import uuid1
 import inspect, logging, time
 
@@ -21,6 +25,7 @@ class Client(object):
     def __init__(self):
         # init base config and udfs
         self.log = logging.getLogger("Client:")
+        self.log.info("init client")
 
     def get_purearg(self, arg):
         result = None
@@ -62,14 +67,14 @@ class Client(object):
         if pay_password:
             user.pay_password = pay_password
         else:
-            pay_password = user.password_hash
+            user.pay_password = user.password_hash
         if wallet:
             user.wallet = wallet
         else:
-            wallet = username
+            user.wallet = username
         user.cellphone = cellphone
         user.email = email
-        regist_result = ulord_helper.regist(wallet, pay_password)
+        regist_result = ulord_helper.regist(user.wallet, user.pay_password)
         if regist_result.get("errcode") != 0:
             return regist_result
         user.token = str(uuid1())
@@ -110,30 +115,22 @@ class Client(object):
         else:
             return return_result(60002)
 
-    def user_publish(self, title, ipfshash, amount, tags, description, userid):
+    def user_publish(self, title, udfshash, amount, tags, description, userid):
         # body is a file
+        # check udfshash
+        if len(udfshash) != 46 or (not udfshash.startwith('Qm')):
+            return return_result(60107) # TODO need other check
         current_user =  User.query.filter_by(id=userid).first()
         data = ulord_helper.ulord_publish_data
         data['author'] = current_user.wallet
         data['title'] = title
         data['tag'] = tags
-        data['ipfs_hash'] = ipfshash
+        data['ipfs_hash'] = udfshash
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
         data['description'] = description
         result = ulord_helper.publish(data)
         return result
-
-    def user_upload(self, fileinfos):
-        # upload file into ulord.fileinfo is a file list
-        result = {}
-        for fileinfo in fileinfos:
-            # TODO multi threading
-            filehash = ulord_helper.upload(fileinfo)
-            result.update({
-                fileinfo:filehash
-            })
-        return return_result(0, reason=result)
 
     def user_consume(self):
         pass
@@ -142,27 +139,53 @@ class Client(object):
         pass
 
     # edit config
-    def config_edit(self):
-        pass
+    def config_edit(self, **kwargs):
+        baseconfig.__dict__.update(kwargs)
+        # TODO write to the config file
 
     def config_show(self):
-        pass
+        return return_result(0, reason={
+            'config': baseconfig.__dict__
+        })
 
     # UDFS command
-    def udfs_download(self):
-        pass
+    def udfs_download(self, udfses):
+        # download file from ulord.udfses is a udfs list
+        result = {}
+        for udfs in udfses:
+            # TODO multi threading
+            filehash = ulord_helper.upload(udfs)
+            result.update({
+                udfs: filehash
+            })
+        return return_result(0, reason=result)
 
-    def udfs_upload(self):
-        pass
+    def udfs_upload(self, fileinfos):
+        # upload file into ulord.fileinfo is a file list
+        result = {}
+        for fileinfo in fileinfos:
+            # TODO multi threading
+            filehash = ulord_helper.upload(fileinfo)
+            result.update({
+                fileinfo: filehash
+            })
+        return return_result(0, reason=result)
 
     def udfs_cat(self):
         pass
 
     # Advanced command
-    def request(self):
-        pass
+    def request(self, method, url, data=None):
+        if method == 'post':
+            return ulord_helper.post(url=url, data=data)
+        if method == 'get':
+            return ulord_helper.get(url=url)
 
 
 if __name__ == '__main__':
+    log_file_path = "debug.log"
+    logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s',stream=open(log_file_path, "a"))
     client = Client()
-    print client.user_regist(username="test6", password="123")
+
+    pprint.pprint(client.config_show().get('reason'))
+    # print client.user_regist(username="test7", password="123")

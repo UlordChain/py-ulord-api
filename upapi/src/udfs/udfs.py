@@ -115,9 +115,9 @@ class Udfs():
 class UdfsHelper():
     # download and upload files from Ulord
     def __init__(self, host='127.0.0.1', port='5001'):
-        self.ipfs_host = host
-        self.ipfs_port = port
-        self.connect = ipfsapi.connect(self.ipfs_host, self.ipfs_port)
+        self.udfs_host = host
+        self.udfs_port = port
+        self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         self.log = logging.getLogger("UdfsHelper:")
         self.chunks = {}
         self.objects = None
@@ -125,12 +125,16 @@ class UdfsHelper():
         self.downloadpath = os.path.join(FileHelper.getRootPath(), 'download')
 
     def update(self, host='127.0.0.1', port='5001'):
-        self.ipfs_host = host
-        self.ipfs_port = port
-        self.connect = ipfsapi.connect(self.ipfs_host, self.ipfs_port)
+        self.udfs_host = host
+        self.udfs_port = port
+        self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         self.chunks = {}
         self.objects = None
         self.links = []
+
+    def cat(self, udfshash):
+        # TODO check
+        return
 
     def upload_stream(self, stream):
         # TODO need fix
@@ -138,7 +142,7 @@ class UdfsHelper():
             start = time.time()
             result = self.connect.add(stream)
             end = time.time()
-            print('upload stream cost:{}'.format(end - start))
+            self.log.info('upload stream cost:{}'.format(end - start))
             return result.get('Hash')
         except Exception, e:
             logging.error("Failed upload.{}".format(e))

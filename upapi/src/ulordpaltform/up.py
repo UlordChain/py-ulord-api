@@ -49,7 +49,7 @@ class UlordHelper(object):
         else:
             return
 
-    def put(self, url):
+    def get(self, url):
         r = requests.get(url=url, headers=self.ulord_head)
         self.log.debug(url)
         self.log.debug(r.status_code)
@@ -103,7 +103,7 @@ class UlordHelper(object):
     def queryblog(self, page=1, num=10):
         # query the blog list from the ulord platform.method is get
         temp_url = self.ulord_queryblog + "{0}/{1}/".format(page, num)
-        return self.put(temp_url)
+        return self.get(temp_url)
 
     def querybalance(self, payer, pay_password):
         # query the personal balance from the ulord platform

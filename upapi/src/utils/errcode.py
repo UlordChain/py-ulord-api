@@ -70,10 +70,13 @@ _errcodes={
     60100:{'errcode':60100,'reason':'参数不符.'},
     60101:{'errcode':60101,'reason':'参数长度不符.'},
     60102:{'errcode':60102,'reason':'参数必须为json格式.'},
+
     60103:{'errcode':60103,'reason':'需要token.'},
     60104:{'errcode':60104,'reason':'无效的token.'},
     60105:{'errcode':60105,'reason':'无效的邮箱.'},
     60106:{'errcode':60106,'reason':'无效的手机号.'},
+    60107:{'errcode':60107,'reason':'无效的udfs值.'},
+
     # 3.文件操作
     60200:{'errcode':60200,'reason':'上传文件失败.'},
     # 4.活动相关
