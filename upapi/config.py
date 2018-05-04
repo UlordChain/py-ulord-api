@@ -4,9 +4,98 @@
 # @Date  : 2018/4/19 0019
 
 import os,json
+ROOTPATH = ''
+
+class Config(dict):
+    def __init__(self, *args, **kwargs):
+        dict.__init__(self, *args, **kwargs)
+        self._ensure_subconfig()
+
+    def _ensure_subconfig(self):
+        for key in self:
+            obj = self[key]
+            if isinstance(obj, dict) and not isinstance(obj, Config):
+                setattr(self, key, Config(obj))
+
+    def save(self):
+        # just think about config.maybe need to think about other instance.
+        if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
+            with open(self['baseconfig']['config_file'], 'w') as target:
+                json.dump(self, target, ensure_ascii=False, indent=2)
+            # with open('config', 'w') as target:
+            #     json.dump(self, target, ensure_ascii=False, indent=2)
 
 
-class BaseConfig(object):
+baseconfig = Config(
+        version="0.0.1",
+        rev=13,
+        config_file="conf"
+)
+
+udfsconfig = Config(
+    udfs_host = '127.0.0.1',
+    udfs_port = 5001,
+)
+
+
+ulordconfig = Config(
+
+    token_expired = 86400, # Token expiration time. /s
+    ulord_url = "http://192.168.14.67:5000/v1",
+    ulord_head = {
+            "appkey": "37fd0c5e3eeb11e8a12af48e3889c8ab"
+            # "appkey": "2b111d70452f11e89c2774e6e2f53324"
+        },
+    ulord_publish = "/transactions/publish/",
+    ulord_publish_data = {
+            "author": "justin",
+            "title": "第一篇技术博客",
+            "tag": ["blockchain", "IPFS"],
+            "ipfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+            "price": 0.1,
+            "content_type": ".txt",
+            "pay_password": "123",
+            "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+        },
+    ulord_regist = "/transactions/createwallet/",
+    ulord_transaction = "/transactions/consume/",
+    ulord_paytouser = "/transactions/paytouser/",
+    ulord_queryblog = "/content/list/",
+    ulord_querybalance = "/transactions/balance/",
+    ulord_checkbought = "/transactions/check/",
+    ulord_userpublished = "/content/publish/list/",
+    ulord_userbought = "/content/consume/list/",
+    ulord_in = "/transactions/account/in/",
+    ulord_out = "/transactions/account/out/",
+    ulord_billings = "/transactions/publish/account/",
+    ulord_publish_num = "/transactions/publish/count/",
+    ulord_view = "/content/view/",
+    ulord_billings_detail = "/transactions/account/inout/",
+    #TODO ulord other URL,
+    password = "123",
+    username = "shuxudong",
+    # password = "123"
+    # username = "cln"
+
+    # activity
+    activity = True,
+    amount = 10,
+
+    # encryption
+    # utilspath = os.path.join(os.getcwd(), 'utils'),
+    pubkeypath = os.path.join(os.path.join(os.getcwd(), 'utils'), 'public.pem'),
+    privkeypath = os.path.join(os.path.join(os.getcwd(), 'utils'), 'private.pem'),
+)
+
+
+config = Config(
+    baseconfig=baseconfig,
+    udfsconfig=udfsconfig,
+    ulordconfig=ulordconfig
+)
+
+
+class UPConfig(object):
 
     def __init__(self):
         self.udfs_host = '127.0.0.1'
@@ -60,28 +149,17 @@ class BaseConfig(object):
         self.privkeypath = os.path.join(self.utilspath, 'private.pem')
 
 
-baseconfig = BaseConfig()
-
-
-class DevConfig(object):
+class DevConfig():
     Debug = True
     SECRET_KEY = "ulord platform is good"
     SQLALCHEMY_DATABASE_URI = 'sqlite:///sqlite.db'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     JSON_AS_ASCII = False # support chinese
-    test = 12
 
-def init():
-    config = {}
-    config.update({
-        "BaseConfig": baseconfig.__dict__,
-        "DevConfig": DevConfig().__dict__
-    })
-    with open('config', 'w') as target:
-        json.dump(config, target, ensure_ascii=False, indent=2)
-    return True
 
 
 if __name__ == '__main__':
-    test = DevConfig()
-    print(test.__dict__)
+    import pprint
+    pprint.pprint(config)
+    # config.update()
+    config.save()

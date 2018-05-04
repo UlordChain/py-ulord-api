@@ -1,8 +1,9 @@
 {
-  "DevConfig": {}, 
-  "BaseConfig": {
-    "ipfs_host": "127.0.0.1", 
+  "ulordconfig": {
+    "username": "shuxudong", 
+    "ulord_checkbought": "/transactions/check/", 
     "ulord_billings": "/transactions/publish/account/", 
+    "token_expired": 86400, 
     "ulord_publish_data": {
       "tag": [
         "blockchain", 
@@ -19,28 +20,33 @@
     "ulord_head": {
       "appkey": "37fd0c5e3eeb11e8a12af48e3889c8ab"
     }, 
-    "ulord_url": "http://192.168.14.67:5000/v1", 
     "ulord_userpublished": "/content/publish/list/", 
+    "pubkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\public.pem", 
     "ulord_publish": "/transactions/publish/", 
     "ulord_paytouser": "/transactions/paytouser/", 
-    "ulord_transaction": "/transactions/consume/", 
-    "utilspath": "E:\\ulord\\py-ulord-api\\upapi\\utils", 
-    "ulord_in": "/transactions/account/in/", 
-    "ulord_billings_detail": "/transactions/account/inout/", 
-    "ulord_publish_num": "/transactions/publish/count/", 
-    "ipfs_port": 5001, 
-    "username": "shuxudong", 
-    "ulord_checkbought": "/transactions/check/", 
-    "ulord_out": "/transactions/account/out/", 
-    "ulord_regist": "/transactions/createwallet/", 
-    "ulord_queryblog": "/content/list/", 
-    "ulord_view": "/content/view/", 
-    "ulord_userbought": "/content/consume/list/", 
-    "password": "123", 
-    "pubkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\public.pem", 
-    "privkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\private.pem", 
-    "amount": 10, 
     "activity": true, 
+    "ulord_view": "/content/view/", 
+    "ulord_url": "http://192.168.14.67:5000/v1", 
+    "password": "123", 
+    "ulord_transaction": "/transactions/consume/", 
+    "ulord_in": "/transactions/account/in/", 
+    "ulord_userbought": "/content/consume/list/", 
+    "ulord_billings_detail": "/transactions/account/inout/", 
+    "ulord_queryblog": "/content/list/", 
+    "privkeypath": "E:\\ulord\\py-ulord-api\\upapi\\utils\\private.pem", 
+    "ulord_out": "/transactions/account/out/", 
+    "amount": 10, 
+    "ulord_publish_num": "/transactions/publish/count/", 
+    "ulord_regist": "/transactions/createwallet/", 
     "ulord_querybalance": "/transactions/balance/"
+  }, 
+  "udfsconfig": {
+    "udfs_port": 5001, 
+    "udfs_host": "127.0.0.1"
+  }, 
+  "baseconfig": {
+    "rev": 13, 
+    "version": "0.0.1", 
+    "config_file": "conf"
   }
 }

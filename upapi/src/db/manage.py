@@ -180,19 +180,6 @@ class Tag(db.Model):
         self.tagname = name
 
 
-class Billing(db.Model):
-    __tablename__ = 'billings'
-    id = db.Column(db.String(45), primary_key=True)
-    payer = db.Column(db.Integer, index=True)
-    amount = db.Column(db.Float)
-    payee = db.Column(db.Integer, index=True)
-    titleid = db.Column(db.String, db.ForeignKey('resource.id')) # title_id foreign key
-
-    # Reserved field
-    pre1 = db.Column(db.String())
-    pre2 = db.Column(db.String())
-
-
 if __name__ == '__main__':
     # db.create_all(bind=['resources_tags', 'users_resources', 'User', 'Resource', 'Ads', 'Tag', 'Billing'])
     db.create_all()
