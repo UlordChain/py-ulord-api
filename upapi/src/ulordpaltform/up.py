@@ -47,7 +47,7 @@ class UlordHelper(object):
             self.log.debug(r.json())
             return r.json()
         else:
-            return
+            return return_result(50000)
 
     def get(self, url):
         r = requests.get(url=url, headers=self.ulord_head)

@@ -38,7 +38,7 @@ class Client(object):
         else:
             return arg
 
-    # user command
+    # basic command
     def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, *encryption):
         # encrypt
         if encryption:
@@ -82,7 +82,7 @@ class Client(object):
         user.id = str(uuid1())
         db.session.add(user)
         db.session.commit()
-        return return_result(0, reason={"token": user.token})
+        return return_result(0, result={"token": user.token})
 
     def user_login(self, username, password, *encryption):
         if encryption:
@@ -98,7 +98,7 @@ class Client(object):
         login_user.token = str(uuid1())
         login_user.timestamp = int(time.time()) + baseconfig.token_expired
         db.session.commit()
-        return return_result(0, reason={"token": login_user.token})
+        return return_result(0, result={"token": login_user.token})
 
     def user_logout(self, token=None, username=None):
         # change user's timestamp
@@ -111,16 +111,23 @@ class Client(object):
             login_user = User.query.filter_by(username=username).first()
         if login_user:
             login_user.timestamp = int(time.time()) - 1
-            return return_result(0, reason={'username':login_user.username})
+            return return_result(0, result={'username':login_user.username})
         else:
             return return_result(60002)
 
     def user_publish(self, title, udfshash, amount, tags, description, userid):
         # body is a file
         # check udfshash
-        if len(udfshash) != 46 or (not udfshash.startwith('Qm')):
-            return return_result(60107) # TODO need other check
+        if not checker.isUdfsHash(udfshash):
+            return return_result(60107)
         current_user =  User.query.filter_by(id=userid).first()
+        # save to the localDB
+        if Resource.query.filter_by(title=title, userid=current_user.id).first() is not None:
+            # existing title
+            return return_result(60007)
+        #TODO check balance
+
+        # publish to the ulord-platform
         data = ulord_helper.ulord_publish_data
         data['author'] = current_user.wallet
         data['title'] = title
@@ -130,13 +137,36 @@ class Client(object):
         data['pay_password'] = current_user.pay_password
         data['description'] = description
         result = ulord_helper.publish(data)
+        if result.get('errcode') == 0:
+            new_resource = Resource(id=str(uuid1()), title=title, amount=amount, views=0)
+            if tags:
+                for tag in tags:
+                    if Tag.query.filter_by(tagname=tag).first() is None:
+                        new_resource.tags.append(Tag(tag))
+            new_resource.description = description
+            new_resource.body = udfshash
+            new_resource.date = int(time.time())
+            new_resource.userid = current_user.id
+            new_resource.claimID = result.get('result').get('claim_id')
+            db.session.add(new_resource)
+            db.session.commit()
         return result
 
-    def user_consume(self):
-        pass
+    def user_allresource(self, page=1, num=10):
+        return ulord_helper.queryblog(page, num)
 
-    def user_query(self):
-        pass
+    def user_isbought(self, wallet, claim_ids):
+        # TODO maybe need to check claim_id
+        return ulord_helper.checkisbought(wallet, claim_ids)
+
+    def user_resouce_views(self, dbID):
+        return ulord_helper.addviews(dbID)
+
+    def user_pay_resources(self, payer, claim_id, pay_password):
+        return ulord_helper.transaction(payer, claim_id, pay_password)
+
+    def user_pay_ads(self, wallet, claim_id, pay_password):
+        return ulord_helper.transaction(wallet, claim_id, pay_password, True)
 
     # edit config
     def config_edit(self, **kwargs):
@@ -144,21 +174,26 @@ class Client(object):
         # TODO write to the config file
 
     def config_show(self):
-        return return_result(0, reason={
+        return return_result(0, result={
             'config': baseconfig.__dict__
         })
 
     # UDFS command
-    def udfs_download(self, udfses):
+    def udfs_download(self, udfshashs):
         # download file from ulord.udfses is a udfs list
         result = {}
-        for udfs in udfses:
+        for udfshash in udfshashs:
             # TODO multi threading
-            filehash = ulord_helper.upload(udfs)
-            result.update({
-                udfs: filehash
-            })
-        return return_result(0, reason=result)
+            if checker.isUdfsHash(udfshash):
+                filehash = ulord_helper.upload(udfshash)
+                result.update({
+                    udfshash: filehash
+                })
+            else:
+                result.update({
+                    udfshash: "not a udfshash"
+                })
+        return return_result(0, result=result)
 
     def udfs_upload(self, fileinfos):
         # upload file into ulord.fileinfo is a file list
@@ -169,10 +204,20 @@ class Client(object):
             result.update({
                 fileinfo: filehash
             })
-        return return_result(0, reason=result)
+        return return_result(0, result=result)
 
-    def udfs_cat(self):
-        pass
+    def udfs_cat(self, udfshashs):
+        result = {}
+        for udfshash in udfshashs:
+            if checker.isUdfsHash(udfshash):
+                file_context = ulord_helper.cat(udfshash)
+                result.update({
+                    udfshash: file_context
+                })
+            else:
+                result.update({
+                    udfshash: "not a udfshash"
+                })
 
     # Advanced command
     def request(self, method, url, data=None):
@@ -181,11 +226,14 @@ class Client(object):
         if method == 'get':
             return ulord_helper.get(url=url)
 
+    def query(self, sql):
+        return db.engine.execute(sql)
+
 
 if __name__ == '__main__':
     log_file_path = "debug.log"
     logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s',stream=open(log_file_path, "a"))
     client = Client()
 
-    pprint.pprint(client.config_show().get('reason'))
+    pprint.pprint(client.config_show().get('result'))
     # print client.user_regist(username="test7", password="123")

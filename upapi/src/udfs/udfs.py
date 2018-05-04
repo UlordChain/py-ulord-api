@@ -133,8 +133,7 @@ class UdfsHelper():
         self.links = []
 
     def cat(self, udfshash):
-        # TODO check
-        return
+        return self.connect.cat(udfshash)
 
     def upload_stream(self, stream):
         # TODO need fix

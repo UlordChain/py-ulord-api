@@ -25,6 +25,14 @@ class Checker(object):
         else:
             return False
 
+    def isUdfsHash(self, udfshash):
+        # simple check
+        # TODO advanced check
+        if len(udfshash) == 46 and udfshash.startwith('Qm'):
+            return True
+        else:
+            return False
+
 
 checker = Checker()
 
