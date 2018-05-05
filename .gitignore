@@ -3,17 +3,18 @@
 *.sqlite
 
 # encrypt
-upapi/src/utils/private.pem
-upapi/src/utils/public.pem
-upapi/src/utils/random_generator
+ulordapi/src/utils/private.pem
+ulordapi/src/utils/public.pem
+ulordapi/src/utils/random_generator
 
 # test
-upapi/test
+ulordapi/test
 /test
 
 # config
-upapi/src/udfs/config
-upapi/config
+ulordapi/src/udfs/config
+ulordapi/config
+/config
 
 # Database migrations
 
