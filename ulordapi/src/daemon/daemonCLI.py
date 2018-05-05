@@ -12,12 +12,12 @@ import inspect, logging, time
 
 import ipfsapi
 
-from upapi.src.db.manage import app, db, User, Resource, Billing, Tag, Ads, Content
-from upapi.src.utils.errcode import return_result
-from upapi.src.utils.encryption import rsahelper
-from upapi.src.utils.Checker import checker
-from upapi.src.ulordpaltform.up import ulord_helper
-from upapi.config import baseconfig
+from ulordapi.src.db.manage import app, db, User, Resource, Tag, Ads, Content
+from ulordapi.src.utils.errcode import return_result
+from ulordapi.src.utils.encryption import rsahelper
+from ulordapi.src.utils.Checker import checker
+from ulordapi.src.ulordpaltform.up import ulord_helper
+from ulordapi import webconfig, config
 
 
 class Client(object):
@@ -79,7 +79,7 @@ class Client(object):
         if regist_result.get("errcode") != 0:
             return regist_result
         user.token = str(uuid1())
-        user.timestamp = int(time.time()) + baseconfig.token_expired
+        user.timestamp = int(time.time()) + webconfig.get('token_expired')
         user.id = str(uuid1())
         db.session.add(user)
         db.session.commit()
@@ -97,7 +97,7 @@ class Client(object):
         if not login_user.verify_password(password):
             return return_result(60003)
         login_user.token = str(uuid1())
-        login_user.timestamp = int(time.time()) + baseconfig.token_expired
+        login_user.timestamp = int(time.time()) + webconfig.get('token_expired')
         db.session.commit()
         return return_result(0, result={"token": login_user.token})
 
@@ -171,12 +171,12 @@ class Client(object):
 
     # edit config
     def config_edit(self, **kwargs):
-        baseconfig.__dict__.update(kwargs)
+        config.update()
         # TODO write to the config file
 
     def config_show(self):
         return return_result(0, result={
-            'config': baseconfig.__dict__
+            'config': config
         })
 
     # UDFS command

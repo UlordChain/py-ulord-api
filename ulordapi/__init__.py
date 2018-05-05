@@ -1,7 +1,7 @@
 # coding=utf-8
-# @File  : config.py
+# @File  : __init__.py.py
 # @Author: PuJi
-# @Date  : 2018/4/19 0019
+# @Date  : 2018/4/17 0017
 
 import os,json, logging
 
@@ -41,6 +41,10 @@ class Config(dict):
         else:
             self.log.error("cann't find config.Please restart...")
             os._exit(-1)
+
+    def edit(self, data):
+        self.update(data)
+        self.save()
 
 
 baseconfig = Config(
@@ -102,7 +106,7 @@ ulordconfig = Config(
 )
 
 
-webserver = Config(
+webconfig = Config(
     start=True,
     port= 5000,
     host='0.0.0.0',
@@ -132,7 +136,7 @@ config = Config(
     udfsconfig=udfsconfig,
     logconfig=logconfig,
     ulordconfig=ulordconfig,
-    webserver=webserver,
+    webconfig=webconfig,
     dbconfig=dbconfig
 )
 
@@ -142,10 +146,10 @@ baseconfig = config.get('baseconfig')
 udfsconfig = config.get('udfsconfig')
 logconfig = config.get('logconfig')
 ulordconfig = config.get('ulordconfig')
-webserver=config.get('webserver')
+webconfig=config.get('webconfig')
 dbconfig = config.get('dbconfig')
 
 
-if __name__ == '__main__':
-    import pprint
-    pprint.pprint(config)
+# if __name__ == '__main__':
+#     import pprint
+#     pprint.pprint(config)

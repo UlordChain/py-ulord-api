@@ -8,13 +8,13 @@ from uuid import uuid1
 
 from flask import request, g, jsonify
 
-from upapi.src.db.manage import app, db, User
-from upapi.src.ulordpaltform.up import ulord_helper
-from upapi.src.utils.fileHelper import fileHelper
-from upapi.config import baseconfig
-from upapi.src.utils.Checker import checker
-from upapi.src.utils.encryption import rsahelper
-from upapi.src.utils.errcode import return_result
+from ulordapi.src.db.manage import app, db, User
+from ulordapi.src.ulordpaltform.up import ulord_helper
+from ulordapi.src.utils.fileHelper import fileHelper
+from ulordapi import ulordconfig
+from ulordapi.src.utils.Checker import checker
+from ulordapi.src.utils.encryption import rsahelper
+from ulordapi.src.utils.errcode import return_result
 
 log = logging.getLogger('webServer')
 
@@ -108,7 +108,7 @@ def activity():
     current_user = auth_login_required()  # check token
     if type(current_user) is dict:
         return jsonify(current_user)
-    if current_user.activity == baseconfig.amount:
+    if current_user.activity == ulordconfig.get('amount'):
         return jsonify({
             'errcode': 60301,
             'reason': "已赠送"
@@ -124,12 +124,12 @@ def activity():
         if credit_result.get("errcode") != 0:
             return jsonify(credit_result)
         else:
-            current_user.activity = baseconfig.amount
+            current_user.activity = ulordconfig.get('amount')
             return jsonify({
                 "errcode": 0,
                 "reason": "success",
                 "result":{
-                    "amount": baseconfig.amount,
+                    "amount": ulordconfig.get('amount'),
                     }
             })
 

@@ -7,8 +7,8 @@ import logging
 
 import requests
 
-from upapi.config import ulordconfig
-from upapi.src.utils.errcode import return_result
+from ulordapi import ulordconfig
+from ulordapi.src.utils.errcode import return_result
 
 class UlordHelper(object):
     # a helper to help request the ulord paltform
@@ -91,11 +91,11 @@ class UlordHelper(object):
 
     def paytouser(self, username):
         # activity send some ulords to the user
-        if baseconfig.activity:
+        if ulordconfig.get('activity'):
             data = {
                 'is_developer': True,
                 'recv_user': username,
-                'amount': baseconfig.amount
+                'amount': ulordconfig.get('amount')
             }
             return self.post(self.ulord_paytouser, data)
         else:
