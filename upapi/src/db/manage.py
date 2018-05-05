@@ -11,14 +11,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from passlib.apps import custom_app_context as pwd_context
 
-from upapi.config import DevConfig
+from upapi.config import dbconfig
 from upapi.src.utils.errcode import _errcodes
 from upapi.src.utils.Checker import checker
 
 # initialization
 app = Flask(__name__)
 
-app.config.from_object(DevConfig)
+app.config.update(dbconfig)
 
 db = SQLAlchemy(app)
 

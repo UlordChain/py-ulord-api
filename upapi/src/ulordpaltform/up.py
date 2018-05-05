@@ -2,11 +2,12 @@
 # @File  : up.py
 # @Author: PuJi
 # @Date  : 2018/4/26 0026
+# from __future__ import unicode_literals
 import logging
 
 import requests
 
-from upapi.config import baseconfig
+from upapi.config import ulordconfig
 from upapi.src.utils.errcode import return_result
 
 class UlordHelper(object):
@@ -14,28 +15,28 @@ class UlordHelper(object):
     def __init__(self):
         self.log = logging.getLogger("UlordHelper:")
         # base URL
-        self.ulord_url = baseconfig.ulord_url
-        self.ulord_head = baseconfig.ulord_head
+        self.ulord_url = ulordconfig.get('ulord_url')
+        self.ulord_head = ulordconfig.get('ulord_head')
         # regist URL
-        self.ulord_regist = baseconfig.ulord_url + baseconfig.ulord_regist # ulord regist webURL
-        self.ulord_paytouser = baseconfig.ulord_url + baseconfig.ulord_paytouser # ulord transfer webURL
+        self.ulord_regist = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_regist') # ulord regist webURL
+        self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL
         # publish URL
-        self.ulord_publish = baseconfig.ulord_url + baseconfig.ulord_publish  # ulord publish webURL
-        self.ulord_publish_data = baseconfig.ulord_publish_data  # ulord publish data
+        self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL
+        self.ulord_publish_data = ulordconfig.get('ulord_publish_data')  # ulord publish data
         # query URL
-        self.ulord_queryblog = baseconfig.ulord_url + baseconfig.ulord_queryblog # query blog list webURL
-        self.ulord_checkbought = baseconfig.ulord_url + baseconfig.ulord_checkbought # query if the blog has bought
-        self.ulord_transaction = baseconfig.ulord_url + baseconfig.ulord_transaction  # ulord transaction webURL
+        self.ulord_queryblog = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryblog') # query blog list webURL
+        self.ulord_checkbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_checkbought') # query if the blog has bought
+        self.ulord_transaction = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_transaction')  # ulord transaction webURL
 
-        self.ulord_querybalance = baseconfig.ulord_url + baseconfig.ulord_querybalance  # qurey balance webURL
-        self.ulord_userbought = baseconfig.ulord_url + baseconfig.ulord_userbought # query the blog that user has bought
-        self.ulord_userpublished = baseconfig.ulord_url + baseconfig.ulord_userpublished # query the blog that user has published
-        self.ulord_in = baseconfig.ulord_url + baseconfig.ulord_in # query income billings
-        self.ulord_out = baseconfig.ulord_url + baseconfig.ulord_out # query outcome billings
-        self.ulord_billings = baseconfig.ulord_url + baseconfig.ulord_billings # query the user's billings
-        self.ulord_billings_detail = baseconfig.ulord_url + baseconfig.ulord_billings_detail # query the detail billings
-        self.ulord_published_num = baseconfig.ulord_url + baseconfig.ulord_publish_num # query the number of the blog that author has published.
-        self.ulord_view = baseconfig.ulord_url + baseconfig.ulord_view # add blog's view
+        self.ulord_querybalance = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_querybalance')  # qurey balance webURL
+        self.ulord_userbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_userbought') # query the blog that user has bought
+        self.ulord_userpublished = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_userpublished') # query the blog that user has published
+        self.ulord_in = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_in') # query income billings
+        self.ulord_out = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_out') # query outcome billings
+        self.ulord_billings = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings') # query the user's billings
+        self.ulord_billings_detail = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings_detail') # query the detail billings
+        self.ulord_published_num = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish_num') # query the number of the blog that author has published.
+        self.ulord_view = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_view') # add blog's view
         # TODO ulord other URL
 
     def post(self, url, data):
