@@ -11,8 +11,9 @@ upapi/src/utils/random_generator
 upapi/test
 /test
 
-# udfs config
+# config
 upapi/src/udfs/config
+upapi/config
 
 # Database migrations
 
