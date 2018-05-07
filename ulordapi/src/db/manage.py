@@ -180,6 +180,12 @@ class Tag(db.Model):
         self.tagname = name
 
 
+class test():
+    @classmethod
+    def main(self):
+        db.create_all()
+
+
 if __name__ == '__main__':
     # db.create_all(bind=['resources_tags', 'users_resources', 'User', 'Resource', 'Ads', 'Tag', 'Billing'])
-    db.create_all()
+    test.main()

@@ -20,7 +20,7 @@ from ulordapi.src.ulordpaltform.up import ulord_helper
 from ulordapi import webconfig, config
 
 
-class Client(object):
+class Commands(object):
     # developer has to init a client to call command
     def __init__(self):
         # init base config and udfs
@@ -231,10 +231,13 @@ class Client(object):
         return db.engine.execute(sql)
 
 
+commands = Commands()
+
+
 if __name__ == '__main__':
     log_file_path = "debug.log"
     logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s',stream=open(log_file_path, "a"))
-    client = Client()
+    commands = Commands()
 
-    pprint.pprint(client.config_show().get('result'))
+    pprint.pprint(commands.config_show().get('result'))
     # print client.user_regist(username="test7", password="123")
