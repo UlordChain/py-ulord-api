@@ -7,8 +7,8 @@
 from uuid import uuid1
 import os, sys, time
 
-from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from passlib.apps import custom_app_context as pwd_context
 
 from ulordapi import dbconfig

@@ -22,12 +22,22 @@ class Config(dict):
                 setattr(self, key, Config(obj))
 
     def save(self):
+        print(type(self))
         # just think about config.maybe need to think about other instance.
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
             with open(self['baseconfig']['config_file'], 'w') as target:
                 json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
         else:
-            self.log.error("cann't find config.Please check if has config_file in config")
+            self.log.error("cann't find config.Please check if has config_file in config.It will using original path {}".format(os.path.join(ROOTPATH, 'config')))
+            self.update({
+                "baseconfig":{
+                    "version":"0.0.1",
+                    "config_file":os.path.join(ROOTPATH, 'config')
+                }
+            })
+            with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
+                json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
+
 
     def read(self, init=True):
         # read and config from self['baseconfig']['config_file']
@@ -49,7 +59,6 @@ class Config(dict):
 
 baseconfig = Config(
         version="0.0.1",
-        rev=13,
         config_file=os.path.join(ROOTPATH, 'config')
 )
 
@@ -123,11 +132,13 @@ webconfig = Config(
 
 
 dbconfig = Config(
-    Debug = True,
-    SECRET_KEY = "ulord platform is good",
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///sqlite.db',
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True,
-    JSON_AS_ASCII = False # support chinese
+    Debug=True,
+    SECRET_KEY="ulord platform is good",
+    SQLALCHEMY_DATABASE_URI='sqlite:///sqlite.db',
+    SQLALCHEMY_COMMIT_ON_TEARDOWN=True,
+    JSON_AS_ASCII=False, # support chinese
+    SQLALCHEMY_TRACK_MODIFICATIONS=True,
+    SQLALCHEMY_COMMIT_TEARDOWN=True
 )
 
 

@@ -6,12 +6,12 @@
 # init to start three APIs.
 
 
-import pprint, argparse, sys, os, textwrap
+import pprint, argparse, sys, os, textwrap, json
 
 path = os.path.split(os.getcwd())[0]
 sys.path.append(path)
 from ulordapi import config
-from ulordapi.src.daemon.daemonCLI import commands
+from ulordapi.src.basic import commands
 from ulordapi.src.db.manage import test
 
 
@@ -75,18 +75,19 @@ def main():
         help='config'
     )
     subparsers_config = parser_config.add_subparsers(
-        title='CONFIG COMMANDS',
-        description='config management',
+        title='config commands',
+        description='Config Management.It controls configuration variables.The configuration values are stored in a config file inside your ulord repository({0}).'.format(config.get('baseconfig').get('config_file')),
         help='config'
     )
-    parser_config_show = subparsers_config.add_parser('show', help='show config')
+    parser_config_show = subparsers_config.add_parser('show', help='show config.Output config file contents.')
+    parser_config_show.add_argument('key', metavar='[key]', nargs='*', help='show config.Output config file contents.')
     parser_config_show.set_defaults(func=show_config)
 
     parser_config_edit = subparsers_config.add_parser('edit', help='edit config')
+    parser_config_edit.add_argument('key', metavar='[key]', nargs='*', help='edit config.Open the config file for editing.')
     parser_config_edit.set_defaults(func=edit_config)
 
     args = parser.parse_args()
-
     args.func(args)
 
 
@@ -95,21 +96,26 @@ class client():
         pass
 
 
-def edit_config():
-    pass
-
-
-def show_config(args=None):
-    print(args)
-    if not args:
-        return config
-    else:
-        result = config
-        for arg in args:
-            if result is None:
-                return None
-            result = result.get(arg)
+def formatResult(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
         return result
+    return wrapper
+
+
+@formatResult
+def edit_config(args):
+    if args and args.key:
+        args = args.key
+    return commands.config_edit(args)
+
+
+@formatResult
+def show_config(args):
+    if args and args.key:
+        args = args.key
+    return commands.config_show(args)
 
 
 if __name__ == '__main__':

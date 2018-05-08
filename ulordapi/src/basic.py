@@ -1,11 +1,7 @@
 # coding=utf-8
-# @File  : daemonCLI.py
+# @File  : basic.py
 # @Author: PuJi
-# @Date  : 2018/5/4 0004
-
-import sys, os, json
-path = os.path.split(os.getcwd())[0]
-sys.path.append(path)
+# @Date  : 2018/5/8 0008
 
 from uuid import uuid1
 import inspect, logging, time
@@ -13,9 +9,10 @@ import inspect, logging, time
 import ipfsapi
 
 from ulordapi.src.db.manage import app, db, User, Resource, Tag, Ads, Content
-from ulordapi.src.utils.errcode import return_result
+from ulordapi.src.utils.errcode import _errcodes
 from ulordapi.src.utils.encryption import rsahelper
 from ulordapi.src.utils.Checker import checker
+from ulordapi.src.utils import update, ListToDict
 from ulordapi.src.ulordpaltform.up import ulord_helper
 from ulordapi import webconfig, config
 
@@ -57,11 +54,11 @@ class Commands(object):
                 pay_password = self.get_purearg(pay_password)
         # check arg
         if User.query.filter_by(username=username).first() is not None:
-            return return_result(60000)
+            return _errcodes.get(60000)
         if email and checker.isMail(email):
-            return return_result(60105)
+            return _errcodes.get(60105)
         if cellphone and checker.isCellphone(cellphone):
-            return return_result(60106)
+            return _errcodes.get(60106)
 
         user = User(username=username)
         user.hash_password(password)
@@ -83,7 +80,8 @@ class Commands(object):
         user.id = str(uuid1())
         db.session.add(user)
         db.session.commit()
-        return return_result(0, result={"token": user.token})
+        # return return_result(0, result={"token": user.token})
+        return user.token
 
     def user_login(self, username, password, *encryption):
         if encryption:
@@ -93,13 +91,14 @@ class Commands(object):
                 password = self.get_purearg(password)
         login_user = User.query.filter_by(username=username).first()
         if not login_user:
-            return return_result(60002)
+            return _errcodes.get(60002)
         if not login_user.verify_password(password):
-            return return_result(60003)
+            return _errcodes.get(60003)
         login_user.token = str(uuid1())
         login_user.timestamp = int(time.time()) + webconfig.get('token_expired')
         db.session.commit()
-        return return_result(0, result={"token": login_user.token})
+        # return return_result(0, result={"token": login_user.token})
+        return login_user.token
 
     def user_logout(self, token=None, username=None):
         # change user's timestamp
@@ -107,25 +106,25 @@ class Commands(object):
         if token:
             login_user = User.query.filter_by(token=token).first()
             if int(login_user.timestamp) < time.time():
-                return return_result(60104)
+                return _errcodes.get(60104)
         elif username:
             login_user = User.query.filter_by(username=username).first()
         if login_user:
             login_user.timestamp = int(time.time()) - 1
-            return return_result(0, result={'username':login_user.username})
+            return login_user.username
         else:
-            return return_result(60002)
+            return _errcodes.get(60002)
 
     def user_publish(self, title, udfshash, amount, tags, description, userid):
         # body is a file
         # check udfshash
         if not checker.isUdfsHash(udfshash):
-            return return_result(60107)
+            return _errcodes.get(60107)
         current_user =  User.query.filter_by(id=userid).first()
         # save to the localDB
         if Resource.query.filter_by(title=title, userid=current_user.id).first() is not None:
             # existing title
-            return return_result(60007)
+            return _errcodes.get(60007)
         #TODO check balance
 
         # publish to the ulord-platform
@@ -171,17 +170,19 @@ class Commands(object):
 
     # edit config
     def config_edit(self, args=None):
+        # args is a list or a dict
+        if isinstance(args, list):
+            args = ListToDict(args)
+        if not isinstance(args, dict):
+            return None
         if args:
-            config.update(args)
+            update(config,args)
             # write to the config file
             config.save()
-            return return_result(0, result={
-                'config': config
-            })
-        else:
-            return return_result(0, result={
-                'config': config
-            })
+            # return return_result(0, result={
+            #     'config': config
+            # })
+        return args
 
     def config_show(self, args=None):
         result = config
@@ -190,9 +191,14 @@ class Commands(object):
                 if result is None:
                     return None
                 result = result.get(arg)
-        return return_result(0, result={
-            'config':result
-        })
+        # return return_result(0, result={
+        #     'config':result
+        # })
+        return result
+
+    def config_init(self):
+        # init config
+        pass
 
     # UDFS command
     def udfs_download(self, udfshashs):
@@ -209,7 +215,8 @@ class Commands(object):
                 result.update({
                     udfshash: "not a udfshash"
                 })
-        return return_result(0, result=result)
+        # return return_result(0, result=result)
+        return result
 
     def udfs_upload(self, fileinfos):
         # upload file into ulord.fileinfo is a file list
@@ -220,7 +227,8 @@ class Commands(object):
             result.update({
                 fileinfo: filehash
             })
-        return return_result(0, result=result)
+        # return return_result(0, result=result)
+        return result
 
     def udfs_cat(self, udfshashs):
         result = {}
@@ -234,6 +242,7 @@ class Commands(object):
                 result.update({
                     udfshash: "not a udfshash"
                 })
+        return result
 
     # Advanced command
     def request(self, method, url, data=None):
@@ -247,12 +256,3 @@ class Commands(object):
 
 
 commands = Commands()
-
-
-if __name__ == '__main__':
-    log_file_path = "debug.log"
-    logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s',stream=open(log_file_path, "a"))
-    commands = Commands()
-    print(commands.config_show().get('result'))
-    # print client.user_regist(username="test7", password="123")
-
