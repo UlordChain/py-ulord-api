@@ -5,10 +5,10 @@
 
 import collections
 
-def update(d, u):
+def Update(d, u):
     for k, v in u.iteritems():
         if isinstance(d.get(k, None), collections.Mapping) and isinstance(v, collections.Mapping):
-            d[k] = update(d.get(k, {}), v)
+            d[k] = Update(d.get(k, {}), v)
         else:
             d[k] = v
     return d

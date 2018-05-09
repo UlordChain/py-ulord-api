@@ -6,7 +6,7 @@ import sys, os, subprocess, platform, json, time, signal, logging, atexit
 
 import ipfsapi
 
-from upapi.src.utils.fileHelper import fileHelper as FileHelper
+from ulordapi.src.utils.fileHelper import fileHelper as FileHelper
 
 
 class Udfs():
@@ -138,6 +138,7 @@ class UdfsHelper():
     def upload_stream(self, stream):
         # TODO need fix
         try:
+            # py-api doesn't support add stream.But the js-api supports.So sad.Maybe need to use HTTP-api.
             start = time.time()
             result = self.connect.add(stream)
             end = time.time()
@@ -147,17 +148,20 @@ class UdfsHelper():
             logging.error("Failed upload.{}".format(e))
             return None
 
-    def upload(self, local_file):
+    def upload_file(self, local_file):
         try:
-            start = time.time()
-            result = self.connect.add(local_file)
-            end = time.time()
-            print('upload {0} ,size is {1}, cost:{2}'.format(local_file, FileHelper.getSize(local_file), (end - start)))
-            # TODO save filename in DB
-            return result.get('Hash')
+            if os.path.isfile(local_file):
+                # start = time.time()
+                result = self.connect.add(local_file)
+                # end = time.time()
+                # print('upload {0} ,size is {1}, cost:{2}'.format(local_file, FileHelper.getSize(local_file), (end - start)))
+                return result.get('Hash')
+            else:
+                return False
         except Exception, e:
-            # TODO save e in the log
-            return None
+            # save e in the log
+            self.log.error("upload file failed!Exception is {}".format(e))
+            return False
 
     def list(self, filehash):
         try:
@@ -242,9 +246,12 @@ class UdfsHelper():
 udfs = Udfs()
 atexit.register(udfs.stop)
 
+udfshelper = UdfsHelper()
+
 
 if __name__ == '__main__':
     print(udfs.config)
     print(udfs.udfs_path)
     print udfs.udfs_config
     print(udfs.udfs_daemon_pid)
+    udfshash = udfshelper.upload_stream()

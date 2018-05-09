@@ -1,12 +1,13 @@
 # coding=utf-8
 # @File  : basic.py
 # @Author: PuJi
-# @Date  : 2018/5/8 0008
+# @Date  : 2018/5/9 0009
 
 from uuid import uuid1
 import inspect, logging, time
 
 import ipfsapi
+import os
 
 from ulordapi.src.db.manage import app, db, User, Resource, Tag, Ads, Content
 from ulordapi.src.utils.errcode import _errcodes
@@ -14,6 +15,7 @@ from ulordapi.src.utils.encryption import rsahelper
 from ulordapi.src.utils.Checker import checker
 from ulordapi.src.utils import update, ListToDict
 from ulordapi.src.ulordpaltform.up import ulord_helper
+from ulordapi.src.udfs.udfs import udfshelper
 from ulordapi import webconfig, config
 
 
@@ -21,8 +23,8 @@ class Commands(object):
     # developer has to init a client to call command
     def __init__(self):
         # init base config and udfs
-        self.log = logging.getLogger("Client:")
-        self.log.info("init client")
+        self.log = logging.getLogger("Basic:")
+        self.log.info("Basic")
 
     def get_purearg(self, arg):
         # check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
@@ -115,12 +117,22 @@ class Commands(object):
         else:
             return _errcodes.get(60002)
 
-    def user_publish(self, title, udfshash, amount, tags, description, userid):
+    def user_publish(self, title, udfshash, amount, tags, description, **usercondition):
         # body is a file
         # check udfshash
         if not checker.isUdfsHash(udfshash):
             return _errcodes.get(60107)
-        current_user =  User.query.filter_by(id=userid).first()
+        if 'userid' in usercondition:
+            userid = usercondition.get('userid')
+            current_user =  User.query.filter_by(id=userid).first()
+        elif 'username' in usercondition:
+            username = usercondition.get('username')
+            current_user = User.query.filter_by(name=username).first()
+        elif 'usertoken' in usercondition:
+            token = usercondition.get('token')
+            current_user = User.query.filter_by(token=token).first()
+        else:
+            return _errcodes.get(60100) # missing user info argument
         # save to the localDB
         if Resource.query.filter_by(title=title, userid=current_user.id).first() is not None:
             # existing title
@@ -136,8 +148,8 @@ class Commands(object):
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
         data['description'] = description
-        result = ulord_helper.publish(data)
-        if result.get('errcode') == 0:
+        publish_result = ulord_helper.publish(data)
+        if publish_result.get('errcode') == 0:
             new_resource = Resource(id=str(uuid1()), title=title, amount=amount, views=0)
             if tags:
                 for tag in tags:
@@ -147,10 +159,13 @@ class Commands(object):
             new_resource.body = udfshash
             new_resource.date = int(time.time())
             new_resource.userid = current_user.id
-            new_resource.claimID = result.get('result').get('claim_id')
+            new_resource.claimID = publish_result.get('result').get('claim_id')
             db.session.add(new_resource)
             db.session.commit()
-        return result
+        #     return new_resource.claimID
+        # else:
+        #     return publish_result
+        return publish_result
 
     def user_allresource(self, page=1, num=10):
         return ulord_helper.queryblog(page, num)
@@ -169,36 +184,7 @@ class Commands(object):
         return ulord_helper.transaction(wallet, claim_id, pay_password, True)
 
     # edit config
-    def config_edit(self, args=None):
-        # args is a list or a dict
-        if isinstance(args, list):
-            args = ListToDict(args)
-        if not isinstance(args, dict):
-            return None
-        if args:
-            update(config,args)
-            # write to the config file
-            config.save()
-            # return return_result(0, result={
-            #     'config': config
-            # })
-        return args
 
-    def config_show(self, args=None):
-        result = config
-        if args and isinstance(args, list):
-            for arg in args:
-                if result is None:
-                    return None
-                result = result.get(arg)
-        # return return_result(0, result={
-        #     'config':result
-        # })
-        return result
-
-    def config_init(self):
-        # init config
-        pass
 
     # UDFS command
     def udfs_download(self, udfshashs):
@@ -207,7 +193,7 @@ class Commands(object):
         for udfshash in udfshashs:
             # TODO multi threading
             if checker.isUdfsHash(udfshash):
-                filehash = ulord_helper.downloadhash(udfshash)
+                filehash = udfshelper.downloadhash(udfshash)
                 result.update({
                     udfshash: filehash
                 })
@@ -221,11 +207,17 @@ class Commands(object):
     def udfs_upload(self, fileinfos):
         # upload file into ulord.fileinfo is a file list
         result = {}
-        for fileinfo in fileinfos:
-            # TODO multi threading
-            filehash = ulord_helper.upload(fileinfo)
+        if isinstance(fileinfos, list):
+            for fileinfo in fileinfos:
+                # TODO multi threading
+                filehash = udfshelper.upload_file(fileinfo)
+                result.update({
+                    fileinfo: filehash
+                })
+        else:
+            filehash = udfshelper.upload_file(fileinfos)
             result.update({
-                fileinfo: filehash
+                fileinfos: filehash
             })
         # return return_result(0, result=result)
         return result
@@ -234,7 +226,7 @@ class Commands(object):
         result = {}
         for udfshash in udfshashs:
             if checker.isUdfsHash(udfshash):
-                file_context = ulord_helper.cat(udfshash)
+                file_context = udfshelper.cat(udfshash)
                 result.update({
                     udfshash: file_context
                 })

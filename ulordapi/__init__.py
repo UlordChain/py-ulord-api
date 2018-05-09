@@ -93,7 +93,7 @@ ulordconfig = Config(
             "pay_password": "123",
             "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
         },
-    ulord_regist = "/transactions/createwallet/",
+    ulord_createwallet = "/transactions/createwallet/",
     ulord_transaction = "/transactions/consume/",
     ulord_paytouser = "/transactions/paytouser/",
     ulord_queryblog = "/content/list/",

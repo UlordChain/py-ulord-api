@@ -18,7 +18,7 @@ class UlordHelper(object):
         self.ulord_url = ulordconfig.get('ulord_url')
         self.ulord_head = ulordconfig.get('ulord_head')
         # regist URL
-        self.ulord_regist = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_regist') # ulord regist webURL
+        self.ulord_createwallet = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_createwallet') # ulord regist webURL
         self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL
         # publish URL
         self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL
@@ -66,7 +66,7 @@ class UlordHelper(object):
             "username": username,
             "pay_password": password
         }
-        return self.post(self.ulord_regist, data)
+        return self.post(self.ulord_createwallet, data)
 
     def publish(self, data):
         # publish data to the ulord platform
@@ -189,4 +189,6 @@ class UlordHelper(object):
         }
         return self.post(self.ulord_view, data)
 
+
 ulord_helper = UlordHelper()
+
