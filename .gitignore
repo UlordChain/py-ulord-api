@@ -2,6 +2,14 @@
 *.db
 *.sqlite
 
+# log
+*.log
+
+# zip
+*.zip
+*.rar
+*.tar.gz
+
 # encrypt
 ulordapi/src/utils/private.pem
 ulordapi/src/utils/public.pem
