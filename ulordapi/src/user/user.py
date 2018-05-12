@@ -2,7 +2,8 @@
 # @File  : user.py
 # @Author: PuJi
 # @Date  : 2018/5/9 0009
-import logging
+import logging, inspect
+
 from ulordapi.src.utils import ListToDict, Update
 from ulordapi import config
 from ulordapi.src.udfs.udfs import udfshelper
@@ -10,12 +11,12 @@ from ulordapi.src.utils.Checker import checker
 from ulordapi.src.ulordpaltform.up import ulord_helper
 
 
-class User():
+class Developer():
     # basic class to execute some functions
-    def __init__(self):
-        # init base config and udfs
-        self.log = logging.getLogger("User:")
-        self.log.info("Basic")
+    # init base config and udfs
+    # def __init__(self):
+    #     self.log = logging.getLogger("User:")
+    #     self.log.info("Basic")
 
     # config operations
     def config_edit(self, args=None):
@@ -115,3 +116,17 @@ class User():
             return ulord_helper.post(url=url, data=data)
         if method == 'get':
             return ulord_helper.get(url=url)
+
+    def help(self):
+        return inspect.getmembers(self, predicate=inspect.ismethod)
+
+
+if __name__ == '__main__':
+    develop = Developer()
+    result = develop.help()
+    try:
+        import json
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+    except:
+        # print(type(result))
+        print(result)

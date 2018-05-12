@@ -183,11 +183,11 @@ class UlordHelper(object):
         }
         return self.post(self.ulord_published_num, data)
 
-    def addviews(self, dbID):
-        data = {
-            'id': dbID
-        }
-        return self.post(self.ulord_view, data)
+    # def addpurchases(self, dbID):
+    #     data = {
+    #         'id': dbID
+    #     }
+    #     return self.post(self.ulord_view, data)
 
 
 ulord_helper = UlordHelper()

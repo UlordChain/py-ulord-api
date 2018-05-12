@@ -24,9 +24,42 @@ def ListToDict(args):
             args[0]:ListToDict(args[1:])
         }
 
+
+def require(required, tag):
+    def decorate(func):
+        def wrapper(*args, **kwargs):
+            global tag
+            if tag:
+                func(*args, **kwargs)
+                # print("will run {0} {1}".format(str(func), func))
+            else:
+                # print("need {0} {1}".format(str(required), required))
+                required()
+                func(*args, **kwargs)
+        return wrapper
+    return decorate
+
+
 if __name__ == '__main__':
-    a = [1,2,3,4]
-    print(ListToDict(a))
+    # a = [1,2,3,4]
+    # print(ListToDict(a))
+    tag = None
+
+    def connect():
+        global tag
+        print("connect ... ")
+        tag = True
+
+    @require(connect, tag)
+    def start():
+        print("start init...")
+
+
+    start()
+    import time
+    time.sleep(2)
+    start()
+
 
 
 

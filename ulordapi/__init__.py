@@ -3,10 +3,15 @@
 # @Author: PuJi
 # @Date  : 2018/4/17 0017
 
-import os,json, logging
+import os,json, logging,io,yaml
 
+import chardet
 
 ROOTPATH = os.path.dirname(os.path.realpath(__file__))
+level='INFO'
+format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s'
+# format='%(levelname)-8s %(name)s %(message)s'
+log_file_path=os.path.join(ROOTPATH, 'upapi.log')
 
 
 class Config(dict):
@@ -22,9 +27,9 @@ class Config(dict):
                 setattr(self, key, Config(obj))
 
     def save(self):
-        print(type(self))
-        # just think about config.maybe need to think about other instance.
+        # Just think about config.maybe need to think about other instance.
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
+            # print(json.dumps(self, ensure_ascii=False, indent=2, sort_keys=True))
             with open(self['baseconfig']['config_file'], 'w') as target:
                 json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
         else:
@@ -38,13 +43,13 @@ class Config(dict):
             with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
                 json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
 
-
     def read(self, init=True):
         # read and config from self['baseconfig']['config_file']
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file') and \
                 os.path.isfile(self.get('baseconfig').get('config_file')):
-            with open(self['baseconfig']['config_file'], 'r') as target:
-                self.update(json.load(target))
+            # with io.open(self['baseconfig']['config_file'], 'r', encoding='utf8') as target:
+            with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
+                self.update(yaml.safe_load(target))
         elif init:
             # first init
             self.save()
@@ -70,9 +75,9 @@ udfsconfig = Config(
 
 
 logconfig = Config(
-    level=logging.DEBUG,
-    format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s',
-    log_file_path=os.path.join(ROOTPATH, 'upapi.log')
+    level=level,
+    format=format,
+    log_file_path=log_file_path
 )
 
 
@@ -132,6 +137,7 @@ webconfig = Config(
 
 
 dbconfig = Config(
+    IsCreated=False,
     Debug=True,
     SECRET_KEY="ulord platform is good",
     SQLALCHEMY_DATABASE_URI='sqlite:///sqlite.db',
@@ -152,6 +158,7 @@ config = Config(
 )
 
 
+
 config.read()
 baseconfig = config.get('baseconfig')
 udfsconfig = config.get('udfsconfig')
@@ -159,6 +166,22 @@ logconfig = config.get('logconfig')
 ulordconfig = config.get('ulordconfig')
 webconfig=config.get('webconfig')
 dbconfig = config.get('dbconfig')
+# TODO need to init some actions according to the config
+level=logconfig.get('level')
+format=logconfig.get('format')
+log_file_path=logconfig.get('log_file_path')
+
+
+if level in logging._levelNames.keys():
+    level = logging._levelNames.get(level)
+else:
+    level = logging.INFO
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    filename=log_file_path,
+    format=format)
 
 
 # if __name__ == '__main__':

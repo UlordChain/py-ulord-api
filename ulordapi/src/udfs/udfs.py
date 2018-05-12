@@ -7,6 +7,7 @@ import sys, os, subprocess, platform, json, time, signal, logging, atexit
 import ipfsapi
 
 from ulordapi.src.utils.fileHelper import fileHelper as FileHelper
+from ulordapi.src.utils import require
 
 
 class Udfs():
@@ -21,10 +22,10 @@ class Udfs():
         self.udfs_daemon_pid = self.get_pid()
         if not os.path.isfile(self.config):
             self.start_init()
-        if self.udfs_init:
-            self.modify_config()
-        self.start()
-        self.connect = UdfsHelper() # TODO: multi helper to download faster
+            if self.udfs_init:
+                self.modify_config()
+        # self.start()
+        # self.connect = UdfsHelper() # TODO: multi helper to download faster
 
     def get_pid(self):
         if os.path.isfile(self.lock):
@@ -53,16 +54,21 @@ class Udfs():
 
     def start_command(self, cmd):
         # start external command
-        self.log.info("starting command,current command:{}".format(cmd))
+        self.log.debug("starting command,current command:{}".format(cmd))
         FNULL = open(os.devnull, 'w')
         pl = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=FNULL)
         # self.log.info("end command,result is {}".format(pl.communicate()))
         return pl
 
-    def start(self):
+    def start(self, test=None):
         # start udfs
+        atexit.register(self.stop)
         cmd = "{0} --config {1} daemon".format(self.udfs_path,self.config)
         self.udfs_daemon = self.start_command(cmd)
+        info = "Udfs has started!\nNow you can use it to download or upload!"
+        print(info)
+        self.log.info(info)
+        self.udfs_daemon.wait()
         self.udfs_daemon_pid = self.udfs_daemon.pid
 
     def start_init(self):
@@ -91,14 +97,22 @@ class Udfs():
         # kill the udfs daemon
         if self.udfs_daemon_pid:
             self.log.info("stop daemon")
-            print("stop daemon")
             if self.current_os in ["Windows", "Win32"]:
                 self.log.debug("excute taskkill")
-                os.popen('taskkill.exe /pid:{0} /F'.format(self.udfs_daemon_pid))
+                try:
+                    os.popen('taskkill.exe /pid:{0} /F'.format(self.udfs_daemon_pid))
+                except Exception,e:
+                    self.log.error("Kill task error!Exception is {}".format(e))
             elif self.current_os in ["Mac OSX", "Darwin"]:
-                os.killpg(self.udfs_daemon_pid, signal.SIGTERM)
+                try:
+                    os.killpg(self.udfs_daemon_pid, signal.SIGTERM)
+                except:
+                    self.log.error("Kill task error!Exception is {}".format(e))
             elif self.current_os == "Linux":
-                os.killpg(self.udfs_daemon_pid, signal.SIGTERM)
+                try:
+                    os.killpg(self.udfs_daemon_pid, signal.SIGTERM)
+                except Exception, e:
+                    self.log.error("Kill task error!Exception is {}".format(e))
             else:
                 self.log.critical("Unknow operating system")
                 sys.exit(1)
@@ -108,8 +122,7 @@ class Udfs():
                 try:
                     os.remove(self.lock)
                 except Exception, e:
-                    self.log.error('remove self.lock({0}) failed!'.format(self.lock))
-                    print("remove failed!", e)
+                    self.log.error('remove self.lock({0}) failed!'.format(e))
 
 
 class UdfsHelper():
@@ -117,7 +130,7 @@ class UdfsHelper():
     def __init__(self, host='127.0.0.1', port='5001'):
         self.udfs_host = host
         self.udfs_port = port
-        self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
+        self.connect = None
         self.log = logging.getLogger("UdfsHelper:")
         self.chunks = {}
         self.objects = None
@@ -127,15 +140,19 @@ class UdfsHelper():
     def update(self, host='127.0.0.1', port='5001'):
         self.udfs_host = host
         self.udfs_port = port
-        self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
+        self.connect = None
         self.chunks = {}
         self.objects = None
         self.links = []
 
     def cat(self, udfshash):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         return self.connect.cat(udfshash)
 
     def upload_stream(self, stream):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # TODO need fix
         try:
             # py-api doesn't support add stream.But the js-api supports.So sad.Maybe need to use HTTP-api.
@@ -149,6 +166,8 @@ class UdfsHelper():
             return None
 
     def upload_file(self, local_file):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             if os.path.isfile(local_file):
                 # start = time.time()
@@ -164,6 +183,8 @@ class UdfsHelper():
             return False
 
     def list(self, filehash):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             self.objects = self.connect.ls(filehash).get('Objects')
             if self.objects:
@@ -177,10 +198,14 @@ class UdfsHelper():
             logging.error("ls fail:{}".format(e))
 
     def downloadfile(self, localfile):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # TODO query the file hash from DB
         pass
 
     def downloadhash(self, filehash, filepath=None):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             start = time.time()
             self.connect.get(filehash, filepath=filepath)
@@ -193,6 +218,8 @@ class UdfsHelper():
             return False
 
     def resumableDownload(self, filehash, filename=None):
+        if not self.connect:
+            self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # not thread safely.single thread
         filehash_path = os.path.join(self.downloadpath, filehash)
         tempjson = os.path.join(filehash_path, 'temp.json')
@@ -244,7 +271,7 @@ class UdfsHelper():
 
 
 udfs = Udfs()
-atexit.register(udfs.stop)
+
 
 udfshelper = UdfsHelper()
 
@@ -254,4 +281,3 @@ if __name__ == '__main__':
     print(udfs.udfs_path)
     print udfs.udfs_config
     print(udfs.udfs_daemon_pid)
-    udfshash = udfshelper.upload_stream()
