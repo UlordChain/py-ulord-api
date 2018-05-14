@@ -3,8 +3,11 @@
 # @Author: PuJi
 # @Date  : 2018/5/5 0005
 
-import os
+import os, shutil,platform
 from setuptools import setup,find_packages
+from distutils.sysconfig import get_python_lib
+
+
 
 
 requires=[
@@ -44,7 +47,8 @@ with open(os.path.join(base_dir, 'README.md'), 'rb') as f:
     long_description = f.read().decode('utf-8')
 
 console_scripts = [
-    'ulordapi = upapi.src.daemon.daemonCLI:main'
+    'ulordapi-cli = ulordapi.src.daemon.daemonCLI:main',
+    'ulordapi = ulordapi'
 ]
 
 package_name = "ulordapi"
@@ -64,4 +68,21 @@ setup(
     install_requires=requires,
     zip_safe=False,
     entry_points={'console_scripts': console_scripts},
+    Platform=['windows','linux']
 )
+
+current_place = get_python_lib()
+# print(current_place)
+dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'src', 'udfs', 'tools')
+
+try:
+    os.stat(dst)
+except:
+    os.mkdir(dst)
+
+if platform.system().startswith('Win'):
+    shutil.copy2(os.path.join('ulordapi', 'src','udfs','tools', 'udfs.exe'),
+                 os.path.join(dst,'udfs.exe'))
+else:
+    shutil.copy2(os.path.join('ulordapi', 'src','udfs','tools', 'udfs'),
+                    os.path.join(dst,'udfs'))

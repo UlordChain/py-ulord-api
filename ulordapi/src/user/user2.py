@@ -19,15 +19,25 @@ from ulordapi.src.daemon import webServer
 class Developer2(Developer):
 
     # using database
-    def __init__(self, username, password):
+    # def __init__(self, username, password):
+    #     ulordconfig.update({
+    #         'username':username,
+    #         'password':password,
+    #         'ulord_head':{
+    #             'appkey':self.get_appkey(username, password)
+    #         }
+    #     })
+    #     self.log = logging.getLogger("Developer2:")
+    #     self.log.info("Developer2 init")
+    def __init__(self, appkey):
         ulordconfig.update({
-            'username':username,
-            'password':password
+            'ulord_head':{
+                'appkey':appkey
+            }
         })
         self.log = logging.getLogger("Developer2:")
         self.log.info("Developer2 init")
 
-    # up functions
     def get_purearg(self, arg):
         # check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
         result = None
@@ -40,6 +50,7 @@ class Developer2(Developer):
         else:
             return arg
 
+    # up functions
     def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, *encryption):
         # encrypt
         if encryption:
@@ -220,5 +231,9 @@ class Developer2(Developer):
 
 
 if __name__ == '__main__':
-    user = Developer2(ulordconfig.get('username'),ulordconfig.get('password'))
-    user.create_database()
+    # user = Developer2(ulordconfig.get('username'),ulordconfig.get('password'))
+    if ulordconfig.get('ulord_head'):
+        user = Developer2(ulordconfig.get('ulord_head').get('appkey'))
+        user.create_database()
+    else:
+        print("Failed! Doesn't have appkey")

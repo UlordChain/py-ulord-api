@@ -3,9 +3,11 @@
 # @Author: PuJi
 # @Date  : 2018/4/17 0017
 
-import os,json, logging,io,yaml
+import os,json, logging,io,yaml,sys
 
 import chardet
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 
 ROOTPATH = os.path.dirname(os.path.realpath(__file__))
 level='INFO'
@@ -31,7 +33,7 @@ class Config(dict):
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
             # print(json.dumps(self, ensure_ascii=False, indent=2, sort_keys=True))
             with open(self['baseconfig']['config_file'], 'w') as target:
-                json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
+                json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
         else:
             self.log.error("cann't find config.Please check if has config_file in config.It will using original path {}".format(os.path.join(ROOTPATH, 'config')))
             self.update({
@@ -41,7 +43,7 @@ class Config(dict):
                 }
             })
             with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
-                json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
+                json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
 
     def read(self, init=True):
         # read and config from self['baseconfig']['config_file']
@@ -113,8 +115,8 @@ ulordconfig = Config(
     ulord_view = "/content/view/",
     ulord_billings_detail = "/transactions/account/inout/",
     #TODO ulord other URL,
-    password = "123",
-    username = "shuxudong",
+    # password = "123",
+    # username = "shuxudong",
     # password = "123"
     # username = "cln"
 )
