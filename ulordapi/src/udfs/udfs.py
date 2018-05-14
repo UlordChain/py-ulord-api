@@ -20,7 +20,7 @@ class Udfs():
         self.lock = os.path.join(self.config, 'repo.lock')
         self.udfs_path = self.get_udfs()
         self.udfs_daemon_pid = self.get_pid()
-        if not os.path.isfile(self.config):
+        if not os.path.isdir(self.config):
             self.start_init()
             if self.udfs_init:
                 self.modify_config()

@@ -20,6 +20,12 @@ develop1 = user1.Developer1(ulordconfig.get('ulord_head').get('appkey'))
 
 develop2 = user2.Developer2(ulordconfig.get('username'), ulordconfig.get('password'))
 
+try:
+    config_path = config.get('baseconfig').get('config_file')
+except:
+    config_path = "basic config"
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog='ulordapi',
@@ -35,14 +41,17 @@ def main():
         0   Successful execution.
         1   Failed executions.
         '''),
-
+        usage='%(prog)s [options|sub-command] [-h]'
     )
     # main command
     parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.0.1')
     # parser.add_argument('daemon', action='store_true')
 
     # subcommand
-    subparsers = parser.add_subparsers(title="ulordapi sub-command",description="ulordapi sub-command",  help='subcommand help')
+    subparsers = parser.add_subparsers(
+        title="ulordapi sub-command",
+        description="ulordapi sub-command,reading API documents ",
+        help='using basic config - {}'.format(config_path))
 
     # basic group
     # group_basic = parser.add_argument_group('BASIC COMMANDS')
@@ -51,7 +60,8 @@ def main():
     # subcommand - up commands
     parser_daemon = subparsers.add_parser(
         'daemon',
-        help='Daemon process,including web server and udfs daemon'
+        help='Daemon process,including web server and udfs daemon.',
+        prog='ulordapi daemon'
         # type=udfs.udfs.start
     )
     parser_daemon.set_defaults(func=udfs.udfs.start)
@@ -65,12 +75,15 @@ def main():
 
     # subcommand - up commands
     parser_up = subparsers.add_parser(
-        'up',
-        help='ulord-platform'
+        'UP',
+        help='main functions',
+        prog='ulordapi UP <actions> [<value>]'
     )
     subparsers_up = parser_up.add_subparsers(
-        title='BASIC COMMANDS',
-        description='packing ulord-platform HTTP APIs and come transmission functions',
+        title='UP COMMANDS',
+        description='packing ulord-platform HTTP APIs and some transmission functions',
+        metavar='',
+        help='just for the Senior programmer functions.'
     )
     parser_up_wallet_create = subparsers_up.add_parser('create', help='create wallet')
     parser_up_wallet_create.set_defaults(func=develop1.ulord_createwallet)
@@ -120,12 +133,15 @@ def main():
     # subcommand - udfs commands
     parser_udfs = subparsers.add_parser(
         'udfs',
-        help='udfs'
+        help='transfer resources to the platform',
+        prog='ulordapi udfs [upload <file>] | [download|cat <udfs-hash>]'
     )
     subparsers_udfs = parser_udfs.add_subparsers(
         title='UDFS COMMANDS',
-        description='udfs ',
-        help='DB'
+        description='udfs is a high speed transmitter base on the ulord-platform',
+        # metavar='ulordapi udfs [upload <file>] | [download|cat <udfs-hash>]',
+        metavar='',
+        help='upload resources,download/cat resources from the ulord-platform'
     )
 
     parser_db_upload = subparsers_udfs.add_parser('upload', help='upload resources to udfs')
@@ -140,12 +156,14 @@ def main():
     # subcommand - DB commands
     parser_DB = subparsers.add_parser(
         'DB',
-        help='DB'
+        help='Manage database',
+        prog='ulordapi DB <actions>'
     )
     subparsers_DB = parser_DB.add_subparsers(
         title='DB COMMANDS',
         description='create simple database and some simple APIs',
-        help='DB'
+        metavar='',
+        help='Manage database'
     )
     parser_db_create = subparsers_DB.add_parser('create', help='create database')
     parser_db_create.set_defaults(func=create)
@@ -153,13 +171,19 @@ def main():
     # subcommand - config commands
     parser_config = subparsers.add_parser(
         'config',
-        help='config'
+        help='Manage configuration',
+        prog='ulordapi config <key> [<value>]'
     )
     subparsers_config = parser_config.add_subparsers(
         title='config commands',
-        description='Config Management.It controls configuration variables.The configuration values are stored in a config file inside your ulord repository({0}).'.format(
-            config.get('baseconfig').get('config_file')),
-        help='config'
+        description=textwrap.dedent('''
+        Config Management.It controls configuration variables.
+        
+        The configuration values are stored in a config file inside your ulord repository({0}).
+        '''.format(config_path)),
+        prog='config',
+        metavar='',
+        help='Get and set ulordapi config values.'
     )
     parser_config_show = subparsers_config.add_parser('show', help='show config.Output config file contents.')
     parser_config_show.add_argument('key', metavar='[key]', nargs='*', help='show config.Output config file contents.')
@@ -171,9 +195,7 @@ def main():
     parser_config_edit.set_defaults(func=edit_config)
 
     args = parser.parse_args()
-    # if args.daemon:
-    #     udfs.udfs.start()
-    # print(args)
+
     if hasattr(args, 'daemon'):
         args.func()
     else:

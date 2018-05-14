@@ -44,9 +44,7 @@ with open(os.path.join(base_dir, 'README.md'), 'rb') as f:
     long_description = f.read().decode('utf-8')
 
 console_scripts = [
-    'upapi-daemon = upapi.src.daemon.daemonServer:start',
-    'upapi-cli = upapi.src.daemon.daemonCLI:main',
-    'upapi-webserver = upapi.src.daemon.webServer:start'
+    'ulordapi = upapi.src.daemon.daemonCLI:main'
 ]
 
 package_name = "ulordapi"
