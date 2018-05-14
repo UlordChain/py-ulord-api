@@ -1,5 +1,9 @@
 # py-ulord-api
 
+[![](https://img.shields.io/badge/py--ulord--api-incomplete-red.svg)](https://shields.io/)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![](https://img.shields.io/badge/cli-completed-green.svg)](https://shields.io/)
+
 Ulord-platform HTTP Client Library
 
 Check out [the client API reference]() for the full command reference.
