@@ -2,7 +2,7 @@
 # @File  : encryption.py
 # @Author: PuJi
 # @Date  : 2018/4/17 0017
-import os, base64
+import os, base64, hashlib
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
@@ -67,6 +67,13 @@ class RSAHelper(object):
         cipher = PKCS1_v1_5.new(prikey)
         return (cipher.decrypt(message))
 
+    def md5(self, value):
+        if isinstance(value, str):
+            m = hashlib.md5()
+            m.update(value)
+            return m.hexdigest()
+        else:
+            return ''
 
 rsahelper = RSAHelper()
 

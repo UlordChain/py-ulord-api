@@ -60,7 +60,7 @@ class Udfs():
         # self.log.info("end command,result is {}".format(pl.communicate()))
         return pl
 
-    def start(self, test=None):
+    def start(self, daemon=None):
         # start udfs
         atexit.register(self.stop)
         cmd = "{0} --config {1} daemon".format(self.udfs_path,self.config)
@@ -68,7 +68,8 @@ class Udfs():
         info = "Udfs has started!\nNow you can use it to download or upload!"
         print(info)
         self.log.info(info)
-        self.udfs_daemon.wait()
+        if daemon:
+            self.udfs_daemon.wait()
         self.udfs_daemon_pid = self.udfs_daemon.pid
 
     def start_init(self):
@@ -147,11 +148,13 @@ class UdfsHelper():
 
     def cat(self, udfshash):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         return self.connect.cat(udfshash)
 
     def upload_stream(self, stream):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # TODO need fix
         try:
@@ -167,6 +170,8 @@ class UdfsHelper():
 
     def upload_file(self, local_file):
         if not self.connect:
+            udfs.start(False)
+            # self.log.error("You need to ")
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             if os.path.isfile(local_file):
@@ -184,6 +189,7 @@ class UdfsHelper():
 
     def list(self, filehash):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             self.objects = self.connect.ls(filehash).get('Objects')
@@ -199,12 +205,14 @@ class UdfsHelper():
 
     def downloadfile(self, localfile):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # TODO query the file hash from DB
         pass
 
     def downloadhash(self, filehash, filepath=None):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
             start = time.time()
@@ -219,6 +227,7 @@ class UdfsHelper():
 
     def resumableDownload(self, filehash, filename=None):
         if not self.connect:
+            udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         # not thread safely.single thread
         filehash_path = os.path.join(self.downloadpath, filehash)

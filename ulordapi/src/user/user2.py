@@ -29,12 +29,12 @@ class Developer2(Developer):
     #     })
     #     self.log = logging.getLogger("Developer2:")
     #     self.log.info("Developer2 init")
-    def __init__(self, appkey):
+    def __init__(self, appkey, secert):
         ulordconfig.update({
-            'ulord_head':{
-                'appkey':appkey
-            }
+            'ulord_appkey':appkey,
+            'ulord_secert':secert
         })
+        config.save()
         self.log = logging.getLogger("Developer2:")
         self.log.info("Developer2 init")
 
@@ -233,7 +233,7 @@ class Developer2(Developer):
 if __name__ == '__main__':
     # user = Developer2(ulordconfig.get('username'),ulordconfig.get('password'))
     if ulordconfig.get('ulord_head'):
-        user = Developer2(ulordconfig.get('ulord_head').get('appkey'))
+        user = Developer2(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secert'))
         user.create_database()
     else:
         print("Failed! Doesn't have appkey")

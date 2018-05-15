@@ -3,9 +3,10 @@
 # @Author: PuJi
 # @Date  : 2018/4/17 0017
 
-import os,json, logging,io,yaml,sys
+import os,json, logging,io,yaml,sys,time
 
 import chardet
+from ulordapi.src.utils import fileHelper
 # reload(sys)
 # sys.setdefaultencoding('utf8')
 
@@ -29,6 +30,7 @@ class Config(dict):
                 setattr(self, key, Config(obj))
 
     def save(self):
+        # data ={k: unicode(v).encode("utf-8") for k,v in self.iteritems()}
         # Just think about config.maybe need to think about other instance.
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
             # print(json.dumps(self, ensure_ascii=False, indent=2, sort_keys=True))
@@ -39,7 +41,7 @@ class Config(dict):
             self.update({
                 "baseconfig":{
                     "version":"0.0.1",
-                    "config_file":os.path.join(ROOTPATH, 'config')
+                    "config_file":unicode(os.path.join(ROOTPATH, 'config')).encode('utf-8')
                 }
             })
             with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
@@ -51,7 +53,7 @@ class Config(dict):
                 os.path.isfile(self.get('baseconfig').get('config_file')):
             # with io.open(self['baseconfig']['config_file'], 'r', encoding='utf8') as target:
             with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                self.update(yaml.safe_load(target))
+                self.update(fileHelper.json_load_byteified(target))
         elif init:
             # first init
             self.save()
@@ -85,35 +87,39 @@ logconfig = Config(
 
 ulordconfig = Config(
     ulord_url = "http://192.168.14.67:5000/v1",
-    ulord_head = {
-            "appkey": "37fd0c5e3eeb11e8a12af48e3889c8ab"
-            # "appkey": "2b111d70452f11e89c2774e6e2f53324"
-        },
-    ulord_publish = "/transactions/publish/",
+    ulord_secert = "5d42b27f581c11e8bf63f48e3889c8ab",
+    ulord_appkey = '5d42b27e581c11e88b12f48e3889c8ab',
+    ulord_curtime = int(time.time()),
+    # ulord_head = {
+    #     "U-AppKey": "",
+    #     "U-CurTime": int(time.time())
+    #         # "appkey": "2b111d70452f11e89c2774e6e2f53324"
+    #     },
+    ulord_publish = "/transactions/publish",
     ulord_publish_data = {
             "author": "justin",
             "title": "第一篇技术博客",
             "tag": ["blockchain", "IPFS"],
-            "ipfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+            "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
             "price": 0.1,
             "content_type": ".txt",
             "pay_password": "123",
             "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
         },
-    ulord_createwallet = "/transactions/createwallet/",
-    ulord_transaction = "/transactions/consume/",
-    ulord_paytouser = "/transactions/paytouser/",
-    ulord_queryblog = "/content/list/",
-    ulord_querybalance = "/transactions/balance/",
-    ulord_checkbought = "/transactions/check/",
-    ulord_userpublished = "/content/publish/list/",
-    ulord_userbought = "/content/consume/list/",
-    ulord_in = "/transactions/account/in/",
-    ulord_out = "/transactions/account/out/",
-    ulord_billings = "/transactions/publish/account/",
-    ulord_publish_num = "/transactions/publish/count/",
-    ulord_view = "/content/view/",
-    ulord_billings_detail = "/transactions/account/inout/",
+    ulord_createwallet = "/transactions/createwallet",
+    ulord_transaction = "/transactions/consume",
+    ulord_paytouser = "/transactions/paytouser",
+    ulord_queryblog = "/content/list",
+    ulord_querybalance = "/transactions/balance",
+    ulord_checkbought = "/transactions/check",
+    ulord_userpublished = "/content/publish/list",
+    ulord_userbought = "/content/consume/list",
+    ulord_in = "/transactions/account/in",
+    ulord_out = "/transactions/account/out",
+    ulord_billings = "/transactions/publish/account",
+    ulord_publish_num = "/transactions/publish/count",
+    ulord_view = "/content/view",
+    ulord_billings_detail = "/transactions/account/inout",
     #TODO ulord other URL,
     # password = "123",
     # username = "shuxudong",
@@ -158,7 +164,6 @@ config = Config(
     webconfig=webconfig,
     dbconfig=dbconfig
 )
-
 
 
 config.read()

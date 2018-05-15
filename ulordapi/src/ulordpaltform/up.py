@@ -3,20 +3,31 @@
 # @Author: PuJi
 # @Date  : 2018/4/26 0026
 # from __future__ import unicode_literals
-import logging
+import logging, time, copy
 
 import requests
 
-from ulordapi import ulordconfig
+from ulordapi import ulordconfig, config, webconfig
 from ulordapi.src.utils.errcode import return_result
+from ulordapi.src.utils.encryption import rsahelper
 
 class UlordHelper(object):
     # a helper to help request the ulord paltform
-    def __init__(self):
+    def __init__(self, appkey=None, ulord_secert=None):
         self.log = logging.getLogger("UlordHelper:")
         # base URL
         self.ulord_url = ulordconfig.get('ulord_url')
-        self.ulord_head = ulordconfig.get('ulord_head')
+        # self.ulord_head = ulordconfig.get('ulord_head')
+        # if not self.ulord_head:
+        #     self.log.error("cann't find the request head! Exit...")
+        #     exit(1)
+        if appkey and ulord_secert:
+            self.appkey = appkey
+            self.ulord_secert = ulord_secert
+        else:
+            self.appkey = ulordconfig.get('ulord_appkey')
+            self.ulord_secert = ulordconfig.get('ulord_secert')
+        self.curtime = ulordconfig.get('ulord_curtime')
         # regist URL
         self.ulord_createwallet = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_createwallet') # ulord regist webURL
         self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL
@@ -39,9 +50,60 @@ class UlordHelper(object):
         self.ulord_view = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_view') # add blog's view
         # TODO ulord other URL
 
+    def calculate_sign(self, dt=None):
+        # deepcopy dt
+        datas = copy.deepcopy(dt)
+        # sign request data
+        if not datas:
+            datas = ""
+        result = ''
+        for index in sorted(datas):
+            if isinstance(datas[index], list):
+                # if data is list need to change a string
+                temp = ''
+                for data in datas[index]:
+                    if isinstance(data, bool):
+                        if data:
+                            data='true'
+                        else:
+                            data='false'
+                    else:
+                        data = str(data)
+                    temp += data
+                datas[index] = temp
+            if isinstance(datas[index], bool):
+                if datas[index]:
+                    datas[index]='true'
+                else:
+                    datas[index]='false'
+            result = result + str(index) + str(datas[index])
+        del datas
+        if (self.curtime + (5 * 60 - 1)) < int(time.time()):
+            self.curtime = int(time.time())
+            ulordconfig.update({
+                'ulord_curtime':self.curtime
+            })
+        USign = self.appkey + result + self.ulord_secert + str(self.curtime)
+
+        self.USign = rsahelper.md5(USign).upper()
+        ulordconfig.update({
+            'ulord_head':{
+                'U-AppKey':self.appkey,
+                'U-CurTime':str(self.curtime),
+                'U-Sign':self.USign
+            }
+        })
+        config.save()
+        self.ulord_head = ulordconfig.get('ulord_head')
+        return self.USign
+
     def post(self, url, data):
         self.log.debug(url)
         self.log.debug(data)
+
+        # calculate  U-Sign
+        self.calculate_sign(data)
+        # self.ulord_head = ulordconfig.get('ulord_head')
         r = requests.post(url=url, json=data, headers=self.ulord_head)
         self.log.debug(r.status_code)
         if r.status_code == requests.codes.ok:
@@ -51,6 +113,8 @@ class UlordHelper(object):
             return return_result(50000)
 
     def get(self, url):
+        self.calculate_sign("")
+        self.ulord_head = ulordconfig.get('ulord_head')
         r = requests.get(url=url, headers=self.ulord_head)
         self.log.debug(url)
         self.log.debug(r.status_code)
@@ -91,11 +155,11 @@ class UlordHelper(object):
 
     def paytouser(self, username):
         # activity send some ulords to the user
-        if ulordconfig.get('activity'):
+        if webconfig.get('activity'):
             data = {
                 'is_developer': True,
                 'recv_user': username,
-                'amount': ulordconfig.get('amount')
+                'amount': webconfig.get('amount')
             }
             return self.post(self.ulord_paytouser, data)
         else:
@@ -103,7 +167,7 @@ class UlordHelper(object):
 
     def queryblog(self, page=1, num=10):
         # query the blog list from the ulord platform.method is get
-        temp_url = self.ulord_queryblog + "{0}/{1}/".format(page, num)
+        temp_url = self.ulord_queryblog + "/{0}/{1}".format(page, num)
         return self.get(temp_url)
 
     def querybalance(self, payer, pay_password):
@@ -131,7 +195,7 @@ class UlordHelper(object):
             data.update({
                 'category':category
             })
-        temp_url = self.ulord_userpublished + "{0}/{1}/".format(page, num)
+        temp_url = self.ulord_userpublished + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
     def queryuserbought(self, wallet_username, page=1, num=10, category=2):
@@ -143,7 +207,7 @@ class UlordHelper(object):
             data.update({
                 'category':category
             })
-        temp_url = self.ulord_userbought + "{0}/{1}/".format(page, num)
+        temp_url = self.ulord_userbought + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
     def queryincomebillings(self, author, page=1, num=10):
@@ -151,7 +215,7 @@ class UlordHelper(object):
         data = {
             'username': author,
         }
-        temp_url = self.ulord_in + "{0}/{1}/".format(page, num)
+        temp_url = self.ulord_in + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
     def queryoutgobillings(self, author, page=1, num=10):
@@ -159,7 +223,7 @@ class UlordHelper(object):
         data = {
             'username': author,
         }
-        temp_url = self.ulord_out + "{0}/{1}/".format(page, num)
+        temp_url = self.ulord_out + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
     def querybillingsdetail(self, author, page=1, num=10):
@@ -167,7 +231,7 @@ class UlordHelper(object):
         data = {
             'username':author,
         }
-        temp_url = self.ulord_billings_detail + '{0}/{1}/'.format(page, num)
+        temp_url = self.ulord_billings_detail + '/{0}/{1}'.format(page, num)
         return self.post(temp_url, data)
 
     def querybillings(self, username):
@@ -192,3 +256,10 @@ class UlordHelper(object):
 
 ulord_helper = UlordHelper()
 
+
+if __name__ == '__main__':
+    author = "test"
+    data = {
+        'author':author
+    }
+    print(ulord_helper.regist(username='x'*12,password='123'))

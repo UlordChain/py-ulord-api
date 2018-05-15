@@ -8,17 +8,17 @@ import logging
 from user import Developer
 from ulordapi.src.ulordpaltform.up import UlordHelper
 from ulordapi.src.udfs.udfs import UdfsHelper
-from ulordapi import ulordconfig
+from ulordapi import ulordconfig, config
 
 
 class Developer1(Developer, UlordHelper, UdfsHelper):
     # ulord-platform API and some udfs API
-    def __init__(self, appkey):
+    def __init__(self, appkey, secret):
         ulordconfig.update({
-            'ulord_head':{
-                'appkey':appkey
-            }
+            'ulord_appkey': appkey,
+            'ulord_secert': secret
         })
+        config.save()
         UlordHelper.__init__(self)
         UdfsHelper.__init__(self)
         self.log = logging.getLogger("Developer1:")
