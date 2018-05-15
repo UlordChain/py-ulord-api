@@ -46,20 +46,14 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(base_dir, 'README.md'), 'rb') as f:
     long_description = f.read().decode('utf-8')
 
-console_scripts = [
-    'ulordapi-cli = ulordapi.src.daemon.daemonCLI:main',
-    'ulordapi = ulordapi'
-]
-
-package_name = "ulordapi"
 
 setup(
-    name=package_name,
+    name="ulordapi",
     version='0.0.1',
     packages=find_packages(base_dir),
     author="PuJi",
     author_email="caolinan@ulord.net",
-    url="https://ulord.one/",
+    url="https://github.com/UlordChain/py-ulord-api",
     description="SDK for the Ulord APIs",
     long_description=long_description,
     keywords="ulord api blockchain",
@@ -67,8 +61,31 @@ setup(
     include_package_data=True,
     install_requires=requires,
     zip_safe=False,
-    entry_points={'console_scripts': console_scripts},
-    Platform=['windows','linux']
+    entry_points={
+        'console_scripts': [
+            'ulordapi-cli = ulordapi.src.daemon.daemonCLI:main',
+            'ulordapi = ulordapi'
+        ]},
+    Platform=['win32','linux'],
+    python_requires='>=2.6, <3',
+    classifiers=[
+        # How mature is this project? Common values are
+        #   3 - Alpha
+        #   4 - Beta
+        #   5 - Production/Stable
+        'Development Status :: 3 - Alpha',
+
+        # Indicate who your project is intended for
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Build Tools',
+
+        # Pick your license as you wish (should match "license" above)
+        'License :: OSI Approved :: MIT License',
+
+        # Specify the Python versions you support here. In particular, ensure
+        # that you indicate whether you support Python 2, Python 3 or both.
+        'Programming Language :: Python :: 2.7',
+    ]
 )
 
 current_place = get_python_lib()
