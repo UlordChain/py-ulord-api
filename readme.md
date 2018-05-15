@@ -1,6 +1,6 @@
 # py-ulord-api
 
-[![](https://img.shields.io/badge/py--ulord--api-incomplete-red.svg)](https://github.com/UlordChain/py-ulord-api#TODO-list)
+[![](https://img.shields.io/badge/py--ulord--api-incomplete-red.svg)](https://github.com/UlordChain/py-ulord-api#todo-list)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![](https://img.shields.io/badge/cli-completed-green.svg)](https://github.com/UlordChain/py-ulord-api#cli)
 
@@ -19,7 +19,7 @@ Check out [the client API reference]() for the full command reference.
 - [Documentation](#documentation)
   - [Features from ulord 0.0.1](#important-changes-from-ipfsapi-02x)
 - [Featured Projects](#featured-projects)
-- [TODO list](#TODO-list)
+- [TODO list](#todo-list)
 - [Contribute](#contribute)
   - [IRC](#irc)
   - [Bug reports](#bug-reports)
