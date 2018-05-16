@@ -148,9 +148,11 @@ waiting document...
 
 ## Documentation
 
-API:waiting...
+API:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/API.md)
+
 cli-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/cli_help.md)
-webServer-help:waiting...
+
+webServer-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/web-server.md)
 
 ### Features from `ulord 0.0.1`
 
