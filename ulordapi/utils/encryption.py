@@ -38,14 +38,14 @@ class RSAHelper(object):
 
     def generate(self):
         self.key = RSA.generate(1024, RANDOM_GENERATOR)
-        self.privkey = self.key.export_key()
+        self.privkeybytes = self.key.export_key()
         with open(privkeypath, 'wb') as pubfile:
-            pubfile.write(self.privkey)
+            pubfile.write(self.privkeybytes)
 
-        self.pubkey = self.key.publickey().export_key()
+        self.pubkeybytes = self.key.publickey().export_key()
         with open(pubkeypath, 'wb') as prifile:
-            prifile.write(self.pubkey)
-        return (self.pubkey, self.privkey)
+            prifile.write(self.pubkeybytes)
+        return (self.privkeybytes, self.pubkeybytes)
 
     def load(self):
         with open(pubkeypath) as publickfile:
