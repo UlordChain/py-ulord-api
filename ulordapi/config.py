@@ -84,7 +84,7 @@ logconfig = Config(
 
 ulordconfig = Config(
     ulord_url = "http://192.168.14.67:5000/v1",
-    ulord_secert = "5d42b27f581c11e8bf63f48e3889c8ab",
+    ulord_secret = "5d42b27f581c11e8bf63f48e3889c8ab",
     ulord_appkey = '5d42b27e581c11e88b12f48e3889c8ab',
     ulord_curtime = int(time.time()),
     # ulord_head = {

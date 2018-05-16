@@ -16,7 +16,7 @@ class Developer1(Developer, UlordHelper, UdfsHelper):
     def __init__(self, appkey, secret):
         ulordconfig.update({
             'ulord_appkey': appkey,
-            'ulord_secert': secret
+            'ulord_secret': secret
         })
         config.save()
         UlordHelper.__init__(self)

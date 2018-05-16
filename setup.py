@@ -61,8 +61,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'ulordapi-cli = ulordapi.daemonCLI:main',
-            'ulordapi = ulordapi'
+            'ulordapi = ulordapi.daemonCLI:main'
         ]},
     Platform=['win32','linux'],
     python_requires='>=2.6, <3',

@@ -15,9 +15,9 @@ from .user import user1
 # from .user import user2
 from .up import udfs
 
-develop1 = user1.Developer1(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secert'))
+develop1 = user1.Developer1(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
-# develop2 = user2.Developer2(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secert'))
+# develop2 = user2.Developer2(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
 try:
     config_path = config.get('baseconfig').get('config_file')

@@ -14,7 +14,7 @@ from ..utils.encryption import rsahelper
 
 class UlordHelper(object):
     # a helper to help request the ulord paltform
-    def __init__(self, appkey=None, ulord_secert=None):
+    def __init__(self, appkey=None, ulord_secret=None):
         self.log = logging.getLogger("UlordHelper:")
         # base URL
         self.ulord_url = ulordconfig.get('ulord_url')
@@ -22,12 +22,12 @@ class UlordHelper(object):
         # if not self.ulord_head:
         #     self.log.error("cann't find the request head! Exit...")
         #     exit(1)
-        if appkey and ulord_secert:
+        if appkey and ulord_secret:
             self.appkey = appkey
-            self.ulord_secert = ulord_secert
+            self.ulord_secret = ulord_secret
         else:
             self.appkey = ulordconfig.get('ulord_appkey')
-            self.ulord_secert = ulordconfig.get('ulord_secert')
+            self.ulord_secret = ulordconfig.get('ulord_secret')
         self.curtime = ulordconfig.get('ulord_curtime')
         # regist URL
         self.ulord_createwallet = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_createwallet') # ulord regist webURL
@@ -84,7 +84,7 @@ class UlordHelper(object):
             ulordconfig.update({
                 'ulord_curtime':self.curtime
             })
-        USign = self.appkey + result + self.ulord_secert + str(self.curtime)
+        USign = self.appkey + result + self.ulord_secret + str(self.curtime)
 
         self.USign = rsahelper.md5(USign).upper()
         ulordconfig.update({
