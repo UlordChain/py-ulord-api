@@ -6,9 +6,9 @@
 import logging
 
 from user import Developer
-from ulordapi.src.ulordpaltform.up import UlordHelper
-from ulordapi.src.udfs.udfs import UdfsHelper
-from ulordapi import ulordconfig, config
+from ..up.up import UlordHelper
+from ..up.udfs import UdfsHelper
+from ..config import ulordconfig, config
 
 
 class Developer1(Developer, UlordHelper, UdfsHelper):

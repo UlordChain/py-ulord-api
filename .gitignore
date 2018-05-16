@@ -11,16 +11,17 @@
 *.tar.gz
 
 # encrypt
-ulordapi/src/utils/private.pem
-ulordapi/src/utils/public.pem
-ulordapi/src/utils/random_generator
+*.pem
+ulordapi/utils/private.pem
+ulordapi/utils/public.pem
+ulordapi/utils/random_generator
 
 # test
 ulordapi/test
 /test
 
 # config
-ulordapi/src/udfs/config
+ulordapi/up/config
 ulordapi/config
 /config
 

@@ -7,9 +7,10 @@ import logging, time, copy
 
 import requests
 
-from ulordapi import ulordconfig, config, webconfig
-from ulordapi.src.utils.errcode import return_result
-from ulordapi.src.utils.encryption import rsahelper
+from ..config import ulordconfig, config, webconfig
+from ..utils.errcode import return_result
+from ..utils.encryption import rsahelper
+
 
 class UlordHelper(object):
     # a helper to help request the ulord paltform

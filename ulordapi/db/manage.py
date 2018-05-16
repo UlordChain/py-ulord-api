@@ -11,9 +11,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from passlib.apps import custom_app_context as pwd_context
 
-from ulordapi import dbconfig
-from ulordapi.src.utils.errcode import _errcodes
-from ulordapi.src.utils.Checker import checker
+from ..config import dbconfig
+from ..utils.errcode import _errcodes
+from ..utils.Checker import checker
 
 # initialization
 app = Flask(__name__)

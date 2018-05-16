@@ -8,8 +8,6 @@ from setuptools import setup,find_packages
 from distutils.sysconfig import get_python_lib
 
 
-
-
 requires=[
     'backports-abc==0.5',
     'certifi==2018.4.16',
@@ -63,7 +61,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'ulordapi-cli = ulordapi.src.daemon.daemonCLI:main',
+            'ulordapi-cli = ulordapi.daemonCLI:main',
             'ulordapi = ulordapi'
         ]},
     Platform=['win32','linux'],
@@ -90,7 +88,7 @@ setup(
 
 current_place = get_python_lib()
 # print(current_place)
-dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'src', 'udfs', 'tools')
+dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'up', 'tools')
 
 try:
     os.stat(dst)
@@ -98,8 +96,8 @@ except:
     os.mkdir(dst)
 
 if platform.system().startswith('Win'):
-    shutil.copy2(os.path.join('ulordapi', 'src','udfs','tools', 'udfs.exe'),
+    shutil.copy2(os.path.join('ulordapi', 'up', 'tools', 'udfs.exe'),
                  os.path.join(dst,'udfs.exe'))
 else:
-    shutil.copy2(os.path.join('ulordapi', 'src','udfs','tools', 'udfs'),
+    shutil.copy2(os.path.join('ulordapi', 'up', 'tools', 'udfs'),
                     os.path.join(dst,'udfs'))

@@ -7,13 +7,13 @@ import logging,time
 from uuid import uuid1
 
 from user import Developer
-from ulordapi.src.db.manage import create,db, User,Tag,Resource
-from ulordapi import config, dbconfig, webconfig, ulordconfig
-from ulordapi.src.utils.encryption import rsahelper
-from ulordapi.src.utils.errcode import _errcodes
-from ulordapi.src.utils.Checker import checker
-from ulordapi.src.ulordpaltform.up import ulord_helper
-from ulordapi.src.daemon import webServer
+from ..db.manage import create,db, User,Tag,Resource
+from ..config import config, dbconfig, webconfig, ulordconfig
+from ..utils.encryption import rsahelper
+from ..utils.errcode import _errcodes
+from ..utils.Checker import checker
+from ..up.up import ulord_helper
+from .. import webServer
 
 
 class Developer2(Developer):

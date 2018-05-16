@@ -4,11 +4,11 @@
 # @Date  : 2018/5/9 0009
 import logging, inspect
 
-from ulordapi.src.utils import ListToDict, Update
-from ulordapi import config
-from ulordapi.src.udfs.udfs import udfshelper
-from ulordapi.src.utils.Checker import checker
-from ulordapi.src.ulordpaltform.up import ulord_helper
+from ..utils import ListToDict, Update
+from ..config import config
+from ..up.udfs import udfshelper
+from ..utils.Checker import checker
+from ..up.up import ulord_helper
 
 
 class Developer():

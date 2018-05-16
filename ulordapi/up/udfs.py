@@ -6,8 +6,9 @@ import sys, os, subprocess, platform, json, time, signal, logging, atexit
 
 import ipfsapi
 
-from ulordapi.src.utils.fileHelper import fileHelper as FileHelper
-from ulordapi.src.utils import require
+# from ..utils.fileHelper import fileHelper as FileHelper
+from ulordapi.utils.fileHelper import fileHelper as FileHelper
+# from ulordapi.utils import require
 
 
 class Udfs():
@@ -56,7 +57,11 @@ class Udfs():
         # start external command
         self.log.debug("starting command,current command:{}".format(cmd))
         FNULL = open(os.devnull, 'w')
-        pl = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=FNULL)
+        try:
+            pl = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=FNULL)
+        except Exception, e:
+            self.log.error("start command failed! Exception is {}".format(e))
+            pl = None
         # self.log.info("end command,result is {}".format(pl.communicate()))
         return pl
 
@@ -68,7 +73,7 @@ class Udfs():
         info = "Udfs has started!\nNow you can use it to download or upload!"
         print(info)
         self.log.info(info)
-        if daemon:
+        if daemon and self.udfs_daemon:
             self.udfs_daemon.wait()
         self.udfs_daemon_pid = self.udfs_daemon.pid
 
@@ -288,5 +293,5 @@ udfshelper = UdfsHelper()
 if __name__ == '__main__':
     print(udfs.config)
     print(udfs.udfs_path)
-    print udfs.udfs_config
+    print udfs.config
     print(udfs.udfs_daemon_pid)

@@ -8,17 +8,16 @@
 
 import pprint, argparse, sys, os, textwrap, json
 
-path = os.path.split(os.getcwd())[0]
-sys.path.append("E:\ulord\py-ulord-api")
 
-from ulordapi import config,ulordconfig
-from ulordapi.src.db.manage import create
-from ulordapi.src.user import user1, user2
-from ulordapi.src.udfs import udfs
+from .config import config,ulordconfig
+from .db.manage import create
+from .user import user1
+# from .user import user2
+from .up import udfs
 
-develop1 = user1.Developer1(ulordconfig.get('ulord_head').get('appkey'))
+develop1 = user1.Developer1(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secert'))
 
-develop2 = user2.Developer2(ulordconfig.get('username'), ulordconfig.get('password'))
+# develop2 = user2.Developer2(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secert'))
 
 try:
     config_path = config.get('baseconfig').get('config_file')
@@ -220,14 +219,14 @@ def formatResult(func):
 def edit_config(args):
     if args and args.key:
         args = args.key
-    return develop2.config_edit(args)
+    return develop1.config_edit(args)
 
 
 @formatResult
 def show_config(args):
     if args and args.key:
         args = args.key
-    return develop2.config_show(args)
+    return develop1.config_show(args)
 
 
 if __name__ == '__main__':
