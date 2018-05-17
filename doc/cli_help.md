@@ -1,6 +1,6 @@
-# ulordapi command reference
+# py-ulord-api cli reference
 
-generated on 2018-05-16
+created on 2018-05-16
 
 ------
 

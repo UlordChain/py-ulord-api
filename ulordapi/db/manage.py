@@ -34,14 +34,16 @@ users_resource = db.Table('users_resource',
 
 
 # class Base(db.Model):
-#TODO:Extracting public methods
+# TODO:Extracting public methods
 #     @classmethod
 #     def add(cls, **kwargs):
 #         pass
 
 
 class User(db.Model):
-
+    """
+    user module: create user database.
+    """
     __tablename__ = 'users'
     id = db.Column(db.String(45), primary_key=True)
     username = db.Column(db.String(32), index = True)
@@ -60,14 +62,47 @@ class User(db.Model):
     )
 
     def hash_password(self, password):
+        """
+        Hash user's password and save hash result.
+
+        :param password:user's password
+        :type password: str
+        :return: None
+        """
         self.password_hash = pwd_context.encrypt(password)
 
     @classmethod
     def verify_password(self, password):
+        """
+        verify password
+
+        :param password: user's password
+        :type password: str
+        :return: True or False.
+        """
         return pwd_context.verify(password, self.password_hash)
 
     @classmethod
     def add(self, username, password, id=str(uuid1()), email=None, cellphone=None, wallet=None, pay_password=None):
+        """
+        add user
+
+        :param username: username
+        :type username: str
+        :param password: password
+        :type password: str
+        :param id:user table id ,primary key.Default is uuid.
+        :type id: str
+        :param email:user's email.Default is None.
+        :type email: str
+        :param cellphone:user's cellphone.Default is None.
+        :type cellphone:str
+        :param wallet:user's wallet name.Default is username
+        :type wallet: str
+        :param pay_password:user's wallet password.Default is password.
+        :type pay_password:str
+        :return:user module
+        """
         if self.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
         if email and not checker.isMail(email):
@@ -94,6 +129,14 @@ class User(db.Model):
 
     @classmethod
     def modify(self, userid, **kwargs):
+        """
+        modify user's attribute
+
+        :param userid: user id.query conditions
+        :type userid:str
+        :param kwargs:key-value
+        :type kwargs:user's attribute and value
+        """
         user = self.query.filter_by(id=userid).first()
         for kwarg in kwargs:
             if kwarg in self.__dict__.keys():
@@ -106,6 +149,11 @@ class User(db.Model):
 
     @classmethod
     def delete(self, userid):
+        """
+
+        :param userid:
+        :return:
+        """
         user = self.query.filter_by(id=userid).first()
         if user is not None:
             db.session.delete(user)
@@ -114,6 +162,7 @@ class User(db.Model):
             print("current user(userid={0}) hasn't found.".format(userid))
 
     def generateToken(self, expired=86400):
+
         # generate token,expired is Token expiration time. /s
         self.token = str(uuid1())
         self.timestamp = int(time.time()) + expired
