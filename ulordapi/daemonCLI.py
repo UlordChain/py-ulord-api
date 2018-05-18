@@ -9,11 +9,11 @@
 import pprint, argparse, sys, os, textwrap, json
 
 
-from .config import config,ulordconfig
-from .db.manage import create
-from .user import user1
+from ulordapi.config import config,ulordconfig
+from ulordapi.db.manage import create
+from ulordapi.user import user1
 # from .user import user2
-from .up import udfs
+from ulordapi.up import udfs
 
 develop1 = user1.Developer1(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 

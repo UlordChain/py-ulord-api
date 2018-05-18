@@ -5,7 +5,7 @@
 
 import os, json, logging, io, time
 
-from .utils import fileHelper
+from ulordapi.utils import fileHelper
 
 
 ROOTPATH = os.path.dirname(os.path.realpath(__file__))

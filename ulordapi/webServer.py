@@ -8,13 +8,13 @@ from uuid import uuid1
 
 from flask import request, g, jsonify
 
-from .db.manage import app, db, User
-from .up.up import ulord_helper
-from .utils.fileHelper import fileHelper
-from .config import ulordconfig
-from .utils.Checker import checker
-from .utils.encryption import rsahelper
-from .utils.errcode import return_result
+from ulordapi.db.manage import app, db, User
+from ulordapi.up.up import ulord_helper
+from ulordapi.utils.fileHelper import fileHelper
+from ulordapi.config import ulordconfig
+from ulordapi.utils.Checker import checker
+from ulordapi.utils.encryption import rsahelper
+from ulordapi.utils.errcode import return_result
 
 log = logging.getLogger('webServer')
 
