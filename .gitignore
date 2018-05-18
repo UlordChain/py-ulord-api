@@ -5,6 +5,11 @@
 # log
 *.log
 
+# doc
+docs/build
+docs/source
+docs/testconf.py
+
 # zip
 *.zip
 *.rar
