@@ -6,7 +6,7 @@
 
 Ulord-platform HTTP Client Library
 
-Check out [the client API reference]() for the full command reference.
+Check out [the client API reference](http://py-ulord-api.readthedocs.io/en/latest/) for the full command reference.
 
 *Important*: The legacy py-ulord-api package/module will only work for Ulord-platform 0.0.1 and Python 2.7.
 
@@ -17,7 +17,6 @@ Check out [the client API reference]() for the full command reference.
 - [Install](#install)
 - [Usage](#usage)
 - [Documentation](#documentation)
-  - [Features from ulord 0.0.1](#important-changes-from-ipfsapi-02x)
 - [Featured Projects](#featured-projects)
 - [TODO list](#todo-list)
 - [Contribute](#contribute)
@@ -148,19 +147,21 @@ waiting document...
 
 ## Documentation
 
-API:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/API.md)
+API:[here](https://github.com/UlordChain/py-ulord-api/blob/master/docs/API.md)
 
-cli-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/cli_help.md)
+[more](http://py-ulord-api.readthedocs.io/en/latest/)
 
-webServer-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc/web-server.md)
+cli-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/docs/cli_help.md)
 
-### Features from `ulord 0.0.1`
+webServer-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/docs/web-server.md)
+
+## Featured Projects
 
  waiting...
 
 ## TODO list
 - [x] add TODO list
-- [ ] some doces
+- [ ] some docs
 - [ ] support python3
 - [ ] more friendly expression
 - [ ] add multi-threading download
