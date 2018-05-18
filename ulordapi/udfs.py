@@ -300,22 +300,45 @@ class UdfsHelper():
         # TODO query the file hash from DB
         pass
 
-    def downloadhash(self, filehash, filepath=None):
+    def downloadhash(self, filehash, filepath=None, Debug=False):
+        """
+        download file from the UDFS according to the udfs hash
+
+        :param filehash: file udfs hash
+        :type filehash: str
+        :param filepath: the path to save the file
+        :type filepath: str
+        :param Debug: if Debug print the cost time
+        :type Debug: bool
+        :return: True or False
+        """
         if not self.connect:
             self.udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
         try:
-            start = time.time()
+            if Debug:
+                start = time.time()
             self.connect.get(filehash, filepath=filepath)
-            end = time.time()
-            print('download {0} cost:{1}'.format(filehash, (end - start)))
-            print("download {} successfully!".format(filehash))
+            if Debug:
+                end = time.time()
+                self.log.debug('download {0} cost:{1}'.format(filehash, (end - start)))
+                print('download {0} cost:{1}'.format(filehash, (end - start)))
+            self.log.info("download {} successfully!".format(filehash))
             return True
         except Exception, e:
             logging.error("download fail:{}".format(e))
             return False
 
     def resumableDownload(self, filehash, filename=None):
+        """
+        resumable download
+
+        :param filehash: file UDFS hash
+        :type filehash: str
+        :param filename: file path to save the file
+        :type filename: str
+        :return: True or False
+        """
         if not self.connect:
             self.udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
@@ -360,7 +383,7 @@ class UdfsHelper():
                         for line in source_file:
                             target_file.write(line)
                     try:
-                        os.remove(chunk)  # 删除该分片，节约空间
+                        os.remove(chunk)  # delete chunk to save the space
                     except Exception, e:
                         print("{0}:{1} remove failed:{2}".format(chunk, os.path.isfile(chunk), e))
                 try:
