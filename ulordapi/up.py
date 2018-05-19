@@ -8,8 +8,8 @@ import logging, copy, time
 import requests
 
 import utils
-from config import ulordconfig, config
-from errcode import return_result
+from .config import ulordconfig, config, webconfig
+from .errcode import return_result
 
 
 class UlordHelper(object):
@@ -280,12 +280,6 @@ class UlordHelper(object):
             'author': author
         }
         return self.post(self.ulord_published_num, data)
-
-    # def addpurchases(self, dbID):
-    #     data = {
-    #         'id': dbID
-    #     }
-    #     return self.post(self.ulord_view, data)
 
 
 ulord_helper = UlordHelper()

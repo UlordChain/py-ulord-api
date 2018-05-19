@@ -11,9 +11,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from passlib.apps import custom_app_context as pwd_context
 
-from ulordapi.config import dbconfig
-from ulordapi.errcode import _errcodes
-from ulordapi.utils import isMail, isCellphone
+from .config import dbconfig
+from .errcode import _errcodes
+from .utils import isMail, isCellphone
 
 # initialization
 app = Flask(__name__)

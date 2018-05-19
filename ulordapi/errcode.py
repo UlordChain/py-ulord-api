@@ -96,9 +96,9 @@ def return_result(errcode=0,reason=None,result=None):
     :param errcode: errcode
     :type errcode: int
     :param reason: reason, change it to the dict and update original reason
-    :type reason: str
+    :type reason: str/dict
     :param result: result, change it to the dict and update original result
-    :type result: str
+    :type result: str/dict
     :return: errcode result
     """
     if errcode == 0:

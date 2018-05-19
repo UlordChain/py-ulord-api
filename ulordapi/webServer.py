@@ -8,15 +8,17 @@ from uuid import uuid1
 
 from flask import request, g, jsonify
 
-from ulordapi.db.manage import app, db, User
-from ulordapi.up.up import ulord_helper
-from ulordapi.utils.fileHelper import fileHelper
-from ulordapi.config import ulordconfig
-from ulordapi.utils.Checker import checker
-from ulordapi.utils.encryption import rsahelper
-from ulordapi.utils.errcode import return_result
+from . import utils
+from .manage import app, db, User
+from .up import ulord_helper
+from .config import ulordconfig
+from .errcode import return_result
+from .user import Junior
+
 
 log = logging.getLogger('webServer')
+junior = Junior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
+
 
 def auth_login_required():
     head_token = request.headers.get('token')
@@ -37,10 +39,10 @@ def auth_login_required():
 def get_pubkey():
     print("start get password")
     if request.method == 'GET':
-        return jsonify(return_result(0, result={"pubkey":rsahelper.pubkeybytes}))
+        return jsonify(return_result(0, result={"pubkey":junior.rsahelper.pubkeybytes}))
     elif request.method == 'POST':
         message = request.json.get("password")
-        return jsonify(return_result(0, result={'password': rsahelper.decrypt(rsahelper.privkey, message)}))
+        return jsonify(return_result(0, result={'password': junior.rsahelper._decrypt(message)}))
 
 
 @app.route('/user/regist',methods=['POST'])
@@ -53,8 +55,8 @@ def regist():
         # missing arguments
         return jsonify(return_result(60100))
     try:
-        username = rsahelper.decrypt(rsahelper.privkey, username)
-        password = rsahelper.decrypt(rsahelper.privkey, password)
+        username = junior.rsahelper._decrypt(username)
+        password = junior.rsahelper._decrypt(password)
     except:
         log.warn("fronted doesn't encrypt")
     # if User.query.filter_by(username=username).first() is not None and User.query.filter_by(wallet=username).first() is not None:
@@ -147,9 +149,9 @@ def login():
             'reason': "缺少参数"
         })
     try:
-        username = rsahelper.decrypt(rsahelper.privkey, username)
+        username = junior.rsahelper._decrypt(username)
         # print(username)
-        password = rsahelper.decrypt(rsahelper.privkey, password)
+        password = junior.rsahelper._decrypt(password)
     except:
         print("frontend doesn's encrypt")
     login_user = User.query.filter_by(username=username).first()
@@ -214,7 +216,7 @@ def blog_publish():
     except:
         print("Doesn't support chinese.Using uuid")
         body_txt = os.path.join(os.path.join(os.getcwd(), 'blogs'), '{}.txt'.format(str(uuid1())))
-    if fileHelper.saveFile(body_txt, body):
+    if utils.fileHelper.saveFile(body_txt, body):
         end_save = time.time()
         print({
             'start':start,
@@ -326,7 +328,7 @@ def pay_blogs():
         })
     try:
         print("current password:{}".format(password))
-        password = rsahelper.decrypt(rsahelper.privkey, password)
+        password = junior.rsahelper._decrypt(password)
         print("decrypt password:{}".format(password))
     except:
         print("frontend doesn't encrypt")
@@ -517,7 +519,7 @@ def modify_userinfo():
         })
     else:
         try:
-            password = rsahelper.decrypt(rsahelper.privkey, password)
+            password = junior.rsahelper._decrypt(password)
         except:
             print("frontend doesn't encrypt password")
     if not current_user.verify_password(password):
@@ -528,20 +530,20 @@ def modify_userinfo():
     # check cellphone and email
     if cellphone:
         try:
-            cellphone = rsahelper.decrypt(rsahelper.privkey, cellphone)
+            cellphone = junior.rsahelper._decrypt(cellphone)
         except:
             print("frontend doesn't encrypt cellphone")
-        if not checker.isCellphone(cellphone):
+        if not utils.isCellphone(cellphone):
             return jsonify({
                 'errcode': 60106,
                 'reason': '无效的手机号'
             })
     if email:
         try:
-            email = rsahelper.decrypt(rsahelper.privkey, email)
+            email = junior.rsahelper._decrypt(email)
         except:
             print("frontend doesn't encrypt email")
-        if not checker.isMail(email):
+        if not utils.isMail(email):
             return jsonify({
                 'errcode': 60105,
                 'reason': '无效的邮箱'
@@ -557,7 +559,7 @@ def modify_userinfo():
     #     current_user.username = username
     if new_password:
         try:
-            new_password = rsahelper.decrypt(rsahelper.privkey, new_password)
+            new_password = junior.rsahelper._decrypt(new_password)
         except:
             print("frontend doesn't encrypt new_password")
         current_user.hash_password(new_password)

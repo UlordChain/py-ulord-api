@@ -4,10 +4,13 @@
 # @Author: Ulord_PuJi
 # @Date  : 2018/5/18 0018
 
-import inspect, logging
+import inspect, logging, os, time
+from uuid import uuid1
 
-import utils, udfs, up
-from ulordapi.config import config
+import utils, udfs, up, webServer
+from .config import config, ulordconfig, webconfig, dbconfig
+from .manage import db, User, Resource, Tag, create
+from .errcode import _errcodes
 
 
 class Developer():
@@ -173,20 +176,22 @@ class Senior (Developer):
     Senior programmer to develop his application.
     """
     def __init__(self, appkey, secret):
+        Developer.__init__()
         ulordconfig.update({
             'ulord_appkey': appkey,
             'ulord_secret': secret
         })
         config.save()
-        UlordHelper.__init__(self)
-        UdfsHelper.__init__(self)
+        # UlordHelper.__init__(self)
+        # UdfsHelper.__init__(self)
         self.log = logging.getLogger("Developer1:")
         self.log.info("Developer1 init")
 
 
 class Junior(Developer):
-
-    # using database
+    """
+    Junior programmer to develop his application.Using default database.
+    """
     # def __init__(self, username, password):
     #     ulordconfig.update({
     #         'username':username,
@@ -198,6 +203,12 @@ class Junior(Developer):
     #     self.log = logging.getLogger("Developer2:")
     #     self.log.info("Developer2 init")
     def __init__(self, appkey, secret):
+        """
+        init a junior programmer to use functions
+        :param appkey:
+        :param secret:
+        """
+        Developer.__init__()
         ulordconfig.update({
             'ulord_appkey':appkey,
             'ulord_secret':secret
@@ -205,12 +216,20 @@ class Junior(Developer):
         config.save()
         self.log = logging.getLogger("Developer2:")
         self.log.info("Developer2 init")
+        self.pripath = os.path.join(os.getcwd(), 'private.pem')
+        self.pubpath = os.path.join(os.getcwd(), 'public.pem')
+        self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
 
     def get_purearg(self, arg):
-        # check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
+        """
+        check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
+        :param arg: arg need to be checked
+        :type arg: str
+        :return: decrypted arg or arg
+        """
         result = None
         try:
-            result = rsahelper.decrypt(rsahelper.privkey, arg)
+            result = self.rsahelper.decrypt(self.rsahelper.privkey, arg)
         except:
             self.log.info("{0} cann't decrypt,using {0}".format(arg))
         if result:
@@ -220,6 +239,24 @@ class Junior(Developer):
 
     # up functions
     def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, *encryption):
+        """
+        user regist
+        :param username: user name
+        :type username: str
+        :param password: user password
+        :type password: str
+        :param cellphone: user cellphone.Default is None.
+        :type cellphone: str
+        :param email: user email.Default is None.
+        :type email: str
+        :param wallet: user wallet name.Default is username.
+        :type wallet: str
+        :param pay_password: user wallet password.Default is hash password.
+        :type pay_password: str
+        :param encryption: check if the arg encrypt
+        :type encryption: list
+        :return: user token
+        """
         # encrypt
         if encryption:
             if encryption[0]:
@@ -237,9 +274,9 @@ class Junior(Developer):
         # check arg
         if User.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
-        if email and checker.isMail(email):
+        if email and utils.isMail(email):
             return _errcodes.get(60105)
-        if cellphone and checker.isCellphone(cellphone):
+        if cellphone and utils.isCellphone(cellphone):
             return _errcodes.get(60106)
 
         user = User(username=username)
@@ -254,7 +291,7 @@ class Junior(Developer):
             user.wallet = username
         user.cellphone = cellphone
         user.email = email
-        regist_result = ulord_helper.regist(user.wallet, user.pay_password)
+        regist_result = self.ulord_helper.regist(user.wallet, user.pay_password)
         if regist_result.get("errcode") != 0:
             return regist_result
         user.token = str(uuid1())
@@ -266,6 +303,16 @@ class Junior(Developer):
         return user.token
 
     def user_login(self, username, password, *encryption):
+        """
+        user login
+        :param username: user name
+        :type username: str
+        :param password: user password
+        :type password: str
+        :param encryption: check if the arg is encrypted
+        :type encryption: list
+        :return: user token
+        """
         if encryption:
             if encryption[0]:
                 username = self.get_purearg(username)
@@ -283,7 +330,14 @@ class Junior(Developer):
         return login_user.token
 
     def user_logout(self, token=None, username=None):
-        # change user's timestamp
+        """
+        user logout.Change user's timestamp
+        :param token: user token
+        :type token: str
+        :param username: user name
+        :type username: str
+        :return: username or errcode.You can query the errcode dict.
+        """
         login_user = None
         if token:
             login_user = User.query.filter_by(token=token).first()
@@ -297,10 +351,26 @@ class Junior(Developer):
         else:
             return _errcodes.get(60002)
 
-    def user_publish(self, title, udfshash, amount, tags, description, **usercondition):
+    def user_publish(self, title, udfshash, amount, tags, description, usercondition):
+        """
+        user publish resource
+        :param title: resource title
+        :type title: str
+        :param udfshash: resource uplorded to the UDFS hash
+        :type udfshash: str
+        :param amount: resource price
+        :type amount: float
+        :param tags: resource tag
+        :type tags: list
+        :param description: resource description
+        :type description: str
+        :param usercondition: a condition which need to query user
+        :type usercondition: dict
+        :return: errcode.You can query from the errcode.
+        """
         # body is a file
         # check udfshash
-        if not checker.isUdfsHash(udfshash):
+        if not utils.isUdfsHash(udfshash):
             return _errcodes.get(60107)
         if 'userid' in usercondition:
             userid = usercondition.get('userid')
@@ -320,7 +390,7 @@ class Junior(Developer):
         # TODO check balance
 
         # publish to the ulord-platform
-        data = ulord_helper.ulord_publish_data
+        data = self.ulord_helper.ulord_publish_data
         data['author'] = current_user.wallet
         data['title'] = title
         data['tag'] = tags
@@ -328,7 +398,7 @@ class Junior(Developer):
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
         data['description'] = description
-        publish_result = ulord_helper.publish(data)
+        publish_result = self.ulord_helper.publish(data)
         if publish_result.get('errcode') == 0:
             new_resource = Resource(id=str(uuid1()), title=title, amount=amount, views=0)
             if tags:
@@ -348,28 +418,72 @@ class Junior(Developer):
         return publish_result
 
     def user_allresource(self, page=1, num=10):
-        return ulord_helper.queryblog(page, num)
+        """
+        list all resources from the ulord-platform
+
+        :param page: which page do you want to view.Default is 1
+        :type page: int
+        :param num: how many pieces of data every page.Default is 10
+        :type num: int
+        :return: errcode.You can query from the errcode dict.
+        """
+        return self.ulord_helper.queryblog(page, num)
 
     def user_isbought(self, wallet, claim_ids):
-        # TODO maybe need to check claim_id
-        return ulord_helper.checkisbought(wallet, claim_ids)
+        """
+        check the resource if has been bought
 
-    def user_resouce_purchases(self, dbID):
-        return ulord_helper.addpurchases(dbID)
+        :param wallet: user wallet name
+        :type wallet: str
+        :param claim_ids: resource claim ids
+        :type claim_ids: list
+        :return: errcode.You can query from the errcode dict.
+        """
+        # TODO maybe need to check claim_id
+        return self.ulord_helper.checkisbought(wallet, claim_ids)
 
     def user_resouce_views(self, title):
+        """
+        add resource view
+
+        :param title: resource title
+        :type title: str
+        :return: resource current view
+        """
         resources = Resource.query.filter_by(title=title)
         resources.views += 1
         db.commit()
         return resources.views
 
     def user_pay_resources(self, payer, claim_id, pay_password):
-        return ulord_helper.transaction(payer, claim_id, pay_password)
+        """
+        user pay resource
+
+        :param payer: payer username
+        :type payer: wallet
+        :param claim_id: resource claim id
+        :type claim_id: str
+        :param pay_password: payer password
+        :type pay_password: str
+        :return: errcode.You can query from the errcode.
+        """
+        return self.ulord_helper.transaction(payer, claim_id, pay_password)
 
     def user_pay_ads(self, wallet, claim_id, pay_password):
-        return ulord_helper.transaction(wallet, claim_id, pay_password, True)
+        """
+        user view ads
+
+        :param wallet: user wallet name
+        :param claim_id: resource claim id
+        :param pay_password: user password
+        :return: errcode.You can query from the errcode.
+        """
+        return self.ulord_helper.transaction(wallet, claim_id, pay_password, True)
 
     def create_database(self):
+        """
+        create database
+        """
         # check if the database is exited
         if dbconfig.get('IsCreated'):
             self.log.info("DB has created!")
@@ -383,6 +497,9 @@ class Junior(Developer):
 
     # web command
     def start_web(self):
+        """
+        start web server
+        """
         webServer.start()
         webconfig.update({
             "start": True
@@ -390,6 +507,13 @@ class Junior(Developer):
 
     # advanced command
     def query(self, sql):
+        """
+        advanced command self query
+
+        :param sql: sql sentence
+        :type sql: str
+        :return: query result
+        """
         try:
             result = db.engine.execute(sql)
         except Exception, e:

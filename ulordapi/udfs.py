@@ -8,7 +8,7 @@ import sys, os, subprocess, platform, json, time, signal, logging, atexit
 
 import ipfsapi
 
-from utils import fileHelper
+from .utils import fileHelper
 
 class Udfs():
     """
