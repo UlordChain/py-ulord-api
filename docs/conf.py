@@ -16,10 +16,10 @@ import os
 import sys
 # import ulordapi
 
-sys.path.insert(0, os.path.abspath('../..'))
-sys.path.insert(0, os.path.abspath('./../../ulordapi'))
-sys.path.insert(0, os.path.abspath('./../../ulordapi/user'))
-sys.path.insert(0, os.path.abspath(r"E:\ulord\py-ulord-api\venv\Lib\site-packages"))
+sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../ulordapi'))
+sys.path.insert(0, os.path.abspath('../ulordapi/user'))
+# sys.path.insert(0, os.path.abspath(r"E:\ulord\py-ulord-api\venv\Lib\site-packages"))
 
 # Make current version number as `__version__` available
 # with open(os.path.join(sys.path[0], 'version.py')) as file:
