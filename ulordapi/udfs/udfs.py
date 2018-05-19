@@ -37,7 +37,7 @@ class Udfs():
         """
         get daemon pid
 
-        :return:daemon pid
+        :return: daemon pid
         """
         if os.path.isfile(self.lock):
             self.log.debug('get udfs daemon pid')

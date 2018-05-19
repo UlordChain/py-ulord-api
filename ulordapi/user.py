@@ -177,7 +177,7 @@ class Senior (Developer):
     Senior programmer to develop his application.
     """
     def __init__(self, appkey, secret):
-        Developer.__init__()
+        Developer.__init__(self)
         ulordconfig.update({
             'ulord_appkey': appkey,
             'ulord_secret': secret
@@ -193,23 +193,13 @@ class Junior(Developer):
     """
     Junior programmer to develop his application.Using default database.
     """
-    # def __init__(self, username, password):
-    #     ulordconfig.update({
-    #         'username':username,
-    #         'password':password,
-    #         'ulord_head':{
-    #             'appkey':self.get_appkey(username, password)
-    #         }
-    #     })
-    #     self.log = logging.getLogger("Developer2:")
-    #     self.log.info("Developer2 init")
     def __init__(self, appkey, secret):
         """
         init a junior programmer to use functions
         :param appkey:
         :param secret:
         """
-        Developer.__init__()
+        Developer.__init__(self)
         ulordconfig.update({
             'ulord_appkey':appkey,
             'ulord_secret':secret

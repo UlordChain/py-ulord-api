@@ -9,15 +9,15 @@
 import pprint, argparse, sys, os, textwrap, json
 
 
-from .config import config,ulordconfig
-from .manage import create
-from . import  user
+from ulordapi.config import config,ulordconfig
+from ulordapi.manage import create
+from ulordapi.user import Senior
 
 
-senior = user.Senior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
+senior = Senior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
 udfs = senior.udfs
-# develop2 = user.Junior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
+# develop2 = Junior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
 try:
     config_path = config.get('baseconfig').get('config_file')

@@ -27,6 +27,7 @@ ulordapi/test
 
 # config
 ulordapi/up/config
+ulordapi/udfs/config
 ulordapi/config
 /config
 
