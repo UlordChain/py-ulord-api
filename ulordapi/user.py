@@ -7,10 +7,11 @@
 import inspect, logging, os, time
 from uuid import uuid1
 
-import utils, udfs, up, webServer
-from .config import config, ulordconfig, webconfig, dbconfig
-from .manage import db, User, Resource, Tag, create
-from .errcode import _errcodes
+import utils, up, webServer
+from ulordapi.udfs import udfs
+from ulordapi.config import config, ulordconfig, webconfig, dbconfig
+from ulordapi.manage import db, User, Resource, Tag, create
+from ulordapi.errcode import _errcodes
 
 
 class Developer():

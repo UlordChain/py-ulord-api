@@ -6,4 +6,7 @@
 
 # todo: version description
 
+__title__ = 'py-ulord-api'
 __version__ = "0.0.1"
+__copyright__ = 'Copyright (c) 2016-2018 The Ulord Core Developers'
+__license__ = 'MIT'

@@ -3,6 +3,7 @@
 # @Author: PuJi
 # @Date  : 2018/5/5 0005
 
+
 import os, shutil,platform
 from setuptools import setup,find_packages
 from distutils.sysconfig import get_python_lib
@@ -37,6 +38,11 @@ requires=[
     'urllib3==1.22',
     'Werkzeug==0.14.1',
 ]
+# about = {}
+# here = os.path.abspath(os.path.dirname(__file__))
+
+# with open(os.path.join(here, 'ulordapi', '__version__.py'), 'r', 'utf-8') as f:
+#     exec(f.read(), about)
 
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -47,6 +53,7 @@ with open(os.path.join(base_dir, 'README.md'), 'rb') as f:
 
 setup(
     name="ulordapi",
+    # version=about['__version__'],
     version='0.0.1',
     packages=find_packages(base_dir),
     author="PuJi",
@@ -87,7 +94,7 @@ setup(
 
 current_place = get_python_lib()
 # print(current_place)
-dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'up', 'tools')
+dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 
 try:
     os.stat(dst)
@@ -95,8 +102,8 @@ except:
     os.mkdir(dst)
 
 if platform.system().startswith('Win'):
-    shutil.copy2(os.path.join('ulordapi', 'up', 'tools', 'udfs.exe'),
+    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),
                  os.path.join(dst,'udfs.exe'))
 else:
-    shutil.copy2(os.path.join('ulordapi', 'up', 'tools', 'udfs'),
+    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
                     os.path.join(dst,'udfs'))

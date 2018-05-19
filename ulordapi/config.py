@@ -5,7 +5,8 @@
 
 import os, json, logging, io, time
 
-from .utils import fileHelper
+from ulordapi.utils import fileHelper
+from ulordapi import utils
 
 
 ROOTPATH = os.path.dirname(os.path.realpath(__file__))
@@ -50,7 +51,7 @@ class Config(dict):
                 os.path.isfile(self.get('baseconfig').get('config_file')):
             # with io.open(self['baseconfig']['config_file'], 'r', encoding='utf8') as target:
             with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                self.update(fileHelper.json_load_byteified(target))
+                self.update(utils.json_load_byteified(target))
         elif init:
             # first init
             self.save()

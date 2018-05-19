@@ -8,7 +8,8 @@ import sys, os, subprocess, platform, json, time, signal, logging, atexit
 
 import ipfsapi
 
-from .utils import fileHelper
+from ulordapi.utils import fileHelper
+
 
 class Udfs():
     """
@@ -390,3 +391,8 @@ class UdfsHelper():
                     os.remove(tempjson)
                 except Exception, e:
                     print("{0}:{1} remove failed:{2}".format(tempjson, os.path.isfile(tempjson), e))
+
+
+if __name__ == '__main__':
+    udfs = Udfs()
+    print(udfs.udfs_path)

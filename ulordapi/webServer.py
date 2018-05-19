@@ -8,12 +8,12 @@ from uuid import uuid1
 
 from flask import request, g, jsonify
 
-from . import utils
-from .manage import app, db, User
-from .up import ulord_helper
-from .config import ulordconfig
-from .errcode import return_result
-from .user import Junior
+from ulordapi import utils
+from ulordapi.manage import app, db, User
+from ulordapi.up import ulord_helper
+from ulordapi.config import ulordconfig
+from ulordapi.errcode import return_result
+from ulordapi.user import Junior
 
 
 log = logging.getLogger('webServer')
