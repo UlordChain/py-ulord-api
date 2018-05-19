@@ -8,8 +8,8 @@ import logging, copy, time
 import requests
 
 import utils
-from ulordapi.config import ulordconfig, config, webconfig
-from ulordapi.errcode import return_result
+from config import ulordconfig, config, webconfig
+from errcode import return_result
 
 
 class UlordHelper(object):
@@ -159,7 +159,15 @@ class UlordHelper(object):
             return return_result(50000)
 
     def regist(self, username, password):
-        # regist wallet address from the ulord platform
+        """
+        regist wallet address from the ulord platform
+
+        :param username: wallet name
+        :type username: str
+        :param password: wallet password
+        :type password: str
+        :return: errcode.You can query from the errcode dict
+        """
         data = {
             "username": username,
             "pay_password": password
@@ -167,11 +175,29 @@ class UlordHelper(object):
         return self.post(self.ulord_createwallet, data)
 
     def publish(self, data):
-        # publish data to the ulord platform
+        """
+        publish data to the ulord platform
+
+        :param data: data needed to be published
+        :type data: dict
+        :return: errcode.You can query from the errcode dict.
+        """
         return self.post(self.ulord_publish, data)
 
     def transaction(self, payer, claim_id, pay_password, isads=False):
-        # record the transaction to the ulord platform
+        """
+        record the transaction to the ulord platform
+
+        :param payer: payer wallet name
+        :type payer: str
+        :param claim_id: resource claim id
+        :type claim_id: str
+        :param pay_password: payer wallet password
+        :type pay_password: str
+        :param isads: check the resource if a Ad.
+        :type isads: bool
+        :return: errcode.You can query from the errcode dict.
+        """
 
         data = {
             'username': payer,
@@ -188,7 +214,13 @@ class UlordHelper(object):
         return self.post(self.ulord_transaction, data)
 
     def paytouser(self, username):
-        # activity send some ulords to the user
+        """
+        activity send some ulords to the user
+
+        :param username: user wallet name
+        :type username: str
+        :return: errcode.You can query from the errcode dict.
+        """
         if webconfig.get('activity'):
             data = {
                 'is_developer': True,
@@ -200,12 +232,28 @@ class UlordHelper(object):
             return return_result(60300)
 
     def queryblog(self, page=1, num=10):
-        # query the blog list from the ulord platform.method is get
+        """
+        query the blog list from the ulord platform.method is get
+
+        :param page: which page do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of datas in one page?.Default is 10.
+        :type num: int
+        :return: errcode.You can query from the errcode dict.
+        """
         temp_url = self.ulord_queryblog + "/{0}/{1}".format(page, num)
         return self.get(temp_url)
 
     def querybalance(self, payer, pay_password):
-        # query the personal balance from the ulord platform
+        """
+        query the personal balance from the ulord platform
+
+        :param payer: payer wallet name
+        :type payer: str
+        :param pay_password: payer wallet password
+        :type pay_password: str
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username': payer,
             'pay_password':pay_password
@@ -213,7 +261,15 @@ class UlordHelper(object):
         return self.post(self.ulord_querybalance, data)
 
     def checkisbought(self, payer, claim_ids):
-        # query the personal balance from the ulord platform
+        """
+        query the personal balance from the ulord platform
+
+        :param payer: payer wallet name
+        :type payer: str
+        :param claim_ids: resource claim id
+        :type claim_ids: list
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username': payer,
             'claim_ids': claim_ids
@@ -221,7 +277,19 @@ class UlordHelper(object):
         return self.post(self.ulord_checkbought, data)
 
     def queryuserpublished(self, wallet_username, page=1, num=10, category=2):
-        # query user published from ulort platform
+        """
+        query user published from ulort platform
+
+        :param wallet_username: current user wallet name
+        :type wallet_username: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
+        :param category:
+        :type category: todo need to be thinking
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'author': wallet_username,
         }
@@ -233,7 +301,19 @@ class UlordHelper(object):
         return self.post(temp_url, data)
 
     def queryuserbought(self, wallet_username, page=1, num=10, category=2):
-        # query user published from ulort platform
+        """
+        query user published from ulort platform
+
+        :param wallet_username: current user wallet name
+        :type wallet_username: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
+        :param category:
+        :type category: todo need to be thinking
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'customer': wallet_username,
         }
@@ -245,7 +325,17 @@ class UlordHelper(object):
         return self.post(temp_url, data)
 
     def queryincomebillings(self, author, page=1, num=10):
-        # get billings info
+        """
+        get billings info
+
+        :param author: current user wallet name
+        :type author: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username': author,
         }
@@ -253,7 +343,17 @@ class UlordHelper(object):
         return self.post(temp_url, data)
 
     def queryoutgobillings(self, author, page=1, num=10):
-        # get billings info
+        """
+        get billings info
+
+        :param author: current user wallet name
+        :type author: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username': author,
         }
@@ -261,7 +361,17 @@ class UlordHelper(object):
         return self.post(temp_url, data)
 
     def querybillingsdetail(self, author, page=1, num=10):
-        # query the billings detail.Union the income and outgo
+        """
+        query the billings detail.Union the income and outgo
+
+        :param author: current user wallet name
+        :type author: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username':author,
         }
@@ -269,13 +379,26 @@ class UlordHelper(object):
         return self.post(temp_url, data)
 
     def querybillings(self, username):
-        # get billings info
+        """
+        get billings info
+
+        :param username: current user wallet name
+        :type username: str
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'username': username,
         }
         return self.post(self.ulord_billings, data)
 
     def querypublishnum(self, author):
+        """
+        query the number of resourced which has published
+
+        :param author: current user wallet name
+        :type author: str
+        :return: errcode.You can query from the errcode dict.
+        """
         data = {
             'author': author
         }
