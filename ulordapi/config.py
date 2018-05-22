@@ -16,18 +16,34 @@ log_file_path=os.path.join(ROOTPATH, 'upapi.log')
 
 
 class Config(dict):
+    """
+    config class.Based on the dict.Update key-value,including subdict.
+    """
     def __init__(self, *args, **kwargs):
+        """
+        config init
+
+        :param key-value: config key and it's value
+        :type key-value : str
+        """
         dict.__init__(self, *args, **kwargs)
         self._ensure_subconfig()
         self.log = logging.getLogger('Config:')
 
     def _ensure_subconfig(self):
+        """
+        set sub dict as config class
+        """
         for key in self:
             obj = self[key]
             if isinstance(obj, dict) and not isinstance(obj, Config):
                 setattr(self, key, Config(obj))
 
     def save(self):
+        """
+        save config to the config file.Just for the config,not support for it's sub config.
+
+        """
         # data ={k: unicode(v).encode("utf-8") for k,v in self.iteritems()}
         # Just think about config.maybe need to think about other instance.
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
@@ -46,6 +62,12 @@ class Config(dict):
                 json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
 
     def read(self, init=True):
+        """
+        read config from config file and update config.
+
+        :param init: check if the config is first save.Default is True, will save the config file.
+        :type init: bool
+        """
         # read and config from self['baseconfig']['config_file']
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file') and \
                 os.path.isfile(self.get('baseconfig').get('config_file')):

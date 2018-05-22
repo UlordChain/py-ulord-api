@@ -11,7 +11,7 @@ import utils, up
 from ulordapi.udfs import udfs
 from ulordapi.config import config, ulordconfig, webconfig, dbconfig
 from ulordapi.manage import db, User, Resource, Tag, create
-from ulordapi.errcode import _errcodes
+from ulordapi.errcode import _errcodes, return_result
 
 
 class Developer():
@@ -85,7 +85,7 @@ class Developer():
                 })
             else:
                 result.update({
-                    udfshash: "not a udfshash"
+                    udfshash: 0 # "not a udfshash"
                 })
         return result
 
@@ -129,7 +129,7 @@ class Developer():
                 })
             else:
                 result.update({
-                    udfshash: "not a udfshash"
+                    udfshash: 0 # "not a udfshash"
                 })
         return result
 
@@ -213,6 +213,7 @@ class Junior(Developer):
     def get_purearg(self, arg):
         """
         check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
+
         :param arg: arg need to be checked
         :type arg: str
         :return: decrypted arg or arg
@@ -228,9 +229,10 @@ class Junior(Developer):
             return arg
 
     # up functions
-    def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, *encryption):
+    def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, encryption=[]):
         """
         user regist
+
         :param username: user name
         :type username: str
         :param password: user password
@@ -292,9 +294,10 @@ class Junior(Developer):
         # return return_result(0, result={"token": user.token})
         return user.token
 
-    def user_login(self, username, password, *encryption):
+    def user_login(self, username, password, encryption=[]):
         """
         user login
+
         :param username: user name
         :type username: str
         :param password: user password
@@ -316,12 +319,13 @@ class Junior(Developer):
         login_user.token = str(uuid1())
         login_user.timestamp = int(time.time()) + webconfig.get('token_expired')
         db.session.commit()
-        # return return_result(0, result={"token": login_user.token})
-        return login_user.token
+        return return_result(0, result={"token": login_user.token})
+        # return login_user.token
 
     def user_logout(self, token=None, username=None):
         """
         user logout.Change user's timestamp
+
         :param token: user token
         :type token: str
         :param username: user name
@@ -338,6 +342,39 @@ class Junior(Developer):
         if login_user:
             login_user.timestamp = int(time.time()) - 1
             return login_user.username
+        else:
+            return _errcodes.get(60002)
+
+    def user_activity(self, token=None, username=None):
+        """
+        activity.App developer send some ulords to the user.
+
+        :param token: user token
+        :type token: str
+        :param username: user name
+        :type username: str
+        :return: True or False.
+        """
+        login_user = None
+        if token:
+            login_user = User.query.filter_by(token=token).first()
+            if int(login_user.timestamp) < time.time():
+                return _errcodes.get(60104)
+        elif username:
+            login_user = User.query.filter_by(username=username).first()
+        if login_user:
+            credit_result = self.ulord.paytouser(login_user.wallet)
+            if credit_result.get('errcode') != 0:
+                return credit_result
+            else:
+                login_user.activity = ulordconfig.get('amount')
+                return {
+                    "errcode": 0,
+                    "reason": "success",
+                    "result":{
+                        "amount": ulordconfig.get('amount'),
+                        }
+                    }
         else:
             return _errcodes.get(60002)
 
@@ -445,7 +482,7 @@ class Junior(Developer):
         db.commit()
         return resources.views
 
-    def user_pay_resources(self, payer, claim_id, pay_password):
+    def user_pay_resources(self, payer, claim_id, pay_password, encryption=[]):
         """
         user pay resource
 
@@ -457,6 +494,13 @@ class Junior(Developer):
         :type pay_password: str
         :return: errcode.You can query from the errcode.
         """
+        if encryption:
+            if encryption[0]:
+                payer = self.get_purearg(payer)
+            if encryption[1]:
+                claim_id = self.get_purearg(claim_id)
+            if encryption[2]:
+                pay_password = self.get_purearg(pay_password)
         return self.ulord.transaction(payer, claim_id, pay_password)
 
     def user_pay_ads(self, wallet, claim_id, pay_password):
@@ -470,15 +514,28 @@ class Junior(Developer):
         """
         return self.ulord.transaction(wallet, claim_id, pay_password, True)
 
-    def create_database(self):
+    def create_database(self, path=None):
         """
         create database
+
+        :param path: database path.Warining:It'a a dir
+        :type path: str
+        :return: True/False
         """
         # check if the database is exited
         if dbconfig.get('IsCreated'):
             self.log.info("DB has created!")
         else:
             self.log.info("Creating DB...")
+            if path:
+                try:
+                    os.stat(path)
+                except:
+                    os.mkdir(path)
+                dbconfig.update({
+                    'SQLALCHEMY_DATABASE_URI':'sqlite:///{}/sqlite.db'.format(path)
+                })
+                config.save()
             create()
             dbconfig.update({
                 'IsCreated': True
@@ -512,9 +569,6 @@ class Junior(Developer):
             result = None
         return result
 
-
-def test():
-    print("Hello world!")
 
 if __name__ == '__main__':
     develop = Developer()
