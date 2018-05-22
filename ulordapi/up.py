@@ -200,7 +200,7 @@ class UlordHelper(object):
         """
 
         data = {
-            'username': payer,
+            'customer': payer,
             'claim_id': claim_id
         }
         if isads:
@@ -271,7 +271,7 @@ class UlordHelper(object):
         :return: errcode.You can query from the errcode dict.
         """
         data = {
-            'username': payer,
+            'customer': payer,
             'claim_ids': claim_ids
         }
         return self.post(self.ulord_checkbought, data)
@@ -286,7 +286,7 @@ class UlordHelper(object):
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
-        :param category:
+        :param category: 0-resource,1-ads,2-all
         :type category: todo need to be thinking
         :return: errcode.You can query from the errcode dict.
         """
@@ -310,7 +310,7 @@ class UlordHelper(object):
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
-        :param category:
+        :param category: 0-resource,1-ads,2-all
         :type category: todo need to be thinking
         :return: errcode.You can query from the errcode dict.
         """

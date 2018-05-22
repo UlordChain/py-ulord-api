@@ -119,7 +119,7 @@ ulordconfig = Config(
     ulord_publish_data = {
             "author": "justin",
             "title": "第一篇技术博客",
-            "tag": ["blockchain", "IPFS"],
+            "tags": ["blockchain", "IPFS"],
             "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
             "price": 0.1,
             "content_type": ".txt",

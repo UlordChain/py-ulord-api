@@ -14,14 +14,25 @@ from ulordapi.manage import db, User, Resource, Tag, create
 from ulordapi.errcode import _errcodes, return_result
 
 
-class Developer():
+class Developer(up.UlordHelper):
     """
     basic develoer class to execute some functions
     """
-    def __init__(self):
+    def __init__(self, appkey, secret):
         """
         init the developer. create a udfs helper, a ulord-helper, add a logger
+
+        :param appkey: application key
+        :type appkey: str
+        :param secret: application secret
+        :type secret: str
         """
+        up.UlordHelper.__init__(self, appkey, secret)
+        ulordconfig.update({
+            'ulord_appkey': appkey,
+            'ulord_secret': secret
+        })
+        config.save()
         self.udfs = udfs.UdfsHelper()
         self.ulord = up.UlordHelper()
         self.log = logging.getLogger("Developer:")
@@ -176,14 +187,7 @@ class Senior (Developer):
     Senior programmer to develop his application.
     """
     def __init__(self, appkey, secret):
-        Developer.__init__(self)
-        ulordconfig.update({
-            'ulord_appkey': appkey,
-            'ulord_secret': secret
-        })
-        config.save()
-        # UlordHelper.__init__(self)
-        # UdfsHelper.__init__(self)
+        Developer.__init__(self, appkey, secret)
         self.log = logging.getLogger("Developer1:")
         self.log.info("Developer1 init")
 
@@ -198,12 +202,7 @@ class Junior(Developer):
         :param appkey:
         :param secret:
         """
-        Developer.__init__(self)
-        ulordconfig.update({
-            'ulord_appkey':appkey,
-            'ulord_secret':secret
-        })
-        config.save()
+        Developer.__init__(self, appkey, secret)
         self.log = logging.getLogger("Developer2:")
         self.log.info("Developer2 init")
         self.pripath = os.path.join(os.getcwd(), 'private.pem')
@@ -420,7 +419,7 @@ class Junior(Developer):
         data = self.ulord.ulord_publish_data
         data['author'] = current_user.wallet
         data['title'] = title
-        data['tag'] = tags
+        data['tags'] = tags
         data['ipfs_hash'] = udfshash
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
@@ -514,6 +513,75 @@ class Junior(Developer):
         """
         return self.ulord.transaction(wallet, claim_id, pay_password, True)
 
+    def user_published_num(self, wallet):
+        """
+        the num of user has published
+
+        :param wallet: wallet name
+        :type wallet: str
+        :return: num(int)
+        """
+        return self.ulord.querypublishnum(wallet)
+
+    def user_info_query(self, username=None, token=None):
+        """
+        user information
+
+        :param username: username.Default is none.
+        :type username: str
+        :param token: user token.Default is none.
+        :type token: str
+        :return: dict.User info
+        """
+        login_user = None
+        if token:
+            login_user = User.query.filter_by(token=token).first()
+            if int(login_user.timestamp) < time.time():
+                return return_result(60104)
+        elif username:
+            login_user = User.query.filter_by(username=username).first()
+        if login_user:
+            result = {
+                'username': login_user.username,
+                "cellphone": login_user.cellphone,
+                "Email": login_user.email
+            }
+            return return_result(reason={
+                'result': result
+            })
+        else:
+            return return_result(60002)
+
+    def user_infor_modify(self, username=None, token=None, data={}):
+        """
+        user information
+
+        :param username: username.Default is none.
+        :type username: str
+        :param token: user token.Default is none.
+        :type token: str
+        :param data: update data
+        :type data: dict
+        :return: dict.User info
+        """
+        login_user = None
+        if token:
+            login_user = User.query.filter_by(token=token).first()
+            if int(login_user.timestamp) < time.time():
+                return return_result(60104)
+        elif username:
+            login_user = User.query.filter_by(username=username).first()
+        if login_user:
+            result = {
+                'username': login_user.username,
+                "cellphone": login_user.cellphone,
+                "Email": login_user.email
+            }
+            return return_result(reason={
+                'result': result
+            })
+        else:
+            return return_result(60002)
     def create_database(self, path=None):
         """
         create database
