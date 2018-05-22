@@ -7,7 +7,7 @@
 import inspect, logging, os, time
 from uuid import uuid1
 
-import utils, up, webServer
+import utils, up
 from ulordapi.udfs import udfs
 from ulordapi.config import config, ulordconfig, webconfig, dbconfig
 from ulordapi.manage import db, User, Resource, Tag, create
@@ -171,7 +171,6 @@ class Developer():
         return inspect.getmembers(self, predicate=inspect.ismethod)
 
 
-
 class Senior (Developer):
     """
     Senior programmer to develop his application.
@@ -282,7 +281,7 @@ class Junior(Developer):
             user.wallet = username
         user.cellphone = cellphone
         user.email = email
-        regist_result = self.ulord_helper.regist(user.wallet, user.pay_password)
+        regist_result = self.ulord.regist(user.wallet, user.pay_password)
         if regist_result.get("errcode") != 0:
             return regist_result
         user.token = str(uuid1())
@@ -381,7 +380,7 @@ class Junior(Developer):
         # TODO check balance
 
         # publish to the ulord-platform
-        data = self.ulord_helper.ulord_publish_data
+        data = self.ulord.ulord_publish_data
         data['author'] = current_user.wallet
         data['title'] = title
         data['tag'] = tags
@@ -389,7 +388,7 @@ class Junior(Developer):
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
         data['description'] = description
-        publish_result = self.ulord_helper.publish(data)
+        publish_result = self.ulord.publish(data)
         if publish_result.get('errcode') == 0:
             new_resource = Resource(id=str(uuid1()), title=title, amount=amount, views=0)
             if tags:
@@ -418,7 +417,7 @@ class Junior(Developer):
         :type num: int
         :return: errcode.You can query from the errcode dict.
         """
-        return self.ulord_helper.queryblog(page, num)
+        return self.ulord.queryblog(page, num)
 
     def user_isbought(self, wallet, claim_ids):
         """
@@ -431,7 +430,7 @@ class Junior(Developer):
         :return: errcode.You can query from the errcode dict.
         """
         # TODO maybe need to check claim_id
-        return self.ulord_helper.checkisbought(wallet, claim_ids)
+        return self.ulord.checkisbought(wallet, claim_ids)
 
     def user_resouce_views(self, title):
         """
@@ -458,7 +457,7 @@ class Junior(Developer):
         :type pay_password: str
         :return: errcode.You can query from the errcode.
         """
-        return self.ulord_helper.transaction(payer, claim_id, pay_password)
+        return self.ulord.transaction(payer, claim_id, pay_password)
 
     def user_pay_ads(self, wallet, claim_id, pay_password):
         """
@@ -469,7 +468,7 @@ class Junior(Developer):
         :param pay_password: user password
         :return: errcode.You can query from the errcode.
         """
-        return self.ulord_helper.transaction(wallet, claim_id, pay_password, True)
+        return self.ulord.transaction(wallet, claim_id, pay_password, True)
 
     def create_database(self):
         """
@@ -491,6 +490,7 @@ class Junior(Developer):
         """
         start web server
         """
+        import webServer
         webServer.start()
         webconfig.update({
             "start": True
@@ -512,6 +512,9 @@ class Junior(Developer):
             result = None
         return result
 
+
+def test():
+    print("Hello world!")
 
 if __name__ == '__main__':
     develop = Developer()

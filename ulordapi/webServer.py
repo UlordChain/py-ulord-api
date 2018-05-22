@@ -19,7 +19,6 @@ from ulordapi.user import Junior
 log = logging.getLogger('webServer')
 junior = Junior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
-
 def auth_login_required():
     head_token = request.headers.get('token')
     if not head_token:
@@ -33,6 +32,15 @@ def auth_login_required():
     if int(login_user.timestamp) < time.time():
         return return_result(60104)
     return login_user
+
+
+def decrypt(arg):
+    try:
+        arg = junior.rsahelper._decrypt(arg)
+    except:
+        log.warn("fronted doesn't encrypt {}".format(arg))
+        print("frontend doesn't encrypt {}".format(arg))
+    return arg
 
 
 @app.route('/user/password', methods=['GET', 'POST'])
@@ -54,11 +62,8 @@ def regist():
     if username is None or password is None:
         # missing arguments
         return jsonify(return_result(60100))
-    try:
-        username = junior.rsahelper._decrypt(username)
-        password = junior.rsahelper._decrypt(password)
-    except:
-        log.warn("fronted doesn't encrypt")
+    username = decrypt(username)
+    password = decrypt(password)
     # if User.query.filter_by(username=username).first() is not None and User.query.filter_by(wallet=username).first() is not None:
     # delete modify username.It will make the publish error
     if User.query.filter_by(username=username).first() is not None and User.query.filter_by(
@@ -67,18 +72,12 @@ def regist():
         return jsonify(return_result(60000))
     # check cellphone and email
     if cellphone:
-        try:
-            cellphone = rsahelper.decrypt(rsahelper.privkey, cellphone)
-        except:
-            print("frontend doesn't encrypt cellphone")
-        if not checker.isCellphone(cellphone):
+        cellphone = decrypt(cellphone)
+        if not utils.isCellphone(cellphone):
             return jsonify(return_result(60106))
     if email:
-        try:
-            email = rsahelper.decrypt(rsahelper.privkey, email)
-        except:
-            print("frontend doesn't encrypt email")
-        if not checker.isMail(email):
+        email = decrypt(email)
+        if not utils.isMail(email):
             return jsonify({
                 'errcode': 60105,
                 'reason': '无效的邮箱'
@@ -148,12 +147,8 @@ def login():
             'errcode': 60100,
             'reason': "缺少参数"
         })
-    try:
-        username = junior.rsahelper._decrypt(username)
-        # print(username)
-        password = junior.rsahelper._decrypt(password)
-    except:
-        print("frontend doesn's encrypt")
+    username = decrypt(username)
+    password = decrypt(password)
     login_user = User.query.filter_by(username=username).first()
     if not login_user:
         # no user
