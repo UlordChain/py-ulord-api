@@ -128,6 +128,10 @@ class UlordHelper(object):
         self.log.debug(url)
         self.log.debug(data)
 
+        # deal with unicode and utf-8
+        from utils import _byteify
+        data = _byteify(data=data)
+
         # calculate  U-Sign
         self.calculate_sign(data)
         # self.ulord_head = ulordconfig.get('ulord_head')
@@ -137,7 +141,7 @@ class UlordHelper(object):
             self.log.debug(r.json())
             return r.json()
         else:
-            return return_result(50000)
+            return return_result(60400)
 
     def get(self, url):
         """
