@@ -82,7 +82,6 @@ class User(db.Model):
         """
         self.password_hash = pwd_context.encrypt(password)
 
-    @classmethod
     def verify_password(self, password):
         """
         verify password

@@ -582,6 +582,7 @@ class Junior(Developer):
             })
         else:
             return return_result(60002)
+
     def create_database(self, path=None):
         """
         create database
@@ -601,7 +602,7 @@ class Junior(Developer):
                 except:
                     os.mkdir(path)
                 dbconfig.update({
-                    'SQLALCHEMY_DATABASE_URI':'sqlite:///{}/sqlite.db'.format(path)
+                    'SQLALCHEMY_DATABASE_URI':'sqlite:///{}'.format(os.path.join(path,'sqlite.db'))
                 })
                 config.save()
             create()
