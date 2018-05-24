@@ -3,12 +3,16 @@
 # @File  : utils.py
 # @Author: Ulord_PuJi
 # @Date  : 2018/5/18 0018
+# @Description: project import first.Alone.
 
 import re, os, hashlib, base64, logging, json, codecs, collections
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto import Random
+
+
+RANDOM_GENERATOR=Random.new().read
 
 
 def isCellphone(number):
@@ -97,6 +101,7 @@ class RSAHelper(object):
         else:
             self.generate()
             self.load()
+        # update public pem path and private pem path
 
     def generate(self):
         """
@@ -130,20 +135,36 @@ class RSAHelper(object):
         :type comment: str
         :return: encrypted information
         """
-        cipher = PKCS1_v1_5.new(self.pubkey)
-        return (cipher.encrypt(comment))
+        pass
 
     def encry(self, pubkey, comment):
-        cipher = PKCS1_v1_5.new(pubkey)
-        return (cipher.encrypt(comment))
+        # cipher = PKCS1_v1_5.new(pubkey)
+        # return (cipher.decrypt(base64.b64decode(comment), RANDOM_GENERATOR))
+        pass
 
     def _decrypt(self, message):
-        pass
+        """
+        decrypt message
+
+        :param message: need to be decrypted
+        :type message: str
+        :return: decrypted message
+        """
+        cipher = PKCS1_v1_5.new(self.privkey)
+        return (cipher.decrypt(base64.b64decode(message), RANDOM_GENERATOR))
 
     def decrypt(self, prikey, message):
-        # cipher = PKCS1_v1_5.new(prikey)
-        # return (cipher.decrypt(base64.b64decode(message), RANDOM_GENERATOR))
-        pass
+        """
+        using private key to decrypt message
+
+        :param prikey: private key
+        :type prikey: str
+        :param message: need to be decrypted
+        :type message: str
+        :return: decrypted message
+        """
+        cipher = PKCS1_v1_5.new(prikey)
+        return (cipher.decrypt(base64.b64decode(message), RANDOM_GENERATOR))
 
 
 class FileHelper():

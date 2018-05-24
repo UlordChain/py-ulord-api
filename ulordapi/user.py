@@ -205,8 +205,14 @@ class Junior(Developer):
         Developer.__init__(self, appkey, secret)
         self.log = logging.getLogger("Developer2:")
         self.log.info("Developer2 init")
-        self.pripath = os.path.join(os.getcwd(), 'private.pem')
-        self.pubpath = os.path.join(os.getcwd(), 'public.pem')
+        if webconfig.get('privkeypath'):
+            self.pripath = webconfig.get('privkeypath')
+        else:
+            self.pripath = os.path.join(os.getcwd(), 'private.pem')
+        if webconfig.get('pubkeypath'):
+            self.pubpath = webconfig.get('pubkeypath')
+        else:
+            self.pubpath = os.path.join(os.getcwd(), 'public.pem')
         self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
 
     def get_purearg(self, arg):

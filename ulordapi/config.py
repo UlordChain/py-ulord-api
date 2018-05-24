@@ -1,11 +1,11 @@
 # coding=utf-8
+# Copyright (c) 2016-2018 The Ulord Core Developers
 # @File  : config.py
 # @Author: PuJi
 # @Date  : 2018/5/16 0016
-
+# @Description : Second import.Just after utils
 import os, json, logging, io, time
 
-from ulordapi.utils import fileHelper
 from ulordapi import utils
 
 
@@ -87,8 +87,9 @@ class Config(dict):
 
 
 baseconfig = Config(
-        version="0.0.1",
-        config_file=os.path.join(ROOTPATH, 'config')
+    version="0.0.1",
+    Debug=True,
+    config_file=os.path.join(ROOTPATH, 'config')
 )
 
 
@@ -159,14 +160,13 @@ webconfig = Config(
 
     # encryption
     # utilspath = os.path.join(os.getcwd(), 'utils'),
-    pubkeypath=os.path.join(os.path.join(os.getcwd(), 'utils'), 'public.pem'),
-    privkeypath=os.path.join(os.path.join(os.getcwd(), 'utils'), 'private.pem'),
+    pubkeypath=os.path.join(os.getcwd(), 'public.pem'),
+    privkeypath=os.path.join(os.getcwd(), 'private.pem'),
 )
 
 
 dbconfig = Config(
     IsCreated=False,
-    Debug=True,
     SECRET_KEY="ulord platform is good",
     SQLALCHEMY_DATABASE_URI='sqlite:///sqlite.db',
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True,
