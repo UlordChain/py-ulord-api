@@ -117,16 +117,16 @@ ulordconfig = Config(
     #         # "appkey": "2b111d70452f11e89c2774e6e2f53324"
     #     },
     ulord_publish = "/transactions/publish",
-    ulord_publish_data = {
-            "author": "justin",
-            "title": "第一篇技术博客",
-            "tags": ["blockchain", "IPFS"],
-            "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
-            "price": 0.1,
-            "content_type": ".txt",
-            "pay_password": "123",
-            "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
-        },
+    # ulord_publish_data = {
+    #         "author": "justin",
+    #         "title": "第一篇技术博客",
+    #         "tags": ["blockchain", "IPFS"],
+    #         "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+    #         "price": 0.1,
+    #         "content_type": ".txt",
+    #         "pay_password": "123",
+    #         "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+    #     },
     ulord_createwallet = "/transactions/createwallet",
     ulord_transaction = "/transactions/consume",
     ulord_paytouser = "/transactions/paytouser",

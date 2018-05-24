@@ -112,12 +112,18 @@ class Developer(up.UlordHelper):
         if isinstance(fileinfos, list):
             for fileinfo in fileinfos:
                 # TODO multi threading
-                filehash = self.udfs.upload_file(fileinfo)
+                if os.path.isfile(fileinfo):
+                    filehash = self.udfs.upload_file(fileinfo)
+                else:
+                    filehash = self.udfs.upload_stream(fileinfo)
                 result.update({
                     fileinfo: filehash
                 })
-        elif isinstance(fileinfos, str):
-            filehash = self.udfs.upload_file(fileinfos)
+        else:
+            if os.path.isfile(fileinfos):
+                filehash = self.udfs.upload_file(fileinfos)
+            else:
+                filehash = self.udfs.upload_stream(fileinfos)
             result.update({
                 fileinfos: filehash
             })
@@ -227,7 +233,11 @@ class Junior(Developer):
         try:
             result = self.rsahelper.decrypt(self.rsahelper.privkey, arg)
         except:
-            self.log.info("{0} cann't decrypt,using {0}".format(arg))
+            # todo need to think twice
+            try:
+                self.log.info("{0} cann't decrypt,using {0}".format(arg))
+            except:
+                self.log.info("{0} cann't decrypt,using {0}".format(arg.encode('utf-8')))
         if result:
             return result
         else:
@@ -411,7 +421,7 @@ class Junior(Developer):
             username = usercondition.get('username')
             current_user = User.query.filter_by(name=username).first()
         elif 'usertoken' in usercondition:
-            token = usercondition.get('token')
+            token = usercondition.get('usertoken')
             current_user = User.query.filter_by(token=token).first()
         else:
             return _errcodes.get(60100)  # missing user info argument

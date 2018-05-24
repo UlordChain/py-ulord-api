@@ -44,7 +44,16 @@ class UlordHelper(object):
         self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL
         # publish URL
         self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL
-        self.ulord_publish_data = ulordconfig.get('ulord_publish_data')  # ulord publish data
+        self.ulord_publish_data =  {
+            "author": "justin",
+            "title": "第一篇技术博客",
+            "tags": ["blockchain", "IPFS"],
+            "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+            "price": 0.1,
+            "content_type": ".txt",
+            "pay_password": "123",
+            "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+        }  # ulord publish data
         # query URL
         self.ulord_queryblog = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryblog') # query blog list webURL
         self.ulord_checkbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_checkbought') # query if the blog has bought
@@ -135,7 +144,11 @@ class UlordHelper(object):
         # calculate  U-Sign
         self.calculate_sign(data)
         # self.ulord_head = ulordconfig.get('ulord_head')
-        r = requests.post(url=url, json=data, headers=self.ulord_head)
+        try:
+            r = requests.post(url=url, json=data, headers=self.ulord_head)
+        except Exception, e:
+            self.log.error("Failed request from the ulord-platform: {}".format(e))
+            return return_result(50000)
         self.log.debug(r.status_code)
         if r.status_code == requests.codes.ok:
             self.log.debug(r.json())
@@ -153,7 +166,11 @@ class UlordHelper(object):
         """
         self.calculate_sign()
         self.ulord_head = ulordconfig.get('ulord_head')
-        r = requests.get(url=url, headers=self.ulord_head)
+        try:
+            r = requests.get(url=url, headers=self.ulord_head)
+        except Exception, e:
+            self.log.error("Failed request from the ulord-platform: {}".format(e))
+            return return_result(50000)
         self.log.debug(url)
         self.log.debug(r.status_code)
         if (r.status_code == requests.codes.ok):

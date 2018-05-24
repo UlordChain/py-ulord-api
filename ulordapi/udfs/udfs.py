@@ -5,6 +5,7 @@
 # @Date  : 2018/5/18 0018
 
 import sys, os, subprocess, platform, json, time, signal, logging, atexit
+from uuid import uuid1
 
 import ipfsapi
 
@@ -228,9 +229,14 @@ class UdfsHelper():
             # py-api doesn't support add stream.But the js-api supports.So sad.Maybe need to use HTTP-api.
             start = time.time()
             # TODO save stream to a file
-            file = "test.txt"
-            if fileHelper.saveFile(file, stream):
-                result = self.connect.add(file)
+            file_temp = "{}.txt".format(uuid1())
+            if fileHelper.saveFile(file_temp, stream):
+                result = self.connect.add(file_temp)
+                # del temp file
+                try:
+                    os.remove(file_temp)
+                except Exception, e:
+                    self.log.error("del temp file {0} error: {1}".format(file_temp, e))
                 end = time.time()
                 self.log.info('upload stream cost:{}'.format(end - start))
                 return result.get('Hash')

@@ -52,7 +52,9 @@ def isUdfsHash(udfshash):
     :type udfshash: str
     :return: True or False
     """
-    if len(udfshash) == 46 and udfshash.startwith('Qm'):
+    if isinstance(udfshash, unicode):
+        udfshash = udfshash.encode('utf-8')
+    if len(udfshash) == 46 and udfshash.startswith('Qm'):
         return True
     else:
         return False
