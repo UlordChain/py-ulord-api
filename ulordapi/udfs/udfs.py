@@ -10,7 +10,7 @@ from uuid import uuid1
 import ipfsapi
 
 from ulordapi.utils import fileHelper
-
+from ulordapi.config import ROOTPATH
 
 class Udfs():
     """
@@ -185,7 +185,7 @@ class UdfsHelper():
         self.chunks = {}
         self.objects = None
         self.links = []
-        self.downloadpath = os.path.join(fileHelper.getRootPath(), 'download')
+        self.downloadpath = os.path.join(ROOTPATH, 'download')
 
     def update(self, host='127.0.0.1', port='5001'):
         """
