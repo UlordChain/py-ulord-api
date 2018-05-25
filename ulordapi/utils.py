@@ -372,21 +372,41 @@ def json_load_byteified( file_handle):
     )
 
 
-def Update(d, u):
+def Update(orgin_dict, dict_father):
     """
-    update dict u to dict d
-    :param d: base dict
-    :type d: dict
-    :param u: need to update
-    :type u: dict
-    :return: dict d which updates d
+    update dict dict_father to dict orgin_dict
+
+    :param orgin_dict: base dict
+    :type orgin_dict: dict
+    :param dict_father: need to update
+    :type dict_father: dict
+    :return: dict orgin_dict which updates orgin_dict
+     .. code-block:: python
+            In [8]: dictb = {
+               ...: "t":2,
+               ...: "ttt":{
+               ...: "123":1,
+               ...: "a":2
+               ...: }
+               ...:
+               ...: }
+
+            In [9]: dicta = {
+               ...: "test": 1,
+               ...: "ttt":{
+               ...: "a":1
+               ...: }
+               ...: }
+
+            In [10]: Update(dictb, dicta)
+            Out[10]: {'t': 2, 'test': 1, 'ttt': {'123': 1, 'a': 1}}
     """
-    for k, v in u.iteritems():
-        if isinstance(d.get(k, None), collections.Mapping) and isinstance(v, collections.Mapping):
-            d[k] = Update(d.get(k, {}), v)
+    for k, v in dict_father.iteritems():
+        if isinstance(orgin_dict.get(k, None), collections.Mapping) and isinstance(v, collections.Mapping):
+            orgin_dict[k] = Update(orgin_dict.get(k, {}), v)
         else:
-            d[k] = v
-    return d
+            orgin_dict[k] = v
+    return orgin_dict
 
 
 def ListToDict(args):
@@ -439,9 +459,24 @@ def require(required, tag):
 
 
 if __name__ == '__main__':
-    while True:
-        cellphone = raw_input("cellphone:")
-        print isCellphone(cellphone)
-        mail = raw_input("email:")
-        print isMail(mail)
+    # while True:
+    #     cellphone = raw_input("cellphone:")
+    #     print isCellphone(cellphone)
+    #     mail = raw_input("email:")
+    #     print isMail(mail)
+    dicta = {
+        "test": 1,
+        "ttt": {
+            "test": 1
+        }
+    }
 
+    dictb = {
+        "t": 2,
+        "ttt": {
+            "123": 1,
+            "test": 2
+        }
+    }
+    dictb = Update(dictb, dicta)
+    print(dictb)

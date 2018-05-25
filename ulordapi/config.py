@@ -11,7 +11,7 @@ from ulordapi import utils
 
 ROOTPATH = os.path.dirname(os.path.realpath(__file__))
 level='INFO'
-format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s'
+log_format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s'
 log_file_path=os.path.join(ROOTPATH, 'upapi.log')
 
 
@@ -52,12 +52,18 @@ class Config(dict):
                 json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
         else:
             self.log.error("cann't find config.Please check if has config_file in config.It will using original path {}".format(os.path.join(ROOTPATH, 'config')))
-            self.update({
-                "baseconfig":{
-                    "version":"0.0.1",
-                    "config_file":unicode(os.path.join(ROOTPATH, 'config')).encode('utf-8')
-                }
-            })
+            # self.update({
+            #     "baseconfig":{
+            #         "version":"0.0.1",
+            #         "config_file":unicode(os.path.join(ROOTPATH, 'config')).encode('utf-8')
+            #     }
+            # })
+            utils.Update(self, {
+                    "baseconfig": {
+                            "version":"0.0.1",
+                            "config_file":unicode(os.path.join(ROOTPATH, 'config')).encode('utf-8')
+                    }
+                })
             with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
                 json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
 
@@ -73,7 +79,8 @@ class Config(dict):
                 os.path.isfile(self.get('baseconfig').get('config_file')):
             # with io.open(self['baseconfig']['config_file'], 'r', encoding='utf8') as target:
             with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                self.update(utils.json_load_byteified(target))
+                # self.update(utils.json_load_byteified(target))
+                utils.Update(self, utils.json_load_byteified((target)))
         elif init:
             # first init
             self.save()
@@ -101,7 +108,7 @@ udfsconfig = Config(
 
 logconfig = Config(
     level=level,
-    format=format,
+    format=log_format,
     log_file_path=log_file_path
 )
 
@@ -195,7 +202,7 @@ webconfig=config.get('webconfig')
 dbconfig = config.get('dbconfig')
 # TODO need to init some actions according to the config
 level=logconfig.get('level')
-format=logconfig.get('format')
+log_format=logconfig.get('format')
 log_file_path=logconfig.get('log_file_path')
 
 
@@ -208,7 +215,7 @@ else:
 logging.basicConfig(
     level=logging.INFO,
     filename=log_file_path,
-    format=format)
+    format=log_format)
 
 
 # if __name__ == '__main__':

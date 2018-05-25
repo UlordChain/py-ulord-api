@@ -25,7 +25,7 @@ Check out [the client API reference](http://py-ulord-api.readthedocs.io/en/lates
 - [License](#license)
 
 ## Install
-> import: haven't completed!
+> *import*: haven't completed!
 
 Install with pip:
 
