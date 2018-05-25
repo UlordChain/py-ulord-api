@@ -63,6 +63,7 @@ def isUdfsHash(udfshash):
 def generateMD5(value):
     """
     generate value's md5
+
     :param value: need to encrypt
     :type value: str
     :return: value's md5 or ""
@@ -383,6 +384,7 @@ def Update(orgin_dict, dict_father):
     :return: dict orgin_dict which updates orgin_dict
 
     .. code-block:: python
+    
             In [8]: dictb = {
                ...: "t":2,
                ...: "ttt":{
