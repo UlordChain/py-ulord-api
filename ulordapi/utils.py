@@ -381,7 +381,7 @@ def Update(orgin_dict, dict_father):
     :param dict_father: need to update
     :type dict_father: dict
     :return: dict orgin_dict which updates orgin_dict
-     .. code-block:: python
+    .. code-block:: python
             In [8]: dictb = {
                ...: "t":2,
                ...: "ttt":{
