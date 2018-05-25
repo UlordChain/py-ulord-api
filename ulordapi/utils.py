@@ -381,6 +381,7 @@ def Update(orgin_dict, dict_father):
     :param dict_father: need to update
     :type dict_father: dict
     :return: dict orgin_dict which updates orgin_dict
+
     .. code-block:: python
             In [8]: dictb = {
                ...: "t":2,
@@ -400,6 +401,7 @@ def Update(orgin_dict, dict_father):
 
             In [10]: Update(dictb, dicta)
             Out[10]: {'t': 2, 'test': 1, 'ttt': {'123': 1, 'a': 1}}
+
     """
     for k, v in dict_father.iteritems():
         if isinstance(orgin_dict.get(k, None), collections.Mapping) and isinstance(v, collections.Mapping):
