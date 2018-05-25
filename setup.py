@@ -96,14 +96,29 @@ current_place = get_python_lib()
 # print(current_place)
 dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 
-try:
-    os.stat(dst)
-except:
-    os.mkdir(dst)
+import site
+test = site.getsitepackages()
+for t in test:
+    print(t)
+    if os.path.isdir(os.path.join(t, 'ulordapi-0.0.1-py2.7.egg')):
+        print(True)
+    else:
+        print(False)
 
-if platform.system().startswith('Win'):
-    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),
-                 os.path.join(dst,'udfs.exe'))
-else:
-    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
-                    os.path.join(dst,'udfs'))
+# try:
+#     print('*' * 30)
+#     print(dst)
+#     os.stat(dst)
+# except:
+#     try:
+#         os.makedirs(dst)
+#         print('*'*30)
+#         print(dst)
+#     except Exception, e:
+#         print(e)
+# if platform.system().startswith('Win'):
+#     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),
+#                  os.path.join(dst,'udfs.exe'))
+# else:
+#     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
+#                     os.path.join(dst,'udfs'))
