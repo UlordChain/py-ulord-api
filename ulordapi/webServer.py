@@ -11,7 +11,7 @@ from flask import request, g, jsonify
 from ulordapi import utils
 from ulordapi.manage import app, db, User
 from ulordapi.up import ulord_helper
-from ulordapi.config import ulordconfig
+from ulordapi.config import ulordconfig, ROOTPATH
 from ulordapi.errcode import return_result
 from ulordapi.user import Junior
 
@@ -207,10 +207,10 @@ def blog_publish():
     # TODO upload body to IPFS
     start = time.time()
     try:
-        body_txt = os.path.join(os.path.join(os.getcwd(), 'blogs'), '{}.txt'.format(title))
+        body_txt = os.path.join(os.path.join(ROOTPATH, 'blogs'), '{}.txt'.format(title))
     except:
         print("Doesn't support chinese.Using uuid")
-        body_txt = os.path.join(os.path.join(os.getcwd(), 'blogs'), '{}.txt'.format(str(uuid1())))
+        body_txt = os.path.join(os.path.join(ROOTPATH, 'blogs'), '{}.txt'.format(str(uuid1())))
     if utils.fileHelper.saveFile(body_txt, body):
         end_save = time.time()
         print({

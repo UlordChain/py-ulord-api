@@ -322,12 +322,12 @@ class FileHelper():
             self.log.error("Error: read file{0}:{1}".format(filepath, e))
         return result
 
-    def getRootPath(self):
-        """
-        get project root path
-        :return: project root path
-        """
-        return os.path.split(os.getcwd())[0]
+    # def getRootPath(self):
+    #     """
+    #     get project root path
+    #     :return: project root path
+    #     """
+    #     return os.path.split(os.getcwd())[0]
 
 
 fileHelper = FileHelper()
@@ -384,7 +384,7 @@ def Update(orgin_dict, dict_father):
     :return: dict orgin_dict which updates orgin_dict
 
     .. code-block:: python
-    
+
             In [8]: dictb = {
                ...: "t":2,
                ...: "ttt":{

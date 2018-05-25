@@ -9,7 +9,7 @@ from uuid import uuid1
 
 import utils, up
 from ulordapi.udfs import udfs
-from ulordapi.config import config, ulordconfig, webconfig, dbconfig
+from ulordapi.config import config, ulordconfig, webconfig, dbconfig, ROOTPATH
 from ulordapi.manage import db, User, Resource, Tag, create
 from ulordapi.errcode import _errcodes, return_result
 
@@ -214,11 +214,11 @@ class Junior(Developer):
         if webconfig.get('privkeypath'):
             self.pripath = webconfig.get('privkeypath')
         else:
-            self.pripath = os.path.join(os.getcwd(), 'private.pem')
+            self.pripath = os.path.join(ROOTPATH, 'private.pem')
         if webconfig.get('pubkeypath'):
             self.pubpath = webconfig.get('pubkeypath')
         else:
-            self.pubpath = os.path.join(os.getcwd(), 'public.pem')
+            self.pubpath = os.path.join(ROOTPATH, 'public.pem')
         self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
 
     def get_purearg(self, arg):

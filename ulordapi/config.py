@@ -9,7 +9,8 @@ import os, json, logging, io, time
 from ulordapi import utils
 
 
-ROOTPATH = os.path.dirname(os.path.realpath(__file__))
+PROJECT_ROOTPATH = os.path.dirname(os.path.realpath(__file__))
+ROOTPATH = os.getcwd()
 level='INFO'
 log_format='[%(asctime)s] %(levelname)-8s %(name)s %(message)s'
 log_file_path=os.path.join(ROOTPATH, 'upapi.log')
@@ -166,9 +167,9 @@ webconfig = Config(
     amount=10,
 
     # encryption
-    # utilspath = os.path.join(os.getcwd(), 'utils'),
-    pubkeypath=os.path.join(os.getcwd(), 'public.pem'),
-    privkeypath=os.path.join(os.getcwd(), 'private.pem'),
+    # utilspath = os.path.join(ROOTPATH, 'utils'),
+    pubkeypath=os.path.join(ROOTPATH, 'public.pem'),
+    privkeypath=os.path.join(ROOTPATH, 'private.pem'),
 )
 
 
