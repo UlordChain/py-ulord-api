@@ -74,15 +74,15 @@ class Udfs():
         start external command
 
         :param cmd: shell command
-        :type cmd: str
+        :type cmd: str/list
         :return: popen
         """
-        self.log.debug("starting command,current command:{}".format(cmd))
+        self.log.debug("starting command,current command:{}".format(str(cmd)))
         FNULL = open(os.devnull, 'w')
         try:
             pl = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=FNULL)
         except Exception, e:
-            self.log.error("start command failed! Exception is {}".format(e))
+            self.log.error("start command \n{0}\n failed! Exception is {1}".format(str(cmd), e))
             pl = None
         # self.log.info("end command,result is {}".format(pl.communicate()))
         return pl
@@ -95,7 +95,13 @@ class Udfs():
         :type daemon: bool
         """
         atexit.register(self.stop)
-        cmd = "{0} --config {1} daemon".format(self.udfs_path,self.config)
+        # cmd = "{0} --config {1} daemon".format(self.udfs_path,self.config)
+        cmd = [
+            self.udfs_path,
+            "--config",
+            self.config,
+            "daemon"
+        ]
         self.udfs_daemon = self.start_command(cmd)
         info = "Udfs has started!\nNow you can use it to download or upload!"
         print(info)
@@ -108,7 +114,13 @@ class Udfs():
         """
         init udfs, sleep 3 microsecond to wait the command finished.
         """
-        cmd = "{0} --config {1} init".format(self.udfs_path, self.config)
+        # cmd = "{0} --config {1} init".format(self.udfs_path, self.config)
+        cmd = [
+            self.udfs_path,
+            "--config",
+            self.config,
+            "init"
+        ]
         self.udfs_init = self.start_command(cmd)
         time.sleep(3)
 
