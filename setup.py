@@ -5,6 +5,7 @@
 
 
 import os, shutil,platform
+import site
 from setuptools import setup,find_packages
 from distutils.sysconfig import get_python_lib
 
@@ -93,32 +94,30 @@ setup(
 )
 
 current_place = get_python_lib()
-# print(current_place)
-dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 
-import site
-test = site.getsitepackages()
-for t in test:
-    print(t)
-    if os.path.isdir(os.path.join(t, 'ulordapi-0.0.1-py2.7.egg')):
-        print(True)
-    else:
-        print(False)
+try:
+    lib_paths = site.getsitepackages()
+    for lib_path in lib_paths:
+        if os.path.isdir(os.path.join(lib_path, 'ulordapi-0.0.1-py2.7.egg')):
+            # current python lib path
+            dst = os.path.join(lib_path, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
+except:
+    # venv path
+    print("current python using venv")
+    dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 
-# try:
-#     print('*' * 30)
-#     print(dst)
-#     os.stat(dst)
-# except:
-#     try:
-#         os.makedirs(dst)
-#         print('*'*30)
-#         print(dst)
-#     except Exception, e:
-#         print(e)
-# if platform.system().startswith('Win'):
-#     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),
-#                  os.path.join(dst,'udfs.exe'))
-# else:
-#     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
-#                     os.path.join(dst,'udfs'))
+if not dst:
+    dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
+try:
+    os.stat(dst)
+except:
+    try:
+        os.makedirs(dst)
+    except Exception, e:
+        print(e)
+if platform.system().startswith('Win'):
+    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),
+                 os.path.join(dst, 'udfs.exe'))
+else:
+    shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
+                    os.path.join(dst, 'udfs'))
