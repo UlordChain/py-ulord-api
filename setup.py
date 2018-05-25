@@ -121,3 +121,6 @@ if platform.system().startswith('Win'):
 else:
     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs'),
                     os.path.join(dst, 'udfs'))
+    # change udfs stat
+    import stat
+    os.chmod(os.path.join(dst, 'udfs'), stat.S_IXOTH)
