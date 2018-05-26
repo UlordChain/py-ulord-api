@@ -5,6 +5,7 @@
 # @Date  : 2018/5/18 0018
 
 import sys, os, subprocess, platform, json, time, signal, logging, atexit
+import copy
 from uuid import uuid1
 
 import ipfsapi
@@ -233,6 +234,10 @@ class UdfsHelper():
         :type stream: file handle
         :return:
         """
+        if isinstance(stream, unicode):
+            stream_temp = copy.deepcopy(stream).encode('utf-8')
+        else:
+            stream_temp = copy.deepcopy(stream)
         if not self.connect:
             self.udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
@@ -242,7 +247,8 @@ class UdfsHelper():
             start = time.time()
             # TODO save stream to a file
             file_temp = "{}.txt".format(uuid1())
-            if fileHelper.saveFile(file_temp, stream):
+            if fileHelper.saveFile(file_temp, stream_temp):
+                del stream_temp
                 result = self.connect.add(file_temp)
                 # del temp file
                 try:

@@ -241,9 +241,9 @@ class Junior(Developer):
             except:
                 self.log.info("{0} cann't decrypt,using {0}".format(arg.encode('utf-8')))
         if result:
-            return result
+            return result.decode('utf-8')
         else:
-            return arg
+            return None
 
     # up functions
     def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, encryption=[]):
