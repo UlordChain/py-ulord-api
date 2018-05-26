@@ -9,10 +9,6 @@ import re, os, hashlib, base64, logging, json, codecs, collections
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
-from Crypto import Random
-
-
-RANDOM_GENERATOR=Random.new().read
 
 
 def isCellphone(number):
@@ -110,7 +106,7 @@ class RSAHelper(object):
         """
         generate public key and private key
         """
-        self.key = RSA.generate(1024, Random.new().read)
+        self.key = RSA.generate(1024)
         self.privkeybytes = self.key.export_key()
         with open(self._privkeypath, 'wb') as prifile:
             prifile.write(self.privkeybytes)
@@ -138,12 +134,21 @@ class RSAHelper(object):
         :type comment: str
         :return: encrypted information
         """
-        pass
+        cipher = PKCS1_v1_5.new(self.pubkey)
+        return base64.b64encode(cipher.encrypt(comment))
 
     def encry(self, pubkey, comment):
-        # cipher = PKCS1_v1_5.new(pubkey)
-        # return (cipher.decrypt(base64.b64decode(comment), RANDOM_GENERATOR))
-        pass
+        """
+        using pubkey to encrypt comment
+
+        :param pubkey: public key
+        :type pubkey: Crypto.PublicKey.RSA.RsaKey
+        :param comment: information
+        :type comment: str
+        :return:
+        """
+        cipher = PKCS1_v1_5.new(pubkey)
+        return base64.b64encode(cipher.encrypt(comment))
 
     def _decrypt(self, message):
         """
@@ -154,20 +159,20 @@ class RSAHelper(object):
         :return: decrypted message
         """
         cipher = PKCS1_v1_5.new(self.privkey)
-        return (cipher.decrypt(base64.b64decode(message), RANDOM_GENERATOR))
+        return cipher.decrypt(base64.b64decode(message), None)
 
     def decrypt(self, prikey, message):
         """
         using private key to decrypt message
 
         :param prikey: private key
-        :type prikey: str
+        :type prikey: Crypto.PublicKey.RSA.RsaKey
         :param message: need to be decrypted
         :type message: str
         :return: decrypted message
         """
         cipher = PKCS1_v1_5.new(prikey)
-        return (cipher.decrypt(base64.b64decode(message), RANDOM_GENERATOR))
+        return cipher.decrypt(base64.b64decode(message), None)
 
 
 class FileHelper():
@@ -468,19 +473,29 @@ if __name__ == '__main__':
     #     print isCellphone(cellphone)
     #     mail = raw_input("email:")
     #     print isMail(mail)
-    dicta = {
-        "test": 1,
-        "ttt": {
-            "test": 1
-        }
-    }
-
-    dictb = {
-        "t": 2,
-        "ttt": {
-            "123": 1,
-            "test": 2
-        }
-    }
-    dictb = Update(dictb, dicta)
-    print(dictb)
+    # dicta = {
+    #     "test": 1,
+    #     "ttt": {
+    #         "test": 1
+    #     }
+    # }
+    #
+    # dictb = {
+    #     "t": 2,
+    #     "ttt": {
+    #         "123": 1,
+    #         "test": 2
+    #     }
+    # }
+    # dictb = Update(dictb, dicta)
+    # print(dictb)
+    rsahelper = RSAHelper("public.pem", "private.pem")
+    message = """NT0C18qxs1mKbD/j3Iu71OzmFIwZmuk4On6875XFKa0YozjwjztH654rjjk5ABat1KsuGW5934KC641+Mjfs5mc/BzJTpMLopbCWKh+yCAI8l25Vlpqc5Gy5yh85sTAJHmwpVIOgMFyt63vfxXN4vTDjhQTIFQyTscbAtPtPrB0="""
+    tmesage = rsahelper._encry("test")
+    print(tmesage)
+    print(rsahelper._decrypt(tmesage))
+    print(rsahelper.privkey)
+    print(type(rsahelper.privkey))
+    print(rsahelper.privkeybytes)
+    print(rsahelper._privkeypath)
+    print(rsahelper._decrypt(message))

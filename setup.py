@@ -103,7 +103,10 @@ try:
             dst = os.path.join(lib_path, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 except:
     # venv path
-    print("current python using venv")
+    # import platform
+    # if platform.system() in ["Windows", "Win32"]:
+    #     print(""current os is windows)
+    # print("current python using venv")
     dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
 
 if not dst:

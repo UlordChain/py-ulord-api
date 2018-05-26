@@ -233,7 +233,7 @@ class Junior(Developer):
         """
         result = None
         try:
-            result = self.rsahelper.decrypt(self.rsahelper.privkey, arg)
+            result = self.rsahelper._decrypt(arg)
         except:
             # todo need to think twice
             try:
@@ -308,8 +308,8 @@ class Junior(Developer):
         user.id = str(uuid1())
         db.session.add(user)
         db.session.commit()
-        # return return_result(0, result={"token": user.token})
-        return user.token
+        return return_result(0, result={"token": user.token})
+        # return user.token
 
     def user_login(self, username, password, encryption=[]):
         """
@@ -358,7 +358,7 @@ class Junior(Developer):
             login_user = User.query.filter_by(username=username).first()
         if login_user:
             login_user.timestamp = int(time.time()) - 1
-            return login_user.username
+            return return_result(0, result={username:login_user.username})
         else:
             return _errcodes.get(60002)
 
@@ -384,20 +384,15 @@ class Junior(Developer):
             if credit_result.get('errcode') != 0:
                 return credit_result
             else:
-                login_user.activity = ulordconfig.get('amount')
-                return {
-                    "errcode": 0,
-                    "reason": "success",
-                    "result":{
-                        "amount": ulordconfig.get('amount'),
-                        }
-                    }
+                login_user.activity = webconfig.get('amount')
+                return return_result(0,result={"amount": webconfig.get('amount')})
         else:
             return _errcodes.get(60002)
 
     def user_publish(self, title, udfshash, amount, tags, description, usercondition):
         """
         user publish resource
+
         :param title: resource title
         :type title: str
         :param udfshash: resource uplorded to the UDFS hash

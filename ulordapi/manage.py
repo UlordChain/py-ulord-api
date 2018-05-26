@@ -67,6 +67,7 @@ class User(db.Model):
     balance = db.Column(db.Float)
     wallet = db.Column(db.String(34))
     pay_password = db.Column(db.String(128))
+    activity = db.Column(db.Float, default=0)
     boughts = db.relationship(
         'Resource',
         secondary=users_resource,
@@ -251,6 +252,7 @@ def create():
     Create database.
     """
     # check if existed
+    app.config.update(dbconfig)
     if dbconfig.get('IsCreated'):
         print("Database has created!")
     else:
