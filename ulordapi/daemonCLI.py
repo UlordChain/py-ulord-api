@@ -16,7 +16,6 @@ from ulordapi.user import Senior
 
 senior = Senior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
-udfs = senior.udfs
 # develop2 = Junior(ulordconfig.get('ulord_appkey'), ulordconfig.get('ulord_secret'))
 
 try:
@@ -63,7 +62,7 @@ def main():
         prog='ulordapi daemon'
         # type=udfs.udfs.start
     )
-    parser_daemon.set_defaults(func=udfs.udfs.start)
+    parser_daemon.set_defaults(func=senior.udfs.udfs.start)
     # subparsers_daemon = parser_up.add_subparsers(
     #     title='DAEMON COMMANDS',
     #     description='Daemon process,including web server and udfs daemon',
@@ -144,13 +143,13 @@ def main():
     )
 
     parser_db_upload = subparsers_udfs.add_parser('upload', help='upload resources to udfs')
-    parser_db_upload.set_defaults(func=udfs.udfshelper.upload_file)
+    parser_db_upload.set_defaults(func=senior.udfs.upload_file)
 
     parser_db_download = subparsers_udfs.add_parser('download', help='download resources from udfs')
-    parser_db_download.set_defaults(func=udfs.udfshelper.downloadhash)
+    parser_db_download.set_defaults(func=senior.udfs.downloadhash)
 
     parser_db_cat = subparsers_udfs.add_parser('cat', help='look up resources from udfs')
-    parser_db_cat.set_defaults(func=udfs.udfshelper.cat)
+    parser_db_cat.set_defaults(func=senior.udfs.cat)
 
     # subcommand - DB commands
     parser_DB = subparsers.add_parser(

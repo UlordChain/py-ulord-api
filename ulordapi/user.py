@@ -28,10 +28,12 @@ class Developer(up.UlordHelper):
         :type secret: str
         """
         up.UlordHelper.__init__(self, appkey, secret)
-        ulordconfig.update({
-            'ulord_appkey': appkey,
-            'ulord_secret': secret
-        })
+        utils.Update(ulordconfig,
+                     utils._byteify({
+                        'ulord_appkey': appkey,
+                        'ulord_secret': secret
+                        })
+                     )
         config.save()
         self.udfs = udfs.UdfsHelper()
         self.ulord = up.UlordHelper()
@@ -51,7 +53,7 @@ class Developer(up.UlordHelper):
         if not isinstance(args, dict):
             return None
         if args:
-            utils.Update(config, args)
+            utils.Update(config, utils._byteify(args))
             # write to the config file
             config.save()
         return args
@@ -617,9 +619,11 @@ class Junior(Developer):
                     os.stat(path)
                 except:
                     os.mkdir(path)
-                dbconfig.update({
-                    'SQLALCHEMY_DATABASE_URI':'sqlite:///{}'.format(os.path.join(path,'sqlite.db'))
-                })
+                utils.Update(dbconfig,
+                             utils._byteify({
+                                 'SQLALCHEMY_DATABASE_URI':'sqlite:///{}'.format(os.path.join(path,'sqlite.db'))
+                                })
+                             )
                 config.save()
             create()
             dbconfig.update({

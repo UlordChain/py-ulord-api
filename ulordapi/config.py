@@ -60,10 +60,10 @@ class Config(dict):
             #     }
             # })
             utils.Update(self, {
-                    "baseconfig": {
+                    "baseconfig": utils._byteify({
                             "version":"0.0.1",
-                            "config_file":unicode(os.path.join(ROOTPATH, 'config')).encode('utf-8')
-                    }
+                            "config_file":os.path.join(ROOTPATH, 'config')
+                    })
                 })
             with open(os.path.join(ROOTPATH, 'config'), 'w') as target:
                 json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
@@ -78,7 +78,6 @@ class Config(dict):
         # read and config from self['baseconfig']['config_file']
         if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file') and \
                 os.path.isfile(self.get('baseconfig').get('config_file')):
-            # with io.open(self['baseconfig']['config_file'], 'r', encoding='utf8') as target:
             with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
                 # self.update(utils.json_load_byteified(target))
                 utils.Update(self, utils.json_load_byteified((target)))
@@ -125,16 +124,16 @@ ulordconfig = Config(
     #         # "appkey": "2b111d70452f11e89c2774e6e2f53324"
     #     },
     ulord_publish = "/transactions/publish",
-    # ulord_publish_data = {
-    #         "author": "justin",
-    #         "title": "第一篇技术博客",
-    #         "tags": ["blockchain", "IPFS"],
-    #         "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
-    #         "price": 0.1,
-    #         "content_type": ".txt",
-    #         "pay_password": "123",
-    #         "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
-    #     },
+    ulord_publish_data = {
+            "author": "justin",
+            "title": "第一篇技术博客",
+            "tags": ["blockchain", "IPFS"],
+            "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+            "price": 0.1,
+            "content_type": ".txt",
+            "pay_password": "123",
+            "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+        },
     ulord_createwallet = "/transactions/createwallet",
     ulord_transaction = "/transactions/consume",
     ulord_paytouser = "/transactions/paytouser",
