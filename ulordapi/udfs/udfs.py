@@ -86,6 +86,7 @@ class Udfs():
             self.log.error("start command \n{0}\n failed! Exception is {1}".format(str(cmd), e))
             pl = None
         # self.log.info("end command,result is {}".format(pl.communicate()))
+        time.sleep(3)
         return pl
 
     def start(self, daemon=None):
@@ -246,7 +247,7 @@ class UdfsHelper():
             # py-api doesn't support add stream.But the js-api supports.So sad.Maybe need to use HTTP-api.
             start = time.time()
             # TODO save stream to a file
-            file_temp = "{}.txt".format(uuid1())
+            file_temp = os.path.join(ROOTPATH, 'temp', "{}.txt".format(uuid1()))
             if fileHelper.saveFile(file_temp, stream_temp):
                 del stream_temp
                 result = self.connect.add(file_temp)
