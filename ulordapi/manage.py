@@ -91,6 +91,8 @@ class User(db.Model):
         :type password: str
         :return: True or False.
         """
+        if isinstance(password, unicode):
+            password = password.encode('utf-8')
         return pwd_context.verify(password, self.password_hash)
 
     # @classmethod

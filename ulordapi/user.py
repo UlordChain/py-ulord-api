@@ -433,7 +433,7 @@ class Junior(Developer):
         data['author'] = current_user.wallet
         data['title'] = title
         data['tags'] = tags
-        data['ipfs_hash'] = udfshash
+        data['udfs_hash'] = udfshash
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
         data['description'] = description
@@ -562,9 +562,7 @@ class Junior(Developer):
                 "cellphone": login_user.cellphone,
                 "Email": login_user.email
             }
-            return return_result(reason={
-                'result': result
-            })
+            return return_result(result=result)
         else:
             return return_result(60002)
 
@@ -593,9 +591,7 @@ class Junior(Developer):
                 "cellphone": login_user.cellphone,
                 "Email": login_user.email
             }
-            return return_result(reason={
-                'result': result
-            })
+            return return_result(result=result)
         else:
             return return_result(60002)
 
