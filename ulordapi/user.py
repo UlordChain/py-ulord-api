@@ -494,16 +494,16 @@ class Junior(Developer):
         db.commit()
         return resources.views
 
-    def user_pay_resources(self, payer, claim_id, pay_password, encryption=[]):
+    def user_pay_resources(self, payer, claim_id, password, encryption=[]):
         """
         user pay resource
 
-        :param payer: payer username
-        :type payer: wallet
+        :param payer: payer
+        :type payer: User
         :param claim_id: resource claim id
         :type claim_id: str
-        :param pay_password: payer password
-        :type pay_password: str
+        :param password: payer password
+        :type password: str
         :return: errcode.You can query from the errcode.
         """
         if encryption:
@@ -512,8 +512,11 @@ class Junior(Developer):
             if encryption[1]:
                 claim_id = self.get_purearg(claim_id)
             if encryption[2]:
-                pay_password = self.get_purearg(pay_password)
-        return self.ulord.transaction(payer, claim_id, pay_password)
+                password = self.get_purearg(password)
+        # check password
+        if not payer.verify_password(password):
+            return _errcodes.get(60003)
+        return self.ulord.transaction(payer.wallet, claim_id, payer.pay_password)
 
     def user_pay_ads(self, wallet, claim_id, pay_password):
         """
