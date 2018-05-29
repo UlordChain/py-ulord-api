@@ -427,7 +427,11 @@ class Junior(Developer):
             # existing title
             return _errcodes.get(60007)
         # TODO check balance
-
+        if not isinstance(amount, float):
+            try:
+                amount = float(amount)
+            except:
+                amount = 0
         # publish to the ulord-platform
         data = self.ulord.ulord_publish_data
         data['author'] = current_user.wallet
@@ -489,7 +493,7 @@ class Junior(Developer):
         :type title: str
         :return: resource current view
         """
-        resources = Resource.query.filter_by(title=title)
+        resources = Resource.query.filter_by(title=title).first()
         resources.views += 1
         db.commit()
         return resources.views
@@ -515,19 +519,25 @@ class Junior(Developer):
                 password = self.get_purearg(password)
         # check password
         if not payer.verify_password(password):
-            return _errcodes.get(60003)
+            return return_result(60003)
         return self.ulord.transaction(payer.wallet, claim_id, payer.pay_password)
 
-    def user_pay_ads(self, wallet, claim_id, pay_password):
+    def user_pay_ads(self, wallet, claim_id, authername):
         """
         user view ads
 
         :param wallet: user wallet name
+        :type wallet: str
         :param claim_id: resource claim id
-        :param pay_password: user password
+        :type claim_id: str
+        :param authername: resource auther name
+        :type authername: str
         :return: errcode.You can query from the errcode.
         """
-        return self.ulord.transaction(wallet, claim_id, pay_password, True)
+        auther = User.query.filter_by(username=authername).first()
+        if not auther:
+            return return_result(60108)
+        return self.ulord.transaction(wallet, claim_id, auther.pay_password, True)
 
     def user_published_num(self, wallet):
         """
@@ -566,7 +576,7 @@ class Junior(Developer):
         else:
             return return_result(60002)
 
-    def user_infor_modify(self, username=None, token=None, data={}):
+    def user_infor_modify(self, username=None, token=None, **kwargs):
         """
         user information
 
@@ -574,8 +584,8 @@ class Junior(Developer):
         :type username: str
         :param token: user token.Default is none.
         :type token: str
-        :param data: update data
-        :type data: dict
+        :param **kwargs: update data
+        :type **kwargs: data
         :return: dict.User info
         """
         login_user = None
@@ -586,6 +596,9 @@ class Junior(Developer):
         elif username:
             login_user = User.query.filter_by(username=username).first()
         if login_user:
+            for key, value in kwargs.items():
+                setattr(login_user, key, value)
+            db.session.commit()
             result = {
                 'username': login_user.username,
                 "cellphone": login_user.cellphone,

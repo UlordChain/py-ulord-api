@@ -232,13 +232,9 @@ class UdfsHelper():
         """
         upload the stream to the ulord
         :param stream:  stream data
-        :type stream: file handle
+        :type stream: unicode
         :return:
         """
-        if isinstance(stream, unicode):
-            stream_temp = copy.deepcopy(stream).encode('utf-8')
-        else:
-            stream_temp = copy.deepcopy(stream)
         if not self.connect:
             self.udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
@@ -248,10 +244,8 @@ class UdfsHelper():
             start = time.time()
             # TODO save stream to a file
             file_temp = os.path.join(ROOTPATH, 'temp', "{}.txt".format(uuid1()))
-            if fileHelper.saveFile(file_temp, stream_temp):
-                del stream_temp
+            if fileHelper.saveFile(file_temp, stream):
                 result = self.connect.add(file_temp)
-                # del temp file
                 try:
                     os.remove(file_temp)
                 except Exception, e:
