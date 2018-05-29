@@ -134,8 +134,8 @@ class UlordHelper(object):
         :type data: dict
         :return: return result.you can query the errcode
         """
-        self.log.debug(url)
-        self.log.debug(data)
+        self.log.info(url)
+        self.log.info(data)
 
         # deal with unicode and utf-8
         from utils import _byteify
@@ -171,8 +171,8 @@ class UlordHelper(object):
         except Exception, e:
             self.log.error("Failed request from the ulord-platform: {}".format(e))
             return return_result(50000)
-        self.log.debug(url)
-        self.log.debug(r.status_code)
+        self.log.info(url)
+        self.log.info(r.status_code)
         if (r.status_code == requests.codes.ok):
             self.log.debug(r.json())
             return r.json()

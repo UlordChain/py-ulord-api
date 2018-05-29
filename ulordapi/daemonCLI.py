@@ -9,6 +9,7 @@
 import pprint, argparse, sys, os, textwrap, json
 
 
+import utils
 from ulordapi.config import config,ulordconfig
 from ulordapi.manage import create
 from ulordapi.user import Senior
@@ -208,8 +209,8 @@ class client():
 def formatResult(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
-        # print(json.dumps(result, indent=2, ensure_ascii=False))
-        pprint.pprint(result)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        # pprint.pprint(result)
         return result
 
     return wrapper
@@ -226,7 +227,7 @@ def edit_config(args):
 def show_config(args):
     if args and args.key:
         args = args.key
-    return senior.config_show(args)
+    return utils._change_to_unicode(senior.config_show(args))
 
 
 if __name__ == '__main__':

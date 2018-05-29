@@ -338,31 +338,31 @@ class FileHelper():
 fileHelper = FileHelper()
 
 
-# def _change_to_unicode(data, ignore_dicts=False):
-#     """
-#     encode json to utf-8
-#
-#     :param data: json
-#     :type data: dict
-#     :param ignore_dicts: if ignore sub-dict
-#     :type ignore_dicts: bool
-#     :return: encoded json(utf-8)
-#     """
-#     # if this is a unicode string, return its string representation
-#     if not isinstance(data, unicode):
-#         return data.encode('utf-8')
-#     # if this is a list of values, return list of byteified values
-#     if isinstance(data, list):
-#         return [_change_to_unicode(item, ignore_dicts=True) for item in data]
-#     # if this is a dictionary, return dictionary of byteified keys and values
-#     # but only if we haven't already byteified it
-#     if isinstance(data, dict) and not ignore_dicts:
-#         return {
-#             _change_to_unicode(key, ignore_dicts=True): _change_to_unicode(value, ignore_dicts=True)
-#             for key, value in data.iteritems()
-#         }
-#     # if it's anything else, return it in its original form
-#     return data
+def _change_to_unicode(data, ignore_dicts=False):
+    """
+    encode json to utf-8
+
+    :param data: json
+    :type data: dict
+    :param ignore_dicts: if ignore sub-dict
+    :type ignore_dicts: bool
+    :return: encoded json(utf-8)
+    """
+    # if this is a unicode string, return its string representation
+    if isinstance(data, str):
+        return data.decode('utf-8')
+    # if this is a list of values, return list of byteified values
+    if isinstance(data, list):
+        return [_change_to_unicode(item, ignore_dicts=True) for item in data]
+    # if this is a dictionary, return dictionary of byteified keys and values
+    # but only if we haven't already byteified it
+    if isinstance(data, dict) and not ignore_dicts:
+        return {
+            _change_to_unicode(key, ignore_dicts=True): _change_to_unicode(value)
+            for key, value in data.iteritems()
+        }
+    # if it's anything else, return it in its original form
+    return data
 
 
 def _byteify(data, ignore_dicts=False):
