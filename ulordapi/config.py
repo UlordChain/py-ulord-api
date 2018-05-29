@@ -148,11 +148,7 @@ ulordconfig = Config(
     ulord_publish_num = "/transactions/publish/count",
     ulord_view = "/content/view",
     ulord_billings_detail = "/transactions/account/inout",
-    #TODO ulord other URL,
-    # password = "123",
-    # username = "shuxudong",
-    # password = "123"
-    # username = "cln"
+    #TODO ulord other URL
 )
 
 

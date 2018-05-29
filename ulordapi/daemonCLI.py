@@ -209,7 +209,6 @@ def formatResult(func):
     def wrapper(*args, **kwargs):
         result = func(*args, **kwargs)
         # print(json.dumps(result, indent=2, ensure_ascii=False))
-        import pprint
         pprint.pprint(result)
         return result
 

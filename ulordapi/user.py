@@ -37,7 +37,47 @@ class Developer(up.UlordHelper):
         config.save()
         self.udfs = udfs.UdfsHelper()
         self.ulord = up.UlordHelper()
-        self.log = logging.getLogger("Developer:")
+        if webconfig.get('privkeypath'):
+            self.pripath = webconfig.get('privkeypath')
+        else:
+            self.pripath = os.path.join(ROOTPATH, 'private.pem')
+        if webconfig.get('pubkeypath'):
+            self.pubpath = webconfig.get('pubkeypath')
+        else:
+            self.pubpath = os.path.join(ROOTPATH, 'public.pem')
+        self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
+
+    def get_purearg(self, args):
+        """
+        check if the arg is encrypted.If encrypted return decrypted arg,else return None.
+
+        :param args: arg need to be checked,
+        :type args: str/str list
+        :return: decrypted arg or arg(unicode)
+        """
+        result = None
+        try:
+            if isinstance(args, list):
+                result = []
+                for arg in args:
+                    temp_arg = self.rsahelper._decrypt(arg)
+                    if not isinstance(temp_arg, unicode):
+                        temp_arg = temp_arg.decode('utf-8')
+                    result.append(temp_arg)
+            else:
+                result = self.rsahelper._decrypt(args)
+                if not isinstance(result, unicode):
+                    result = result.decode('utf-8')
+        except:
+            # todo need to think twice
+            try:
+                self.log.info("{0} cann't decrypt,using {0}".format(str(args)))
+            except:
+                self.log.info("args is unicode")
+        if result:
+            return result
+        else:
+            return None
 
     def config_edit(self, args=None):
         """
@@ -190,14 +230,21 @@ class Developer(up.UlordHelper):
         return inspect.getmembers(self, predicate=inspect.ismethod)
 
 
-class Senior (Developer):
+class Senior(Developer):
     """
     Senior programmer to develop his application.
     """
     def __init__(self, appkey, secret):
+        """
+
+        :param appkey:application app key, you can get it when you regist from the ulord-platform.
+        :type appkey: str
+        :param secret: application app secret, you can get it when you regist from the ulord-platform.
+        :type secret: str
+        """
         Developer.__init__(self, appkey, secret)
-        self.log = logging.getLogger("Developer1:")
-        self.log.info("Developer1 init")
+        self.log = logging.getLogger("Senior:")
+        self.log.info("Senior init")
 
 
 class Junior(Developer):
@@ -207,46 +254,17 @@ class Junior(Developer):
     def __init__(self, appkey, secret):
         """
         init a junior programmer to use functions
-        :param appkey:
-        :param secret:
+        :param appkey: application app key, you can get it when you regist from the ulord-platform.
+        :type appkey: str
+        :param secret: application app secret, you can get it when you regist from the ulord-platform.
+        :type secret: str
         """
         Developer.__init__(self, appkey, secret)
-        self.log = logging.getLogger("Developer2:")
-        self.log.info("Developer2 init")
-        if webconfig.get('privkeypath'):
-            self.pripath = webconfig.get('privkeypath')
-        else:
-            self.pripath = os.path.join(ROOTPATH, 'private.pem')
-        if webconfig.get('pubkeypath'):
-            self.pubpath = webconfig.get('pubkeypath')
-        else:
-            self.pubpath = os.path.join(ROOTPATH, 'public.pem')
-        self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
-
-    def get_purearg(self, arg):
-        """
-        check if the arg is encrypted.If encrypted return decrypted arg,else return arg.
-
-        :param arg: arg need to be checked
-        :type arg: str
-        :return: decrypted arg or arg
-        """
-        result = None
-        try:
-            result = self.rsahelper._decrypt(arg)
-        except:
-            # todo need to think twice
-            try:
-                self.log.info("{0} cann't decrypt,using {0}".format(arg))
-            except:
-                self.log.info("{0} cann't decrypt,using {0}".format(arg.encode('utf-8')))
-        if result:
-            return result.decode('utf-8')
-        else:
-            return None
+        self.log = logging.getLogger("Junior:")
+        self.log.info("Junior init")
 
     # up functions
-    def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, encryption=[]):
+    def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, encrypted=False):
         """
         user regist
 
@@ -262,24 +280,13 @@ class Junior(Developer):
         :type wallet: str
         :param pay_password: user wallet password.Default is hash password.
         :type pay_password: str
-        :param encryption: check if the arg encrypt
-        :type encryption: list
+        :param encrypted: check if the password encrypted
+        :type encrypted: bool
         :return: user token
         """
         # encrypt
-        if encryption:
-            if encryption[0]:
-                username = self.get_purearg(username)
-            if encryption[1]:
-                password = self.get_purearg(password)
-            if cellphone and encryption[2]:
-                cellphone = self.get_purearg(cellphone)
-            if email and encryption[3]:
-                email = self.get_purearg(email)
-            if wallet and encryption[4]:
-                wallet = self.get_purearg(wallet)
-            if pay_password and encryption[5]:
-                pay_password = self.get_purearg(pay_password)
+        if encrypted:
+            password = self.get_purearg(password)
         # check arg
         if User.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
@@ -291,6 +298,8 @@ class Junior(Developer):
         user = User(username=username)
         user.hash_password(password)
         if pay_password:
+            if encrypted:
+                pay_password = self.get_purearg(pay_password)
             user.pay_password = pay_password
         else:
             user.pay_password = user.password_hash
@@ -311,7 +320,7 @@ class Junior(Developer):
         return return_result(0, result={"token": user.token})
         # return user.token
 
-    def user_login(self, username, password, encryption=[]):
+    def user_login(self, username, password, encrypted=False):
         """
         user login
 
@@ -319,15 +328,12 @@ class Junior(Developer):
         :type username: str
         :param password: user password
         :type password: str
-        :param encryption: check if the arg is encrypted
-        :type encryption: list
+        :param encrypted: check if the password is encrypted
+        :type encrypted: bool
         :return: user token
         """
-        if encryption:
-            if encryption[0]:
-                username = self.get_purearg(username)
-            if encryption[1]:
-                password = self.get_purearg(password)
+        if encrypted:
+            password = self.get_purearg(password)
         login_user = User.query.filter_by(username=username).first()
         if not login_user:
             return _errcodes.get(60002)
@@ -421,11 +427,12 @@ class Junior(Developer):
             token = usercondition.get('usertoken')
             current_user = User.query.filter_by(token=token).first()
         else:
-            return _errcodes.get(60100)  # missing user info argument
+            return return_result(60100)  # missing user info argument
         # save to the localDB
-        if Resource.query.filter_by(title=title, userid=current_user.id).first() is not None:
-            # existing title
-            return _errcodes.get(60007)
+        # change demand:title can be repeatedly.
+        # if Resource.query.filter_by(title=title, userid=current_user.id).first() is not None:
+        #     # existing title
+        #     return _errcodes.get(60007)
         # TODO check balance
         if not isinstance(amount, float):
             try:
@@ -498,7 +505,7 @@ class Junior(Developer):
         db.commit()
         return resources.views
 
-    def user_pay_resources(self, payer, claim_id, password, encryption=[]):
+    def user_pay_resources(self, payer, claim_id, password, encrypted=False):
         """
         user pay resource
 
@@ -510,13 +517,8 @@ class Junior(Developer):
         :type password: str
         :return: errcode.You can query from the errcode.
         """
-        if encryption:
-            if encryption[0]:
-                payer = self.get_purearg(payer)
-            if encryption[1]:
-                claim_id = self.get_purearg(claim_id)
-            if encryption[2]:
-                password = self.get_purearg(password)
+        if encrypted:
+            password = self.get_purearg(password)
         # check password
         if not payer.verify_password(password):
             return return_result(60003)
@@ -537,7 +539,7 @@ class Junior(Developer):
         auther = User.query.filter_by(username=authername).first()
         if not auther:
             return return_result(60108)
-        return self.ulord.transaction(wallet, claim_id, auther.pay_password, True)
+        return self.ulord.transaction(wallet, claim_id, auther.pay_password, isads=True)
 
     def user_published_num(self, wallet):
         """
@@ -576,7 +578,7 @@ class Junior(Developer):
         else:
             return return_result(60002)
 
-    def user_infor_modify(self, username=None, token=None, **kwargs):
+    def user_infor_modify(self, username=None, token=None, encrypted=False, **kwargs):
         """
         user information
 
@@ -584,7 +586,9 @@ class Junior(Developer):
         :type username: str
         :param token: user token.Default is none.
         :type token: str
-        :param **kwargs: update data
+        :param encrypted: if encrypted password.If ture,all password will be decrypted.
+        :type encrypted: bool
+        :param **kwargs: updated data,keys including
         :type **kwargs: data
         :return: dict.User info
         """
@@ -597,7 +601,17 @@ class Junior(Developer):
             login_user = User.query.filter_by(username=username).first()
         if login_user:
             for key, value in kwargs.items():
-                setattr(login_user, key, value)
+                if key == 'password':
+                    if encrypted:
+                        value = self.get_purearg(value)
+                    if not login_user.verify_password(value):
+                        return return_result(60003)
+                elif key=='new_password':
+                    if encrypted:
+                        value = self.get_purearg(value)
+                    login_user.hash_password(value)
+                else:
+                    setattr(login_user, key, value)
             db.session.commit()
             result = {
                 'username': login_user.username,
