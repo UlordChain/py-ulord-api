@@ -40,10 +40,10 @@ class UlordHelper(object):
             self.ulord_secret = ulordconfig.get('ulord_secret')
         self.curtime = ulordconfig.get('ulord_curtime')
         # regist URL
-        self.ulord_createwallet = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_createwallet') # ulord regist webURL
-        self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL
+        self.ulord_createwallet = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_createwallet') # ulord regist webURL 1
+        self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL 2
         # publish URL
-        self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL
+        self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL 4
         self.ulord_publish_data =  {
             "author": "justin",
             "title": "第一篇技术博客",
@@ -55,19 +55,23 @@ class UlordHelper(object):
             "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
         }  # ulord publish data
         # query URL
-        self.ulord_queryblog = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryblog') # query blog list webURL
-        self.ulord_checkbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_checkbought') # query if the blog has bought
-        self.ulord_transaction = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_transaction')  # ulord transaction webURL
+        self.ulord_queryresource = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryresourcelist') # query resource list webURL #resource2
+        self.ulord_checkbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_checkbought') # query if the blog has bought 5
+        self.ulord_transaction = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_transaction')  # ulord transaction webURL 6
 
-        self.ulord_querybalance = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_querybalance')  # qurey balance webURL
-        self.ulord_userbought = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_userbought') # query the blog that user has bought
-        self.ulord_userpublished = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_userpublished') # query the blog that user has published
-        self.ulord_in = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_in') # query income billings
-        self.ulord_out = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_out') # query outcome billings
-        self.ulord_billings = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings') # query the user's billings
-        self.ulord_billings_detail = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings_detail') # query the detail billings
-        self.ulord_published_num = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish_num') # query the number of the blog that author has published.
-        self.ulord_view = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_view') # add blog's view
+        self.ulord_querybalance = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_querybalance')  # qurey balance webURL 3
+        self.ulord_userpublished = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_userpublished') # query the resource that user has published resource3
+        self.ulord_in = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_in') # query income billings 7
+        self.ulord_out = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_out') # query outcome billings 8
+        self.ulord_billings = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings') # query the user's billings 10
+        self.ulord_billings_detail = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_billings_detail') # query the detail billings 9
+        self.ulord_published_num = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish_num') # query the number of the resource that author has published. 11
+        self.ulord_reource_byID = ulordconfig.get('ulord_url') + ulordconfig.get(
+            'ulord_querysingleresource')  # query the resource list according to the ID. resource1
+        self.ulord_expenserecords_byID = ulordconfig.get('ulord_url') + ulordconfig.get(
+            'ulord_querysinglebilling')  # query the blog that user has bought resource4
+        self.ulord_statistics_byID = ulordconfig.get('ulord_url') + ulordconfig.get(
+            'ulord_querysingleresourceaccount')  # query the blog that user has bought resource5
         # TODO ulord other URL
 
     def calculate_sign(self, dt=None):
@@ -252,18 +256,28 @@ class UlordHelper(object):
         else:
             return return_result(60300)
 
-    def queryblog(self, page=1, num=10):
+    def queryresource(self, page=1, num=10, **kwargs):
         """
-        query the blog list from the ulord platform.method is get
+        query the resource list from the ulord platform.method is get
 
         :param page: which page do you want to view?Default is 1.
         :type page: int
         :param num: how many pieces of datas in one page?.Default is 10.
         :type num: int
+        :param kwargs: key-value query
+        :type kwargs; key-value
         :return: errcode.You can query from the errcode dict.
         """
-        temp_url = self.ulord_queryblog + "/{0}/{1}".format(page, num)
-        return self.get(temp_url)
+        temp_url = self.ulord_queryresource + "/{0}/{1}".format(page, num)
+        if kwargs:
+            data = {}
+            for key, value in kwargs.items():
+                data.update({
+                    key: value
+                })
+            return self.post(temp_url,data)
+        else:
+            return self.get(temp_url)
 
     def querybalance(self, payer, pay_password):
         """
@@ -297,55 +311,64 @@ class UlordHelper(object):
         }
         return self.post(self.ulord_checkbought, data)
 
-    def queryuserpublished(self, wallet_username, page=1, num=10, category=2):
+    def queryuserpublished(self, wallet_username, page=1, num=10):
         """
         query user published from ulort platform
 
-        :param wallet_username: current user wallet name
+        :param wallet_username: auther wallet name
         :type wallet_username: str
         :param page: which page of result do you want to view?Default is 1.
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
-        :param category: 0-resource,1-ads,2-all
-        :type category: todo need to be thinking
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'author': wallet_username,
         }
-        if category != 2:
-            data.update({
-                'category':category
-            })
         temp_url = self.ulord_userpublished + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
-    def queryuserbought(self, wallet_username, page=1, num=10, category=2):
+    def queryuserbought(self, ids):
         """
-        query user published from ulort platform
+        query resource list according to the id list
 
-        :param wallet_username: current user wallet name
-        :type wallet_username: str
-        :param page: which page of result do you want to view?Default is 1.
-        :type page: int
-        :param num: how many pieces of data of result do you want to view?Default is 10.
-        :type num: int
-        :param category: 0-resource,1-ads,2-all
-        :type category: todo need to be thinking
+        :param ids: need to be query id list
+        :type ids: list
         :return: errcode.You can query from the errcode dict.
         """
         data = {
-            'customer': wallet_username,
+            'ids': ids,
         }
-        if category != 2:
-            data.update({
-                'category':category
-            })
-        temp_url = self.ulord_userbought + "/{0}/{1}".format(page, num)
-        return self.post(temp_url, data)
+        return self.post(self.ulord_reource_byID, data)
 
-    def queryincomebillings(self, author, page=1, num=10):
+    def queryBillingDetailByID(self, claim_id):
+        """
+        query all billing details according to the claimID
+
+        :param claim_id: resource on the ulord-chain ID
+        :type claim_id: str
+        :return: errcode.You can query from the errcode dict.
+        """
+        data = {
+            'claim_id': claim_id,
+        }
+        return self.post(self.ulord_expenserecords_byID, data)
+
+    def queryStatisticsByID(self, claim_ids):
+        """
+        query resource statistics information by ID
+
+        :param claim_ids: need to be query ID list.
+        :type claim_ids: list
+        :return: errcode.You can query from the errcode dict.
+        """
+        data = {
+            'claim_ids': claim_ids,
+        }
+        return self.post(self.ulord_statistics_byID, data)
+
+    def queryincomebillings(self, author, page=1, num=10, category=2):
         """
         get billings info
 
@@ -355,11 +378,17 @@ class UlordHelper(object):
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
+        :param category: resource type. 0----common resource,1----ads,2-----all
+        :type category: int
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'username': author,
         }
+        if category == 1 or category == 0:
+            data.update({
+                'category': category
+            })
         temp_url = self.ulord_in + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 

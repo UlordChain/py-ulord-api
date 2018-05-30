@@ -467,31 +467,6 @@ class Junior(Developer):
         #     return publish_result
         return publish_result
 
-    def user_allresource(self, page=1, num=10):
-        """
-        list all resources from the ulord-platform
-
-        :param page: which page do you want to view.Default is 1
-        :type page: int
-        :param num: how many pieces of data every page.Default is 10
-        :type num: int
-        :return: errcode.You can query from the errcode dict.
-        """
-        return self.ulord.queryblog(page, num)
-
-    def user_isbought(self, wallet, claim_ids):
-        """
-        check the resource if has been bought
-
-        :param wallet: user wallet name
-        :type wallet: str
-        :param claim_ids: resource claim ids
-        :type claim_ids: list
-        :return: errcode.You can query from the errcode dict.
-        """
-        # TODO maybe need to check claim_id
-        return self.ulord.checkisbought(wallet, claim_ids)
-
     def user_resouce_views(self, title):
         """
         add resource view
@@ -541,16 +516,6 @@ class Junior(Developer):
             return return_result(60108)
         return self.ulord.transaction(wallet, claim_id, auther.pay_password, isads=True)
 
-    def user_published_num(self, wallet):
-        """
-        the num of user has published
-
-        :param wallet: wallet name
-        :type wallet: str
-        :return: num(int)
-        """
-        return self.ulord.querypublishnum(wallet)
-
     def user_info_query(self, username=None, token=None):
         """
         user information
@@ -578,9 +543,9 @@ class Junior(Developer):
         else:
             return return_result(60002)
 
-    def user_infor_modify(self, username=None, token=None, encrypted=False, **kwargs):
+    def user_infor_modify(self, username=None, token=None, encrypted=False, password=None, cellphone=None, email=None, new_password=None):
         """
-        user information
+         user information
 
         :param username: username.Default is none.
         :type username: str
@@ -588,8 +553,14 @@ class Junior(Developer):
         :type token: str
         :param encrypted: if encrypted password.If ture,all password will be decrypted.
         :type encrypted: bool
-        :param **kwargs: updated data,keys including
-        :type **kwargs: data
+        :param password: user passowrd to confirm account
+        :type password: str
+        :param cellphone: user new cellphone
+        :type cellphone: str
+        :param email: user new email
+        ;:type email: str
+        :param new_password: user new password
+        :type new_password: str
         :return: dict.User info
         """
         login_user = None
@@ -600,18 +571,31 @@ class Junior(Developer):
         elif username:
             login_user = User.query.filter_by(username=username).first()
         if login_user:
-            for key, value in kwargs.items():
-                if key == 'password':
-                    if encrypted:
-                        value = self.get_purearg(value)
-                    if not login_user.verify_password(value):
-                        return return_result(60003)
-                elif key=='new_password':
-                    if encrypted:
-                        value = self.get_purearg(value)
-                    login_user.hash_password(value)
+            if password:
+                if encrypted:
+                    password = self.get_purearg(password)
+                # check password .It's maybe a none.
+                if password and login_user.verify_password(password):
+                    pass
                 else:
-                    setattr(login_user, key, value)
+                    return _errcodes.get(60003)
+            else:
+                return return_result(60100)
+            if email:
+                if utils.isMail(email):
+                    login_user.email = email
+                else:
+                    return return_result(60105)
+            if cellphone:
+                if utils.isCellphone(cellphone):
+                    login_user.cellphone = cellphone
+                else:
+                    return return_result(60106)
+            if new_password:
+                if encrypted:
+                    new_password = self.get_purearg(new_password)
+                if new_password:
+                    login_user.hash_password(new_password)
             db.session.commit()
             result = {
                 'username': login_user.username,

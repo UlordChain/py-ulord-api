@@ -123,7 +123,7 @@ ulordconfig = Config(
     #     "U-CurTime": int(time.time())
     #         # "appkey": "2b111d70452f11e89c2774e6e2f53324"
     #     },
-    ulord_publish = "/transactions/publish",
+    ulord_publish = "/transactions/publish", #4
     ulord_publish_data = {
             "author": "justin",
             "title": "第一篇技术博客",
@@ -134,21 +134,22 @@ ulordconfig = Config(
             "pay_password": "123",
             "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
         },
-    ulord_createwallet = "/transactions/createwallet",
-    ulord_transaction = "/transactions/consume",
-    ulord_paytouser = "/transactions/paytouser",
-    ulord_queryblog = "/content/list",
-    ulord_querybalance = "/transactions/balance",
-    ulord_checkbought = "/transactions/check",
-    ulord_userpublished = "/content/publish/list",
-    ulord_userbought = "/content/consume/list",
-    ulord_in = "/transactions/account/in",
-    ulord_out = "/transactions/account/out",
-    ulord_billings = "/transactions/account",
-    ulord_publish_num = "/transactions/publish/count",
-    ulord_view = "/content/view",
-    ulord_billings_detail = "/transactions/account/inout",
-    #TODO ulord other URL
+    ulord_createwallet = "/transactions/createwallet", #1
+    ulord_transaction = "/transactions/consume", #6
+    ulord_paytouser = "/transactions/paytouser", #2
+    ulord_queryresourcelist = "/content/list", #resource2
+    ulord_querybalance = "/transactions/balance", #3
+    ulord_checkbought = "/transactions/check", #5
+    ulord_userpublished = "/content/publish/list", #resource3
+    ulord_querysingleresource = "/content/gets", #resource1
+    ulord_in = "/transactions/account/in", #7
+    ulord_out = "/transactions/account/out", #8
+    ulord_billings = "/transactions/account", #10
+    ulord_publish_num = "/transactions/publish/count", #11
+    ulord_billings_detail = "/transactions/account/inout", #9
+    ulord_querysinglebilling = "/content/claim/list",  #resource4
+    ulord_querysingleresourceaccount = "/content/claim/account", # resource5
+    # TODO ulord other URL
 )
 
 
