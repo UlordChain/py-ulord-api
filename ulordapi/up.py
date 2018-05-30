@@ -152,7 +152,7 @@ class UlordHelper(object):
             r = requests.post(url=url, json=data, headers=self.ulord_head)
         except Exception, e:
             self.log.error("Failed request from the ulord-platform: {}".format(e))
-            return return_result(50000)
+            return return_result(60400)
         self.log.debug(r.status_code)
         if r.status_code == requests.codes.ok:
             self.log.debug(r.json())
@@ -174,14 +174,14 @@ class UlordHelper(object):
             r = requests.get(url=url, headers=self.ulord_head)
         except Exception, e:
             self.log.error("Failed request from the ulord-platform: {}".format(e))
-            return return_result(50000)
+            return return_result(60400)
         self.log.info(url)
         self.log.info(r.status_code)
         if (r.status_code == requests.codes.ok):
             self.log.debug(r.json())
             return r.json()
         else:
-            return return_result(50000)
+            return return_result(60400)
 
     def regist(self, username, password):
         """

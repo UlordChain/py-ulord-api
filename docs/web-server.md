@@ -3,7 +3,7 @@
 This is a document of blog web's API.It services for front-end.
 
 ## Table of Contents 目录
-- [Introudction 说明](#getIntroudction-说明)
+- [Introudction 说明](#introudction-说明)
 - [Get Publickey 获取公钥](#get-publickey-获取公钥)
 - [test encrypt 测试加密](#test-encrypt-测试加密)
 - [Register 注册](#Register-注册)
@@ -19,7 +19,7 @@ This is a document of blog web's API.It services for front-end.
 - [List Personal Balance 列出个人余额](#list-personal-balance-列出个人余额)
 - [List Personal Published 列出个人发布过的资源](#list-personal-published-列出个人发布过的资源)
 - [List Personal Published num 列出个人发布过的资源数量](#list-personal-published-num-列出个人发布过的资源数量)
-- [List Personal Bought 列出个人购买过的资源](#list-personal-bought-列出个人购买过的资源)
+- [~~List Personal Bought 列出个人购买过的资源~~](#list-personal-bought-列出个人购买过的资源)
 - [List Billings detail 列出个人账单详细信息(收入和支出接口总和)](#list-billings-detail-列出个人账单详细信息收入和支出接口总和)
 - [List Billings 列出个人账单](#list-billings-列出个人账单)
 - [List User's Outgos 列出个人支出](#list-users-outgos-列出个人支出)
@@ -749,13 +749,13 @@ example 示例
 ```bash
 
 ```
-## List Personal Bought 列出个人购买过的资源
+## ~~List Personal Bought 列出个人购买过的资源~~
 
-POST http://127.0.0.1:5000/user/bought
+~~POST http://127.0.0.1:5000/user/bought~~
 
-head:token
+~~head:token~~
 
-args:json
+~~args:json~~
 
 | arg      | comment   |  是否必填  |
 | ----  | :-----:  |  :----:  |
@@ -954,14 +954,18 @@ args:json
 | ----  | :-----:  |  :----:  |
 |page|页数|否|
 |num|每页显示数|否|
+|category|类型|否|
 
 ```python
 {
 	"page":1,
-	"num":2
+	"num":2,
+	"category":2
 }
 ```
-> 默认为每页10条数据，返回第一页
+> 默认为每页10条数据，返回第一页。类型为2
+
+> 类型0-为资源，1-为广告，2-为所有
 
 return:
 
@@ -1024,14 +1028,18 @@ args:json
 | ----  | :-----:  |  :----:  |
 |page|页数|否|
 |num|每页显示数|否|
+|category|类型|否|
 
 ```python
 {
 	"page":1,
-	"num":2
+	"num":2,
+	"category":2
 }
 ```
-> 默认为每页10条数据，返回第一页
+> 默认为每页10条数据，返回第一页。类型为2
+
+> 类型0-为资源，1-为广告，2-为所有
 
 return:
 
@@ -1267,6 +1275,38 @@ example 示例
     20202:{'errcode':20202,'reason':'资源消费失败.'},
     20203:{'errcode':20203,'reason':'查询余额失败.'},
     20204:{'errcode':20204,'reason':'创建钱包失败.'},
+
+    #钱包错误
+    https://github.com/UlordChain/Ulord-platform/blob/master/Uwallet/uwallet/errors.py#L28
+    '51000': 'command not found',
+    '51001': 'password error',
+    '51002': 'password cannot be empty',
+    '51003': 'user not exists',
+    '51004': 'user already exists',
+    '51005': 'invalid claim_id',
+    '51006': "claim not find",
+    '51007': "the bid must > 0",
+    '51008': "the tx_fee must >= 0",
+    '51009': "val sand metadata can't both empty",
+    '51010': 'It cannot be converted to int'
+
+    '50000': "Unknown Error",
+    '52001': 'payment Failed',
+    '52002': "can't find fee in the claim.",  #  优化
+    '52003': 'permission denied',
+    '52004': 'Not enough funds',
+    '52005': 'broadcast transaction fail',
+    '52006': 'signature transaction fail',
+    '52007': 'nout is None',
+    '52008': 'operation is too frequent: it is necessary to wait for the transaction confirmation',
+    '52009': 'get UTXO fail',
+    '52010': 'No extra funds paid fee',
+    '52011': 'Dont know which claim to update, because the same name claim > 1',
+    '52012': 'cannot save field',
+    '52013': 'Temporary dissupport',
+
+    '53000': 'Decode claim value error',
+    '53001': 'invalid claim address',
 
     # 应用服务级错误码
     # 1、DB查询验证
