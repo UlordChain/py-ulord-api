@@ -147,7 +147,7 @@ class Developer(up.UlordHelper):
         upload file into ulord.fileinfo is a file list
 
         :param fileinfos: file need to upload to the ulord-platform
-        :type fileinfos: list
+        :type fileinfos: list/str
         :return: dict fileinfo - True/False
         """
         result = {}
@@ -395,7 +395,7 @@ class Junior(Developer):
         else:
             return _errcodes.get(60002)
 
-    def user_publish(self, title, udfshash, amount, tags, description, usercondition):
+    def user_publish(self, title, udfshash, amount, tags, des, usercondition):
         """
         user publish resource
 
@@ -407,8 +407,8 @@ class Junior(Developer):
         :type amount: float
         :param tags: resource tag
         :type tags: list
-        :param description: resource description
-        :type description: str
+        :param des: resource description
+        :type des: str
         :param usercondition: a condition which need to query user
         :type usercondition: dict
         :return: errcode.You can query from the errcode.
@@ -447,25 +447,64 @@ class Junior(Developer):
         data['udfs_hash'] = udfshash
         data['price'] = amount
         data['pay_password'] = current_user.pay_password
-        data['description'] = description
+        data['des'] = des
         publish_result = self.ulord.publish(data)
-        if publish_result.get('errcode') == 0:
-            new_resource = Resource(id=str(uuid1()), title=title, amount=amount, views=0)
-            if tags:
-                for tag in tags:
-                    if Tag.query.filter_by(tagname=tag).first() is None:
-                        new_resource.tags.append(Tag(tag))
-            new_resource.description = description
-            new_resource.body = udfshash
-            new_resource.date = int(time.time())
-            new_resource.userid = current_user.id
-            new_resource.claimID = publish_result.get('result').get('claim_id')
+        if publish_result and publish_result.get('errcode') == 0:
+            new_resource = Resource(id=str(uuid1()), views=0)
+            if publish_result.get('result'):
+                if 'id' in publish_result.get('result'):
+                    new_resource.UPID = publish_result.get('result').get('id')
+                if 'claim_id' in publish_result.get('resule'):
+                    new_resource.claimID = publish_result.get('result').get('claim_id')
             db.session.add(new_resource)
             db.session.commit()
         #     return new_resource.claimID
         # else:
         #     return publish_result
         return publish_result
+
+    def user_update(self, id, pay_password, encrypted=True, **kwargs):
+        """
+        user update data to the ulord-platform
+
+        :param id: data id
+        :type id: str
+        :param pay_password: auther wallet pay password
+        :type pay_password: str
+        :param encrypted: if encrypt password
+        :type encrypted: bool
+        :param kwargs: key-value
+        :type kwargs:
+        :return: errcode.You can query from the errcode.
+        """
+        current_resource = Resource.query.filter_by(UPID=id).first()
+        data = {
+            'id':id,
+            'pay_password':pay_password
+        }
+        if encrypted:
+            pay_password = self.get_purearg(pay_password)
+        if not current_resource.verify_password(pay_password):
+            return return_result(60003)
+        # upload data to the udfs
+        if 'body' in kwargs:
+            udfs_hash = self.udfs_upload(kwargs.get('body'))
+            data.update({
+                'udfs_hash':udfs_hash
+            })
+        key_dict = ["title", "tags", "price", "content_type", "des"]
+
+        for key in key_dict:
+            value = kwargs.get(key)
+            if value:
+                data.update({
+                    key: value
+                })
+                setattr(current_resource, key, value)
+        result = self.update(data)
+        if result and result.get('errcode') == 0:
+            db.session.commit()
+        return result
 
     def user_resouce_views(self, title):
         """

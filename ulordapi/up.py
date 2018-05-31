@@ -44,6 +44,7 @@ class UlordHelper(object):
         self.ulord_paytouser = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_paytouser') # ulord transfer webURL 2
         # publish URL
         self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL 4
+        self.ulord_update = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_update') # ulord update webURL 4.1
         self.ulord_publish_data =  {
             "author": "justin",
             "title": "第一篇技术博客",
@@ -51,8 +52,7 @@ class UlordHelper(object):
             "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
             "price": 0.1,
             "content_type": ".txt",
-            "pay_password": "123",
-            "description": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+            "des": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
         }  # ulord publish data
         # query URL
         self.ulord_queryresource = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryresourcelist') # query resource list webURL #resource2
@@ -203,11 +203,21 @@ class UlordHelper(object):
         """
         publish data to the ulord platform
 
-        :param data: data needed to be published
+        :param data: data needed to be published.Key includes author,title,tags,udfs_hash,price,content_type,des，pay_password
         :type data: dict
         :return: errcode.You can query from the errcode dict.
         """
         return self.post(self.ulord_publish, data)
+
+    def update(self, data):
+        """
+        update data from the ulord-platform
+
+        :param data: data needed to be updated.Key includes id,pay_password,title,tags,udfs_hash,price,content_type,des，pay_password
+        :type data: dict
+        :return: errcode.You can query from the errcode dict.
+        """
+        return self.post(self.ulord_update, data)
 
     def transaction(self, payer, claim_id, pay_password, isads=False):
         """
@@ -368,7 +378,7 @@ class UlordHelper(object):
         }
         return self.post(self.ulord_statistics_byID, data)
 
-    def queryincomebillings(self, author, page=1, num=10, category=2):
+    def queryincomebillings(self, author, start, end, page=1, num=10, category=2):
         """
         get billings info
 
@@ -380,19 +390,25 @@ class UlordHelper(object):
         :type num: int
         :param category: resource type. 0----common resource,1----ads,2-----all
         :type category: int
+        :param start: start time.2018-03-29
+        :type start: str
+        :param end: end time.2018-03-29
+        :type end: str
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'username': author,
+            'sdate': start,
+            'edate': end
         }
         if category == 1 or category == 0:
             data.update({
-                'category': category
+                'category': category,
             })
         temp_url = self.ulord_in + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
-    def queryoutgobillings(self, author, page=1, num=10):
+    def queryoutgobillings(self, author, start, end, page=1, num=10):
         """
         get billings info
 
@@ -402,10 +418,16 @@ class UlordHelper(object):
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
+        :param start: start date.2018-03-29
+        :type start: str
+        :param end: end date.2018-03-29
+        :type end: str
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'username': author,
+            'sdate': start,
+            'edate': end
         }
         temp_url = self.ulord_out + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
@@ -428,29 +450,41 @@ class UlordHelper(object):
         temp_url = self.ulord_billings_detail + '/{0}/{1}'.format(page, num)
         return self.post(temp_url, data)
 
-    def querybillings(self, username):
+    def querybillings(self, username, start, end):
         """
         get billings info
 
         :param username: current user wallet name
         :type username: str
+        :param start: start time.2018-03-29
+        :type start: str
+        :param end: end time.2018-03-29
+        :type end: str
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'username': username,
+            'sdate': start,
+            'edate': end
         }
         return self.post(self.ulord_billings, data)
 
-    def querypublishnum(self, author):
+    def querypublishnum(self, author, start, end):
         """
         query the number of resourced which has published
 
         :param author: current user wallet name
         :type author: str
+        :param start: start time.2018-03-29
+        :type start: str
+        :param end: end time.2018-03-29
+        :type end: str
         :return: errcode.You can query from the errcode dict.
         """
         data = {
-            'author': author
+            'author': author,
+            'sdate': start,
+            'edate':end
         }
         return self.post(self.ulord_published_num, data)
 

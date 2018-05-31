@@ -201,27 +201,13 @@ class Resource(db.Model):
     description = db.Column(db.String(128))
     views = db.Column(db.Integer)
     date = db.Column(db.Integer)
+    UPID = db.Column(db.Integer)
     claimID = db.Column(db.String(40))
     resource_type = db.Column(db.String(10))
 
     __mapper_args__ = {
         'polymorphic_on': resource_type
     }
-
-    @classmethod
-    def add(self, title, userid, body, amount=None, tags=None, description=None):
-        if self.query.filter_by(title=title).first() is not None:
-            return _errcodes.get(60000)
-        resource = Resource()
-        resource.title = title
-        resource.userid = userid
-        resource.body = body
-        resource.amount = amount
-        resource.tags = tags
-        resource.description = description
-        db.session.add(resource)
-        db.session.commit()
-        return _errcodes.update()
 
 
 class Content(Resource):
