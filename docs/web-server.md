@@ -11,6 +11,7 @@ This is a document of blog web's API.It services for front-end.
 - [Login 登录](#login----登录)
 - [Install Go](#logout----登出)
 - [Publish 发布博客](#publish--发布博客)
+- [Update 更新博客](#update--更新博客)
 - [List All Blog 获取博客](#list-all-blog--获取博客)
 - [check isbought 检查博客是否付费](#check-isbought--检查博客是否付费)
 - [Pay blogs 支付博客](#pay-blogs-支付博客)
@@ -348,6 +349,61 @@ args：json
 
 ```python
 {
+	"title":"the first blog",
+	"body":"This is a first blog.And it's just a test.",
+	"amount":0.02,
+	"tag":["test","first"],
+	"description":"This is a test blog."
+}
+```
+
+return:
+
+成功：
+```python
+{
+    "errcode": 0,
+    "reason": "success",
+    "result":{
+        "id":数据库id,
+        "claim_id":资源在链上的id,
+    }
+}
+```
+
+失败：
+```python
+{
+    "errcode": 错误码,
+    "reason": "错误原因"
+}
+```
+example 示例
+```bash
+
+```
+## Update  更新博客
+
+POST http://127.0.0.1:5000/blog/update
+
+head:token
+
+args：json
+
+| arg      | comment   |  是否必填  |
+| ----  | :-----:  |  :----:  |
+|id | 平台数据库ID |是|
+|password | 用户密码 |是|
+|title | 标题 |否|
+|body | 博客内容 |否|
+|amount | 定价 |否|
+|tag | 标签 |否|
+|description|描述|否|
+
+```python
+{
+    "id":"1",
+    "password":"123",
 	"title":"the first blog",
 	"body":"This is a first blog.And it's just a test.",
 	"amount":0.02,
@@ -899,6 +955,19 @@ GET http://127.0.0.1:5000/user/billings/
 
 head:token
 
+args:json
+
+| arg      | comment   |  是否必填  |
+| ----  | :-----:  |  :----:  |
+|sdate|开始日期|是|
+|edate|结束日期|是|
+
+```python
+{
+	"sdate":"2018-03-15",
+	"edate":"2018-03-16"
+}
+```
 return:
 
 成功
@@ -955,12 +1024,16 @@ args:json
 |page|页数|否|
 |num|每页显示数|否|
 |category|类型|否|
+|sdate|开始日期|是|
+|edate|结束日期|是|
 
 ```python
 {
 	"page":1,
 	"num":2,
-	"category":2
+	"category":2，
+	"sdate":"2018-03-15",
+	"edate":"2018-03-16"
 }
 ```
 > 默认为每页10条数据，返回第一页。类型为2
@@ -1029,12 +1102,16 @@ args:json
 |page|页数|否|
 |num|每页显示数|否|
 |category|类型|否|
+|sdate|开始日期|是|
+|edate|结束日期|是|
 
 ```python
 {
 	"page":1,
 	"num":2,
-	"category":2
+	"category":2,
+	"sdate":"2018-03-15",
+	"edate":"2018-03-16"
 }
 ```
 > 默认为每页10条数据，返回第一页。类型为2

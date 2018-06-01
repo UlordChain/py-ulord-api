@@ -380,22 +380,23 @@ class UlordHelper(object):
 
     def queryincomebillings(self, author, start, end, page=1, num=10, category=2):
         """
-        get billings info
+        get income billings info
 
         :param author: current user wallet name
         :type author: str
+        :param start: start time.2018-03-29
+        :type start: str
+        :param end: end time.2018-03-29
+        :type end: str
         :param page: which page of result do you want to view?Default is 1.
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
         :param category: resource type. 0----common resource,1----ads,2-----all
         :type category: int
-        :param start: start time.2018-03-29
-        :type start: str
-        :param end: end time.2018-03-29
-        :type end: str
         :return: errcode.You can query from the errcode dict.
         """
+
         data = {
             'username': author,
             'sdate': start,
@@ -408,20 +409,22 @@ class UlordHelper(object):
         temp_url = self.ulord_in + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
-    def queryoutgobillings(self, author, start, end, page=1, num=10):
+    def queryoutgobillings(self, author, start, end, page=1, num=10, category=2):
         """
-        get billings info
+        get outgo billings info
 
         :param author: current user wallet name
         :type author: str
+        :param start: start time.2018-03-29
+        :type start: str
+        :param end: end time.2018-03-29
+        :type end: str
         :param page: which page of result do you want to view?Default is 1.
         :type page: int
         :param num: how many pieces of data of result do you want to view?Default is 10.
         :type num: int
-        :param start: start date.2018-03-29
-        :type start: str
-        :param end: end date.2018-03-29
-        :type end: str
+        :param category: resource type. 0----common resource,1----ads,2-----all
+        :type category: int
         :return: errcode.You can query from the errcode dict.
         """
         data = {
@@ -429,6 +432,10 @@ class UlordHelper(object):
             'sdate': start,
             'edate': end
         }
+        if category == 1 or category == 0:
+            data.update({
+                'category': category,
+            })
         temp_url = self.ulord_out + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
