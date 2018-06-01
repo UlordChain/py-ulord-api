@@ -125,6 +125,7 @@ ulordconfig = Config(
     #     },
     ulord_publish = "/transactions/publish", #4
     ulord_update = "/transactions/update", #4.1
+    ulord_delete = "/transactions/delete", #4.2
     # ulord_publish_data = {
     #         "author": "justin",
     #         "title": "第一篇技术博客",
@@ -150,6 +151,7 @@ ulordconfig = Config(
     ulord_billings_detail = "/transactions/account/inout", #9
     ulord_querysinglebilling = "/content/claim/list",  #resource4
     ulord_querysingleresourceaccount = "/content/claim/account", # resource5
+
     # TODO ulord other URL
 )
 

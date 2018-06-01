@@ -386,6 +386,8 @@ class Junior(Developer):
         elif username:
             login_user = User.query.filter_by(username=username).first()
         if login_user:
+            if login_user.activity == webconfig.get('amount'):
+                return return_result(60301)
             credit_result = self.ulord.paytouser(login_user.wallet)
             if credit_result.get('errcode') != 0:
                 return credit_result
@@ -450,11 +452,19 @@ class Junior(Developer):
         data['des'] = des
         publish_result = self.ulord.publish(data)
         if publish_result and publish_result.get('errcode') == 0:
-            new_resource = Resource(id=str(uuid1()), views=0)
+            new_resource = Resource(id=str(uuid1()), title=title, userid=current_user.id, body=udfshash, amount=amount,
+                                    description=des, views=0, date=int(time.time()))
+            if tags:
+                for tag in tags:
+                    current_tag = Tag.query.filter_by(tagname=tag).first()
+                    if  current_tag is None:
+                        new_resource.tags.append(Tag(tag))
+                    else:
+                        new_resource.tags.append(current_tag)
             if publish_result.get('result'):
                 if 'id' in publish_result.get('result'):
                     new_resource.UPID = publish_result.get('result').get('id')
-                if 'claim_id' in publish_result.get('resule'):
+                if 'claim_id' in publish_result.get('result'):
                     new_resource.claimID = publish_result.get('result').get('claim_id')
             db.session.add(new_resource)
             db.session.commit()
@@ -478,16 +488,19 @@ class Junior(Developer):
         :return: errcode.You can query from the errcode.
         """
         current_resource = Resource.query.filter_by(UPID=id).first()
-        data = {
-            'id':id,
-            'pay_password':pay_password
-        }
         if encrypted:
             pay_password = self.get_purearg(pay_password)
-        if not current_resource.verify_password(pay_password):
+        current_user = User.query.filter_by(id=current_resource.userid).first()
+        if not current_user:
+            return return_result(60002)
+        if not current_user.verify_password(pay_password):
             return return_result(60003)
+        data = {
+            'id': id,
+            'pay_password': current_user.pay_password
+        }
         # upload data to the udfs
-        if 'body' in kwargs:
+        if 'body' in kwargs and kwargs.get('body'):
             udfs_hash = self.udfs_upload(kwargs.get('body'))
             data.update({
                 'udfs_hash':udfs_hash

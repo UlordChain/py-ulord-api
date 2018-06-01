@@ -45,6 +45,7 @@ class UlordHelper(object):
         # publish URL
         self.ulord_publish = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_publish')  # ulord publish webURL 4
         self.ulord_update = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_update') # ulord update webURL 4.1
+        self.ulord_delete = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_delete') # ulord delete webURL 4.2
         self.ulord_publish_data =  {
             "author": "justin",
             "title": "第一篇技术博客",
@@ -218,6 +219,19 @@ class UlordHelper(object):
         :return: errcode.You can query from the errcode dict.
         """
         return self.post(self.ulord_update, data)
+
+    def delete(self, id):
+        """
+        delete resource on the ulord-platform
+
+        :param id: resource ulord-platform DB ID
+        :type id: int
+        :return: errcode.You can query from the errcode dict.
+        """
+        data = {
+            "id": id
+        }
+        return self.post(self.ulord_delete, data)
 
     def transaction(self, payer, claim_id, pay_password, isads=False):
         """
