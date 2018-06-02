@@ -97,34 +97,34 @@ def main():
     parser_basic_paytouser.set_defaults(func=senior.ulord.paytouser)
 
     parser_basic_queryblog = subparsers_up.add_parser('resourceslist', help='list all resources')
-    parser_basic_queryblog.set_defaults(func=senior.ulord.queryblog)
+    parser_basic_queryblog.set_defaults(func=senior.queryresource)
 
     parser_basic_querybalance = subparsers_up.add_parser('querybalance', help="query user's balance")
-    parser_basic_querybalance.set_defaults(func=senior.ulord.querybalance)
+    parser_basic_querybalance.set_defaults(func=senior.querybalance)
 
     parser_basic_checkisbought = subparsers_up.add_parser('checkisbought', help="check the resource if bought")
-    parser_basic_checkisbought.set_defaults(func=senior.ulord.checkisbought)
+    parser_basic_checkisbought.set_defaults(func=senior.checkisbought)
 
     parser_basic_queryuserpublished = subparsers_up.add_parser('queryuserpublished', help="query user's published")
-    parser_basic_queryuserpublished.set_defaults(func=senior.ulord.queryuserpublished)
+    parser_basic_queryuserpublished.set_defaults(func=senior.queryuserpublished)
 
     parser_basic_queryuserbought = subparsers_up.add_parser('queryuserbought', help="query user's bought")
-    parser_basic_queryuserbought.set_defaults(func=senior.ulord.queryuserbought)
+    parser_basic_queryuserbought.set_defaults(func=senior.queryuserbought)
 
     parser_basic_queryincomebillings = subparsers_up.add_parser('queryincomebillings', help="query user's income billings")
-    parser_basic_queryincomebillings.set_defaults(func=senior.ulord.queryincomebillings)
+    parser_basic_queryincomebillings.set_defaults(func=senior.queryincomebillings)
 
     parser_basic_queryoutgobillings = subparsers_up.add_parser('queryoutgobillings', help="query user's outgo billings")
-    parser_basic_queryoutgobillings.set_defaults(func=senior.ulord.queryoutgobillings)
+    parser_basic_queryoutgobillings.set_defaults(func=senior.queryoutgobillings)
 
     parser_basic_querybillingsdetail = subparsers_up.add_parser('querybillingsdetail', help="query the detail of user's billings")
-    parser_basic_querybillingsdetail.set_defaults(func=senior.ulord.querybillingsdetail)
+    parser_basic_querybillingsdetail.set_defaults(func=senior.querybillingsdetail)
 
     parser_basic_querybillings = subparsers_up.add_parser('querybillings', help="query user's billings")
-    parser_basic_querybillings.set_defaults(func=senior.ulord.querybillings)
+    parser_basic_querybillings.set_defaults(func=senior.querybillings)
 
     parser_basic_querypublishnum = subparsers_up.add_parser('querypublishnum', help="query the num of user's published")
-    parser_basic_querypublishnum.set_defaults(func=senior.ulord.querypublishnum)
+    parser_basic_querypublishnum.set_defaults(func=senior.querypublishnum)
 
     # parser_basic_addpurchases = subparsers_up.add_parser('addpurchases', help="add resources's purchases")
     # parser_basic_addpurchases.set_defaults(func=develop1.addpurchases)

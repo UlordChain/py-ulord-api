@@ -60,10 +60,13 @@ class Developer(up.UlordHelper):
             if isinstance(args, list):
                 result = []
                 for arg in args:
-                    temp_arg = self.rsahelper._decrypt(arg)
-                    if not isinstance(temp_arg, unicode):
-                        temp_arg = temp_arg.decode('utf-8')
-                    result.append(temp_arg)
+                    if arg:
+                        temp_arg = self.rsahelper._decrypt(arg)
+                        if not isinstance(temp_arg, unicode):
+                            temp_arg = temp_arg.decode('utf-8')
+                        result.append(temp_arg)
+                    else:
+                        result.append(arg)
             else:
                 result = self.rsahelper._decrypt(args)
                 if not isinstance(result, unicode):
@@ -442,14 +445,28 @@ class Junior(Developer):
             except:
                 amount = 0
         # publish to the ulord-platform
-        data = self.ulord.ulord_publish_data
-        data['author'] = current_user.wallet
-        data['title'] = title
-        data['tags'] = tags
-        data['udfs_hash'] = udfshash
-        data['price'] = amount
-        data['pay_password'] = current_user.pay_password
-        data['des'] = des
+        data = {
+            'author': current_user.wallet,
+            'title': title,
+            'tags': tags,
+            'udfs_hash': udfshash,
+            'price': amount,
+            'pay_password': current_user.pay_password,
+            'des': des,
+            'content_type': '.txt'
+        }
+        # key_dict = ['author', 'title','tags','udfs_hash','price','content_type','des']
+        # for key in key_dict:
+        #     data.update({
+        #         key:
+        #     })
+        # data['author'] = current_user.wallet
+        # data['title'] = title
+        # data['tags'] = tags
+        # data['udfs_hash'] = udfshash
+        # data['price'] = amount
+        # data['pay_password'] = current_user.pay_password
+        # data['des'] = des
         publish_result = self.ulord.publish(data)
         if publish_result and publish_result.get('errcode') == 0:
             new_resource = Resource(id=str(uuid1()), title=title, userid=current_user.id, body=udfshash, amount=amount,
