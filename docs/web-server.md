@@ -949,7 +949,7 @@ example 示例
 ```
 ## List Billings 列出个人账单
 
-GET http://127.0.0.1:5000/user/billings/
+POST http://127.0.0.1:5000/user/billings/
 
 head:token
 
