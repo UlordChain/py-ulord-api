@@ -156,9 +156,10 @@ class UlordHelper(object):
             return return_result(60400)
         self.log.debug(r.status_code)
         if r.status_code == requests.codes.ok:
-            self.log.debug(r.json())
+            self.log.info(r.json())
             return r.json()
         else:
+            self.log.info(r)
             return return_result(60400)
 
     def get(self, url):
@@ -179,9 +180,10 @@ class UlordHelper(object):
         self.log.info(url)
         self.log.info(r.status_code)
         if (r.status_code == requests.codes.ok):
-            self.log.debug(r.json())
+            self.log.info(r.json())
             return r.json()
         else:
+            self.log.info(r)
             return return_result(60400)
 
     def regist(self, username, password):

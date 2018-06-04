@@ -221,9 +221,9 @@ class Developer(up.UlordHelper):
         :return: return result.you can query the errcode
         """
         if method.lower() == 'post':
-            return self.ulord.post(url=url, data=data)
+            return self.post(url=url, data=data)
         if method.lower() == 'get':
-            return self.ulord.get(url=url)
+            return self.get(url=url)
 
     def help(self):
         """
@@ -312,7 +312,7 @@ class Junior(Developer):
             user.wallet = username
         user.cellphone = cellphone
         user.email = email
-        regist_result = self.ulord.regist(user.wallet, user.pay_password)
+        regist_result = self.regist(user.wallet, user.pay_password)
         if regist_result.get("errcode") != 0:
             return regist_result
         user.token = str(uuid1())
@@ -391,7 +391,7 @@ class Junior(Developer):
         if login_user:
             if login_user.activity == webconfig.get('amount'):
                 return return_result(60301)
-            credit_result = self.ulord.paytouser(login_user.wallet)
+            credit_result = self.paytouser(login_user.wallet)
             if credit_result.get('errcode') != 0:
                 return credit_result
             else:
@@ -467,7 +467,7 @@ class Junior(Developer):
         # data['price'] = amount
         # data['pay_password'] = current_user.pay_password
         # data['des'] = des
-        publish_result = self.ulord.publish(data)
+        publish_result = self.publish(data)
         if publish_result and publish_result.get('errcode') == 0:
             new_resource = Resource(id=str(uuid1()), title=title, userid=current_user.id, body=udfshash, amount=amount,
                                     description=des, views=0, date=int(time.time()))
@@ -566,7 +566,7 @@ class Junior(Developer):
         # check password
         if not payer.verify_password(password):
             return return_result(60003)
-        return self.ulord.transaction(payer.wallet, claim_id, payer.pay_password)
+        return self.transaction(payer.wallet, claim_id, payer.pay_password)
 
     def user_pay_ads(self, wallet, claim_id, authername):
         """
@@ -583,7 +583,7 @@ class Junior(Developer):
         auther = User.query.filter_by(username=authername).first()
         if not auther:
             return return_result(60108)
-        return self.ulord.transaction(wallet, claim_id, auther.pay_password, isads=True)
+        return self.transaction(wallet, claim_id, auther.pay_password, isads=True)
 
     def user_info_query(self, username=None, token=None):
         """
