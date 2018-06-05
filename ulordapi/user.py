@@ -47,7 +47,7 @@ class Developer(up.UlordHelper):
             self.pubpath = os.path.join(ROOTPATH, 'public.pem')
         self.rsahelper = utils.RSAHelper(self.pubpath, self.pripath)
 
-    def get_purearg(self, args):
+    def decrypt(self, args):
         """
         check if the arg is encrypted.If encrypted return decrypted arg,else return None.
 
@@ -195,18 +195,6 @@ class Developer(up.UlordHelper):
                 })
         return result
 
-    def start(self):
-        """
-        start udfs daemon
-        """
-        # TODO achieve
-
-    def stop(self):
-        """
-        stop udfs daemon
-        """
-        # TODO achieve
-
     # Advanced command
     def request(self, method, url, data=None):
         """
@@ -289,7 +277,7 @@ class Junior(Developer):
         """
         # encrypt
         if encrypted:
-            password = self.get_purearg(password)
+            password = self.decrypt(password)
         # check arg
         if User.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
@@ -302,7 +290,7 @@ class Junior(Developer):
         user.hash_password(password)
         if pay_password:
             if encrypted:
-                pay_password = self.get_purearg(pay_password)
+                pay_password = self.decrypt(pay_password)
             user.pay_password = pay_password
         else:
             user.pay_password = user.password_hash
@@ -336,7 +324,7 @@ class Junior(Developer):
         :return: user token
         """
         if encrypted:
-            password = self.get_purearg(password)
+            password = self.decrypt(password)
         login_user = User.query.filter_by(username=username).first()
         if not login_user:
             return _errcodes.get(60002)
@@ -400,7 +388,7 @@ class Junior(Developer):
         else:
             return _errcodes.get(60002)
 
-    def user_publish(self, title, udfshash, amount, tags, des, usercondition):
+    def resource_publish(self, title, udfshash, amount, tags, des, usercondition):
         """
         user publish resource
 
@@ -490,7 +478,7 @@ class Junior(Developer):
         #     return publish_result
         return publish_result
 
-    def user_update(self, id, pay_password, encrypted=True, **kwargs):
+    def resource_update(self, id, pay_password, encrypted=True, **kwargs):
         """
         user update data to the ulord-platform
 
@@ -506,7 +494,7 @@ class Junior(Developer):
         """
         current_resource = Resource.query.filter_by(UPID=id).first()
         if encrypted:
-            pay_password = self.get_purearg(pay_password)
+            pay_password = self.decrypt(pay_password)
         current_user = User.query.filter_by(id=current_resource.userid).first()
         if not current_user:
             return return_result(60002)
@@ -536,7 +524,7 @@ class Junior(Developer):
             db.session.commit()
         return result
 
-    def user_resouce_views(self, title):
+    def resouce_views(self, title):
         """
         add resource view
 
@@ -549,7 +537,7 @@ class Junior(Developer):
         db.commit()
         return resources.views
 
-    def user_pay_resources(self, payer, claim_id, password, encrypted=False):
+    def pay_resources(self, payer, claim_id, password, encrypted=False):
         """
         user pay resource
 
@@ -562,13 +550,13 @@ class Junior(Developer):
         :return: errcode.You can query from the errcode.
         """
         if encrypted:
-            password = self.get_purearg(password)
+            password = self.decrypt(password)
         # check password
         if not payer.verify_password(password):
             return return_result(60003)
         return self.transaction(payer.wallet, claim_id, payer.pay_password)
 
-    def user_pay_ads(self, wallet, claim_id, authername):
+    def pay_ads(self, wallet, claim_id, authername):
         """
         user view ads
 
@@ -642,7 +630,7 @@ class Junior(Developer):
         if login_user:
             if password:
                 if encrypted:
-                    password = self.get_purearg(password)
+                    password = self.decrypt(password)
                 # check password .It's maybe a none.
                 if password and login_user.verify_password(password):
                     pass
@@ -662,7 +650,7 @@ class Junior(Developer):
                     return return_result(60106)
             if new_password:
                 if encrypted:
-                    new_password = self.get_purearg(new_password)
+                    new_password = self.decrypt(new_password)
                 if new_password:
                     login_user.hash_password(new_password)
             db.session.commit()

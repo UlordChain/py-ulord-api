@@ -512,7 +512,7 @@ class UlordHelper(object):
         return self.post(self.ulord_published_num, data)
 
 
-ulord_helper = UlordHelper()
+# ulord_helper = UlordHelper()
 
 
 if __name__ == '__main__':
@@ -520,4 +520,4 @@ if __name__ == '__main__':
     data = {
         'author':author
     }
-    print(ulord_helper.regist(username='x'*12,password='123'))
+    # print(ulord_helper.regist(username='x'*12,password='123'))
