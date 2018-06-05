@@ -14,6 +14,7 @@ This is a document of blog web's API.It services for front-end.
 - [Update 更新博客](#update--更新博客)
 - [Delete 删除博客](#delete--更新博客)
 - [List All Blog 获取博客](#list-all-blog--获取博客)
+- [List Blog By ID 根据获取博客](#list-blog-by-id--根据id获取博客)
 - [check isbought 检查博客是否付费](#check-isbought--检查博客是否付费)
 - [Pay blogs 支付博客](#pay-blogs-支付博客)
 - [Pay ADs 支付广告](#pay-ads-支付广告)
@@ -103,7 +104,7 @@ args:json
 
 ```python
 {
-	"password":"加密后的密文"
+    "password":"加密后的密文"
 }
 ```
 
@@ -154,10 +155,10 @@ args:json
 
 ```python
 {
-	"username":"test",
-	"password":"123",
-	"cellphone":"15278559846",
-	"email":"15574859643@163.com"
+    "username":"test",
+    "password":"123",
+    "cellphone":"15278559846",
+    "email":"15574859643@163.com"
 }
 ```
 
@@ -242,8 +243,8 @@ args:json
 
 ```python
 {
-	"username":"test",
-	"password":"123"
+    "username":"test",
+    "password":"123"
 }
 ```
 
@@ -350,11 +351,11 @@ args：json
 
 ```python
 {
-	"title":"the first blog",
-	"body":"This is a first blog.And it's just a test.",
-	"amount":0.02,
-	"tag":["test","first"],
-	"description":"This is a test blog."
+    "title":"the first blog",
+    "body":"This is a first blog.And it's just a test.",
+    "amount":0.02,
+    "tag":["test","first"],
+    "description":"This is a test blog."
 }
 ```
 
@@ -405,11 +406,11 @@ args：json
 {
     "id":"1",
     "password":"123",
-	"title":"the first blog",
-	"body":"This is a first blog.And it's just a test.",
-	"amount":0.02,
-	"tag":["test","first"],
-	"description":"This is a test blog."
+    "title":"the first blog",
+    "body":"This is a first blog.And it's just a test.",
+    "amount":0.02,
+    "tag":["test","first"],
+    "description":"This is a test blog."
 }
 ```
 
@@ -497,8 +498,8 @@ args：json
 
 ```python
 {
-	"page":1,
-	"num":10
+    "page":1,
+    "num":10
 }
 ```
 > 默认为每页10条数据，返回第一页
@@ -549,6 +550,66 @@ example 示例
 ```bash
 
 ```
+## List Blog By ID 根据获取博客
+
+POST http://127.0.0.1:5000/blog/condition/id
+
+head:token
+
+args：json
+
+| arg      | comment   |  是否必填  |
+| ----  | :-----:  |  :----:  |
+|ids|ID列表|是|
+
+```python
+{
+    "ids":["3"]
+}
+```
+
+return:
+
+成功
+```python
+{
+    "errcode": 0,
+    "reason": "success",
+    "result": [
+        {
+            "author": "uuui",
+            "claim_id": "d4bf1290eb6cd4ad7f1f699b555aeaf3c44d4170",
+            "content_type": ".txt",
+            "create_timed": "2018-05-29 09:37:53",
+            "create_timed_timestamp": 1527557873,
+            "currency": "UT",
+            "des": "des",
+            "enabled": true,
+            "id": 3,
+            "price": 0.2,
+            "status": 1,
+            "tags": [
+                "ul"
+            ],
+            "title": "uui action",
+            "update_timed": null,
+            "update_timed_timestamp": null
+        }
+    ]
+}
+```
+
+失败
+```python
+{
+    "errcode": 错误码,
+    "reason": "错误原因"
+}
+```
+example 示例
+```bash
+
+```
 ## check isbought  检查博客是否付费
 
 POST http://127.0.0.1:5000/blog/isbought
@@ -563,14 +624,14 @@ args：json
 
 ```python
 {
-	"claim_ids":[
-        	"ec3c93680884d8b1aee25242f64f79f8bd847c57",
-        	"a5b899fe01d633b6f0b809c4af2312524c081576",
-        	"25e48b12694b4704aeff32ba0a568c21ad8dd5d6",
-        	"e1b98bcc018950ac4684c663d0ea4fa9fc19543d",
-        	"e1b98bcc018950ac4684c663d0ea4fa9fc19543f",
-        	"2d4bbaf369464feeb90ac957af72a641f9a1bc9c"
-    	]
+    "claim_ids":[
+            "ec3c93680884d8b1aee25242f64f79f8bd847c57",
+            "a5b899fe01d633b6f0b809c4af2312524c081576",
+            "25e48b12694b4704aeff32ba0a568c21ad8dd5d6",
+            "e1b98bcc018950ac4684c663d0ea4fa9fc19543d",
+            "e1b98bcc018950ac4684c663d0ea4fa9fc19543f",
+            "2d4bbaf369464feeb90ac957af72a641f9a1bc9c"
+        ]
 }
 ```
 
@@ -618,8 +679,8 @@ args：json
 
 ```python
 {
-	"password":"123",
-	"claim_id":"ec3c93680884d8b1aee25242f64f79f8bd847c57"
+    "password":"123",
+    "claim_id":"ec3c93680884d8b1aee25242f64f79f8bd847c57"
 }
 ```
 
@@ -664,8 +725,8 @@ args：json
 
 ```python
 {
-	"author":"justin",
-	"claim_id":"ec3c93680884d8b1aee25242f64f79f8bd847c57"
+    "author":"justin",
+    "claim_id":"ec3c93680884d8b1aee25242f64f79f8bd847c57"
 }
 ```
 
@@ -706,12 +767,12 @@ return:
 成功
 ```python
 {
-	'errcode':0,
+    'errcode':0,
         'reason':'success',
         'result':{
-    	    "username": "test",
+            "username": "test",
             "cellphone":"15278559846",
-			"email":"15574859643@163.com"
+            "email":"15574859643@163.com"
             }
 }
 ```
@@ -1007,8 +1068,8 @@ args:json
 
 ```python
 {
-	"sdate":"2018-03-15",
-	"edate":"2018-03-16"
+    "sdate":"2018-03-15",
+    "edate":"2018-03-16"
 }
 ```
 return:
@@ -1072,11 +1133,11 @@ args:json
 
 ```python
 {
-	"page":1,
-	"num":2,
-	"category":2，
-	"sdate":"2018-03-15",
-	"edate":"2018-03-16"
+    "page":1,
+    "num":2,
+    "category":2，
+    "sdate":"2018-03-15",
+    "edate":"2018-03-16"
 }
 ```
 > 默认为每页10条数据，返回第一页。类型为2
@@ -1150,11 +1211,11 @@ args:json
 
 ```python
 {
-	"page":1,
-	"num":2,
-	"category":2,
-	"sdate":"2018-03-15",
-	"edate":"2018-03-16"
+    "page":1,
+    "num":2,
+    "category":2,
+    "sdate":"2018-03-15",
+    "edate":"2018-03-16"
 }
 ```
 > 默认为每页10条数据，返回第一页。类型为2
@@ -1265,11 +1326,11 @@ args：json
 
 ```python
 {
-	"username":"test1",
-	"password":"123",
-	"cellphone":"15574257777",
-	"email":"7778547888@163.com",
-	"new_password":"111"
+    "username":"test1",
+    "password":"123",
+    "cellphone":"15574257777",
+    "email":"7778547888@163.com",
+    "new_password":"111"
 }
 ```
 
@@ -1319,8 +1380,8 @@ example 示例
 ~~return:~~
 ```python
 {
-	"result": 1/0,
-	"msg": "None/exception"
+    "result": 1/0,
+    "msg": "None/exception"
 }
 ```
 
@@ -1339,8 +1400,8 @@ example 示例
 ~~return:~~
 ```python
 {
-	"result": 1/0,
-	"msg": "None/exception"
+    "result": 1/0,
+    "msg": "None/exception"
 }
 ```
 

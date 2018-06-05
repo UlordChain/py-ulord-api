@@ -358,7 +358,7 @@ class UlordHelper(object):
         temp_url = self.ulord_userpublished + "/{0}/{1}".format(page, num)
         return self.post(temp_url, data)
 
-    def queryuserbought(self, ids):
+    def query_resourc_by_ID(self, ids):
         """
         query resource list according to the id list
 
