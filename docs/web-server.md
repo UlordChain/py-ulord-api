@@ -1,67 +1,68 @@
-# py-ulord-api web API document
+ï»¿# py-ulord-api web API document
 
 This is a document of blog web's API.It services for front-end.
 
-## Table of Contents Ä¿Â¼
-- [Introudction ËµÃ÷](#introudction-ËµÃ÷)
-- [Get Publickey »ñÈ¡¹«Ô¿](#get-publickey-»ñÈ¡¹«Ô¿)
-- [test encrypt ²âÊÔ¼ÓÃÜ](#test-encrypt-²âÊÔ¼ÓÃÜ)
-- [Register ×¢²á](#Register-×¢²á)
-- [Pay To User ÓÅ»İ»î¶¯£¬¸øĞÂ×¢²áµÄÓÃ»§·¢10¸öulord](#pay-to-user-ÓÅ»İ»î¶¯¸øĞÂ×¢²áµÄÓÃ»§·¢10¸öulord)
-- [Login µÇÂ¼](#login----µÇÂ¼)
-- [Install Go](#logout----µÇ³ö)
-- [Publish ·¢²¼²©¿Í](#publish--·¢²¼²©¿Í)
-- [Update ¸üĞÂ²©¿Í](#update--¸üĞÂ²©¿Í)
-- [List All Blog »ñÈ¡²©¿Í](#list-all-blog--»ñÈ¡²©¿Í)
-- [check isbought ¼ì²é²©¿ÍÊÇ·ñ¸¶·Ñ](#check-isbought--¼ì²é²©¿ÍÊÇ·ñ¸¶·Ñ)
-- [Pay blogs Ö§¸¶²©¿Í](#pay-blogs-Ö§¸¶²©¿Í)
-- [Pay ADs Ö§¸¶¹ã¸æ](#pay-ads-Ö§¸¶¹ã¸æ)
-- [List Personal Info ÁĞ³ö¸öÈËĞÅÏ¢](#list-personal-info-ÁĞ³ö¸öÈËĞÅÏ¢)
-- [List Personal Balance ÁĞ³ö¸öÈËÓà¶î](#list-personal-balance-ÁĞ³ö¸öÈËÓà¶î)
-- [List Personal Published ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´](#list-personal-published-ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´)
-- [List Personal Published num ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´ÊıÁ¿](#list-personal-published-num-ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´ÊıÁ¿)
-- [~~List Personal Bought ÁĞ³ö¸öÈË¹ºÂò¹ıµÄ×ÊÔ´~~](#list-personal-bought-ÁĞ³ö¸öÈË¹ºÂò¹ıµÄ×ÊÔ´)
-- [List Billings detail ÁĞ³ö¸öÈËÕËµ¥ÏêÏ¸ĞÅÏ¢(ÊÕÈëºÍÖ§³ö½Ó¿Ú×ÜºÍ)](#list-billings-detail-ÁĞ³ö¸öÈËÕËµ¥ÏêÏ¸ĞÅÏ¢ÊÕÈëºÍÖ§³ö½Ó¿Ú×ÜºÍ)
-- [List Billings ÁĞ³ö¸öÈËÕËµ¥](#list-billings-ÁĞ³ö¸öÈËÕËµ¥)
-- [List User's Outgos ÁĞ³ö¸öÈËÖ§³ö](#list-users-outgos-ÁĞ³ö¸öÈËÖ§³ö)
-- [List User's Incomes ÁĞ³ö¸öÈËÊÕÈëÕËµ¥](#list-users-incomes-ÁĞ³ö¸öÈËÊÕÈëÕËµ¥)
-- [Add Blog View Ôö¼Ó²©¿Í·ÃÎÊÁ¿](#add-blog-view-Ôö¼Ó²©¿Í·ÃÎÊÁ¿)
-- [Modify Personal Info ĞŞ¸Ä¸öÈËĞÅÏ¢](#modify-personal-info-ĞŞ¸Ä¸öÈËĞÅÏ¢)
-- [~~Modify Blog Info ĞŞ¸ÄÎÄÕÂĞÅÏ¢~~](#modify-blog-info-ĞŞ¸ÄÎÄÕÂĞÅÏ¢)
-- [~~Record Blog Ìí¼Ó²©¿Í·ÃÎÊ~~](#record-blog-Ìí¼Ó²©¿Í·ÃÎÊ)
-- [¸½Â¼A:´íÎóÂë¶ÔÕÕ±í](#¸½Â¼a´íÎóÂë¶ÔÕÕ±í)
+## Table of Contents ç›®å½•
+- [Introudction è¯´æ˜](#introudction-è¯´æ˜)
+- [Get Publickey è·å–å…¬é’¥](#get-publickey-è·å–å…¬é’¥)
+- [test encrypt æµ‹è¯•åŠ å¯†](#test-encrypt-æµ‹è¯•åŠ å¯†)
+- [Register æ³¨å†Œ](#Register-æ³¨å†Œ)
+- [Pay To User ä¼˜æƒ æ´»åŠ¨ï¼Œç»™æ–°æ³¨å†Œçš„ç”¨æˆ·å‘10ä¸ªulord](#pay-to-user-ä¼˜æƒ æ´»åŠ¨ç»™æ–°æ³¨å†Œçš„ç”¨æˆ·å‘10ä¸ªulord)
+- [Login ç™»å½•](#login----ç™»å½•)
+- [Install Go](#logout----ç™»å‡º)
+- [Publish å‘å¸ƒåšå®¢](#publish--å‘å¸ƒåšå®¢)
+- [Update æ›´æ–°åšå®¢](#update--æ›´æ–°åšå®¢)
+- [Delete åˆ é™¤åšå®¢](#delete--æ›´æ–°åšå®¢)
+- [List All Blog è·å–åšå®¢](#list-all-blog--è·å–åšå®¢)
+- [check isbought æ£€æŸ¥åšå®¢æ˜¯å¦ä»˜è´¹](#check-isbought--æ£€æŸ¥åšå®¢æ˜¯å¦ä»˜è´¹)
+- [Pay blogs æ”¯ä»˜åšå®¢](#pay-blogs-æ”¯ä»˜åšå®¢)
+- [Pay ADs æ”¯ä»˜å¹¿å‘Š](#pay-ads-æ”¯ä»˜å¹¿å‘Š)
+- [List Personal Info åˆ—å‡ºä¸ªäººä¿¡æ¯](#list-personal-info-åˆ—å‡ºä¸ªäººä¿¡æ¯)
+- [List Personal Balance åˆ—å‡ºä¸ªäººä½™é¢](#list-personal-balance-åˆ—å‡ºä¸ªäººä½™é¢)
+- [List Personal Published åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æº](#list-personal-published-åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æº)
+- [List Personal Published num åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æºæ•°é‡](#list-personal-published-num-åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æºæ•°é‡)
+- [~~List Personal Bought åˆ—å‡ºä¸ªäººè´­ä¹°è¿‡çš„èµ„æº~~](#list-personal-bought-åˆ—å‡ºä¸ªäººè´­ä¹°è¿‡çš„èµ„æº)
+- [List Billings detail åˆ—å‡ºä¸ªäººè´¦å•è¯¦ç»†ä¿¡æ¯(æ”¶å…¥å’Œæ”¯å‡ºæ¥å£æ€»å’Œ)](#list-billings-detail-åˆ—å‡ºä¸ªäººè´¦å•è¯¦ç»†ä¿¡æ¯æ”¶å…¥å’Œæ”¯å‡ºæ¥å£æ€»å’Œ)
+- [List Billings åˆ—å‡ºä¸ªäººè´¦å•](#list-billings-åˆ—å‡ºä¸ªäººè´¦å•)
+- [List User's Outgos åˆ—å‡ºä¸ªäººæ”¯å‡º](#list-users-outgos-åˆ—å‡ºä¸ªäººæ”¯å‡º)
+- [List User's Incomes åˆ—å‡ºä¸ªäººæ”¶å…¥è´¦å•](#list-users-incomes-åˆ—å‡ºä¸ªäººæ”¶å…¥è´¦å•)
+- [Add Blog View å¢åŠ åšå®¢è®¿é—®é‡](#add-blog-view-å¢åŠ åšå®¢è®¿é—®é‡)
+- [Modify Personal Info ä¿®æ”¹ä¸ªäººä¿¡æ¯](#modify-personal-info-ä¿®æ”¹ä¸ªäººä¿¡æ¯)
+- [~~Modify Blog Info ä¿®æ”¹æ–‡ç« ä¿¡æ¯~~](#modify-blog-info-ä¿®æ”¹æ–‡ç« ä¿¡æ¯)
+- [~~Record Blog æ·»åŠ åšå®¢è®¿é—®~~](#record-blog-æ·»åŠ åšå®¢è®¿é—®)
+- [é™„å½•A:é”™è¯¯ç å¯¹ç…§è¡¨](#é™„å½•aé”™è¯¯ç å¯¹ç…§è¡¨)
 
-## Introudction ËµÃ÷
+## Introudction è¯´æ˜
 
-´ËÆªAPIÎÄµµÊÇulord²©¿ÍÑİÊ¾ÏµÍ³ºóÌ¨£¬ÓÉpython2.7Íê³É¡£²¿·ÖAPIĞèÒªÔÚÍ·²¿Ìí¼Ótoken²Å¿Éµ÷ÓÃ£¬µ÷ÓÃÊı¾İÎªjson¸ñÊ½£¬³É¹¦·µ»Ø0£¬´íÎó·µ»Ø´íÎóÂë¡£¾ßÌå¸ñÊ½ÈçÏÂ£º
+æ­¤ç¯‡APIæ–‡æ¡£æ˜¯ulordåšå®¢æ¼”ç¤ºç³»ç»Ÿåå°ï¼Œç”±python2.7å®Œæˆã€‚éƒ¨åˆ†APIéœ€è¦åœ¨å¤´éƒ¨æ·»åŠ tokenæ‰å¯è°ƒç”¨ï¼Œè°ƒç”¨æ•°æ®ä¸ºjsonæ ¼å¼ï¼ŒæˆåŠŸè¿”å›0ï¼Œé”™è¯¯è¿”å›é”™è¯¯ç ã€‚å…·ä½“æ ¼å¼å¦‚ä¸‹ï¼š
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
-    "errcode": 0,#×´Ì¬Âë
-    "reason": "success",#³É¹¦
-    "result": ""#·µ»Ø½á¹û£¬º­¸ÇÒ»Ğ©ËùĞèÒªµÄ·µ»ØÖµ
+    "errcode": 0,#çŠ¶æ€ç 
+    "reason": "success",#æˆåŠŸ
+    "result": ""#è¿”å›ç»“æœï¼Œæ¶µç›–ä¸€äº›æ‰€éœ€è¦çš„è¿”å›å€¼
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": 400~60301,# ´íÎóÂë£¬Ïê¼û¸½Â¼A
-    "reason": "some reason"# ´íÎóÔ­Òò£¬Ïê¼û¸½Â¼A
+    "errcode": 400~60301,# é”™è¯¯ç ï¼Œè¯¦è§é™„å½•A
+    "reason": "some reason"# é”™è¯¯åŸå› ï¼Œè¯¦è§é™„å½•A
 }
 ```
-¼ÓÃÜ²¿·Ö²ÉÓÃ·Ç¶Ô³Æ¼ÓÃÜ£¬Ç°¶ËÇëÇó¹«Ô¿½Ó¿Ú»ñµÃ¹«Ô¿¼ÓÃÜÊı¾İ·¢ËÍµ½ºó¶Ë£¬ºó¶Ë½øĞĞ½âÃÜ¡£
+åŠ å¯†éƒ¨åˆ†é‡‡ç”¨éå¯¹ç§°åŠ å¯†ï¼Œå‰ç«¯è¯·æ±‚å…¬é’¥æ¥å£è·å¾—å…¬é’¥åŠ å¯†æ•°æ®å‘é€åˆ°åç«¯ï¼Œåç«¯è¿›è¡Œè§£å¯†ã€‚
 
-Ç°¶Ë¼ÓÃÜ²¿·Ö´úÂëÏê¿´[ÕâÀï](https://github.com/UlordChain/ulord-blog-demo/blob/master/js/ulord-blog/views/login.html#L54),ºóÌ¨½âÃÜ´úÂëÏê¿´[ÕâÀï](https://github.com/UlordChain/ulord-blog-demo/blob/master/python/server.py#L76)¡£RSA¼ÓÃÜÔÚÏßÉú³É¿´[ÕâÀï](http://tool.chacuo.net/cryptrsapubkey)
+å‰ç«¯åŠ å¯†éƒ¨åˆ†ä»£ç è¯¦çœ‹[è¿™é‡Œ](https://github.com/UlordChain/ulord-blog-demo/blob/master/js/ulord-blog/views/login.html#L54),åå°è§£å¯†ä»£ç è¯¦çœ‹[è¿™é‡Œ](https://github.com/UlordChain/ulord-blog-demo/blob/master/python/server.py#L76)ã€‚RSAåŠ å¯†åœ¨çº¿ç”Ÿæˆçœ‹[è¿™é‡Œ](http://tool.chacuo.net/cryptrsapubkey)
 
-## Get Publickey »ñÈ¡¹«Ô¿
+## Get Publickey è·å–å…¬é’¥
 
 GET http://127.0.0.1:5000/user/password
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -72,14 +73,14 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:~# curl http://127.0.0.1:5000/user/password
 {
@@ -90,43 +91,43 @@ root@ubuntu:~# curl http://127.0.0.1:5000/user/password
   }
 }
 ```
-## test encrypt ²âÊÔ¼ÓÃÜ
+## test encrypt æµ‹è¯•åŠ å¯†
 
 POST http://127.0.0.1:5000/user/password
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|password | ¼ÓÃÜĞÅÏ¢ |ÊÇ|
+|password | åŠ å¯†ä¿¡æ¯ |æ˜¯|
 
 ```python
 {
-	"password":"¼ÓÃÜºóµÄÃÜÎÄ"
+	"password":"åŠ å¯†åçš„å¯†æ–‡"
 }
 ```
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
-        "password": "¼ÓÃÜÔ­ÎÄ"
+        "password": "åŠ å¯†åŸæ–‡"
     }
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --request POST --data '{"password":"dsBRr665H+O50qAyjf627O3fAsK+XEq0RoGn9x+WNedIRK1Yn8wolrOfHR72I7F5NPgz4aXQsVy+HR/xensubvJzTuhhinfRhHUX9t2DtLpAB0Y/Dh7cUDTB96CXP7IQuM0TIYuqXGxd/6eL8mWMnJGPGOuwGHHcImXdytdEqTg="}' http://127.0.0.1:5000/user/password
 {
@@ -138,18 +139,18 @@ root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --reques
 }
 
 ```
-## Register ×¢²á
+## Register æ³¨å†Œ
 
 POST http://127.0.0.1:5000/user/regist
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|username | ÓÃ»§Ãû |ÊÇ|
-|password | ÃÜÂë |ÊÇ|
-|cellphone | ÊÖ»úºÅ |·ñ|
-|email | ÓÊÏä |·ñ|
+|username | ç”¨æˆ·å |æ˜¯|
+|password | å¯†ç  |æ˜¯|
+|cellphone | æ‰‹æœºå· |å¦|
+|email | é‚®ç®± |å¦|
 
 ```python
 {
@@ -162,7 +163,7 @@ args:json
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -173,14 +174,14 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --request POST --data '{"username":"iLlNQVJEl1UXfvPGXi0QqZrw1CVRriQ7K+idYLjLnTNND+/GN4eId0qqDOSlI3vwAiiOu2uIfCAr4K/JMbrl5RJkbLHw7Puvp7/2a5jWM3/vmptoqQPIvsMh5pP3UAcwivPyXqUnLxu/K4zvbiAvX0ezM5D19QP7NqZhohmZCJU=","password":"dsBRr665H+O50qAyjf627O3fAsK+XEq0RoGn9x+WNedIRK1Yn8wolrOfHR72I7F5NPgz4aXQsVy+HR/xensubvJzTuhhinfRhHUX9t2DtLpAB0Y/Dh7cUDTB96CXP7IQuM0TIYuqXGxd/6eL8mWMnJGPGOuwGHHcImXdytdEqTg="}' http://127.0.0.1:5000/user/regist
 {
@@ -191,7 +192,7 @@ root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --reques
   }
 }
 ```
-## Pay To User ÓÅ»İ»î¶¯£¬¸øĞÂ×¢²áµÄÓÃ»§·¢10¸öulord
+## Pay To User ä¼˜æƒ æ´»åŠ¨ï¼Œç»™æ–°æ³¨å†Œçš„ç”¨æˆ·å‘10ä¸ªulord
 
 GET http://127.0.0.1:5000/user/activity
 
@@ -199,45 +200,45 @@ head:token
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
-        "amount": "´òµÄÇ®Êı"
+        "amount": "æ‰“çš„é’±æ•°"
     }
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:/home/ubuntu# curl --header "token:48cbfb56-51f4-11e8-82da-fa163e1b6459" http://127.0.0.1:5000/user/activity
 {
   "errcode": 20206,
-  "reason": "Ö§¸¶Ê§°Ü.",
+  "reason": "æ”¯ä»˜å¤±è´¥.",
   "result": {
     "wallet_reason": "(-32603, 'Server error:   File \"/home/ubuntu/ht/env/ulord/lib/python2.7/site-packages/muwallet-1.1.2-py2.7.egg/uwallet/network.py\", line 785, in synchronous_get | BaseException: Failed to get response from server within timeout of 30')"
   }
 }
 ```
-## Login    µÇÂ¼
+## Login    ç™»å½•
 
 POST http://127.0.0.1:5000/user/login
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|username | ÓÃ»§Ãû |ÊÇ|
-|password | ÃÜÂë |ÊÇ|
+|username | ç”¨æˆ·å |æ˜¯|
+|password | å¯†ç  |æ˜¯|
 
 ```python
 {
@@ -248,7 +249,7 @@ args:json
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -259,14 +260,14 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --request POST --data '{"username":"iLlNQVJEl1UXfvPGXi0QqZrw1CVRriQ7K+idYLjLnTNND+/GN4eId0qqDOSlI3vwAiiOu2uIfCAr4K/JMbrl5RJkbLHw7Puvp7/2a5jWM3/vmptoqQPIvsMh5pP3UAcwivPyXqUnLxu/K4zvbiAvX0ezM5D19QP7NqZhohmZCJU=","password":"dsBRr665H+O50qAyjf627O3fAsK+XEq0RoGn9x+WNedIRK1Yn8wolrOfHR72I7F5NPgz4aXQsVy+HR/xensubvJzTuhhinfRhHUX9t2DtLpAB0Y/Dh7cUDTB96CXP7IQuM0TIYuqXGxd/6eL8mWMnJGPGOuwGHHcImXdytdEqTg="}' http://127.0.0.1:5000/user/login
 {
@@ -278,7 +279,7 @@ root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --reques
 }
 
 ```
-## Logout    µÇ³ö
+## Logout    ç™»å‡º
 
 POST/GET http://127.0.0.1:5000/user/logout
 
@@ -286,7 +287,7 @@ head:token
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -295,14 +296,14 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 root@ubuntu:/home/ubuntu# curl --header "token:37b28362-51f9-11e8-82da-fa163e1b6459" http://127.0.0.1:5000/user/logout
 {
@@ -313,7 +314,7 @@ root@ubuntu:/home/ubuntu# curl --header "token:37b28362-51f9-11e8-82da-fa163e1b6
 root@ubuntu:/home/ubuntu# curl --header "token:37b28362-51f9-11e8-82da-fa163e1b6459" --request POST http://127.0.0.1:5000/user/logout
 {
   "errcode": 60104,
-  "reason": "ÎŞĞ§µÄtoken"
+  "reason": "æ— æ•ˆçš„token"
 }
 root@ubuntu:/home/ubuntu# curl --header "Content-Type:application/json" --request POST --data '{"username":"iLlNQVJEl1UXfvPGXi0QqZrw1CVRriQ7K+idYLjLnTNND+/GN4eId0qqDOSlI3vwAiiOu2uIfCAr4K/JMbrl5RJkbLHw7Puvp7/2a5jWM3/vmptoqQPIvsMh5pP3UAcwivPyXqUnLxu/K4zvbiAvX0ezM5D19QP7NqZhohmZCJU=","password":"dsBRr665H+O50qAyjf627O3fAsK+XEq0RoGn9x+WNedIRK1Yn8wolrOfHR72I7F5NPgz4aXQsVy+HR/xensubvJzTuhhinfRhHUX9t2DtLpAB0Y/Dh7cUDTB96CXP7IQuM0TIYuqXGxd/6eL8mWMnJGPGOuwGHHcImXdytdEqTg="}' http://127.0.0.1:5000/user/login
 {
@@ -331,21 +332,21 @@ root@ubuntu:/home/ubuntu# curl --header "token:9193b982-51f9-11e8-82da-fa163e1b6
 }
 
 ```
-## Publish  ·¢²¼²©¿Í
+## Publish  å‘å¸ƒåšå®¢
 
 POST http://127.0.0.1:5000/blog/publish
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|title | ±êÌâ |ÊÇ|
-|body | ²©¿ÍÄÚÈİ |ÊÇ|
-|amount | ¶¨¼Û |ÊÇ|
-|tag | ±êÇ© |·ñ|
-|description|ÃèÊö|·ñ|
+|title | æ ‡é¢˜ |æ˜¯|
+|body | åšå®¢å†…å®¹ |æ˜¯|
+|amount | å®šä»· |æ˜¯|
+|tag | æ ‡ç­¾ |å¦|
+|description|æè¿°|å¦|
 
 ```python
 {
@@ -359,46 +360,46 @@ args£ºjson
 
 return:
 
-³É¹¦£º
+æˆåŠŸï¼š
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result":{
-        "id":Êı¾İ¿âid,
-        "claim_id":×ÊÔ´ÔÚÁ´ÉÏµÄid,
+        "id":æ•°æ®åº“id,
+        "claim_id":èµ„æºåœ¨é“¾ä¸Šçš„id,
     }
 }
 ```
 
-Ê§°Ü£º
+å¤±è´¥ï¼š
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## Update  ¸üĞÂ²©¿Í
+## Update  æ›´æ–°åšå®¢
 
 POST http://127.0.0.1:5000/blog/update
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|id | Æ½Ì¨Êı¾İ¿âID |ÊÇ|
-|password | ÓÃ»§ÃÜÂë |ÊÇ|
-|title | ±êÌâ |·ñ|
-|body | ²©¿ÍÄÚÈİ |·ñ|
-|amount | ¶¨¼Û |·ñ|
-|tag | ±êÇ© |·ñ|
-|description|ÃèÊö|·ñ|
+|id | å¹³å°æ•°æ®åº“ID |æ˜¯|
+|password | ç”¨æˆ·å¯†ç  |æ˜¯|
+|title | æ ‡é¢˜ |å¦|
+|body | åšå®¢å†…å®¹ |å¦|
+|amount | å®šä»· |å¦|
+|tag | æ ‡ç­¾ |å¦|
+|description|æè¿°|å¦|
 
 ```python
 {
@@ -414,41 +415,85 @@ args£ºjson
 
 return:
 
-³É¹¦£º
+æˆåŠŸï¼š
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result":{
-        "id":Êı¾İ¿âid,
-        "claim_id":×ÊÔ´ÔÚÁ´ÉÏµÄid,
+        "id":æ•°æ®åº“id,
+        "claim_id":èµ„æºåœ¨é“¾ä¸Šçš„id,
     }
 }
 ```
 
-Ê§°Ü£º
+å¤±è´¥ï¼š
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List All Blog  »ñÈ¡²©¿Í
+## Delete  åˆ é™¤åšå®¢
+
+POST http://127.0.0.1:5000/blog/delete
+
+head:token
+
+argsï¼šjson
+
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
+| ----  | :-----:  |  :----:  |
+|id | å¹³å°æ•°æ®åº“ID |æ˜¯|
+|password | ç”¨æˆ·å¯†ç  |æ˜¯|
+
+```python
+{
+    "id":"1",
+    "password":"123"#(åŠ å¯†åçš„å¯†ç )
+}
+```
+
+return:
+
+æˆåŠŸï¼š
+```python
+{
+    "errcode": 0,
+    "reason": "success",
+    "result": {
+        "num": 1
+    }
+}
+```
+
+å¤±è´¥ï¼š
+```python
+{
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
+}
+```
+example ç¤ºä¾‹
+```bash
+
+```
+## List All Blog  è·å–åšå®¢
 
 POST http://127.0.0.1:5000/blog/all/list
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
 
 ```python
 {
@@ -456,18 +501,18 @@ args£ºjson
 	"num":10
 }
 ```
-> Ä¬ÈÏÎªÃ¿Ò³10ÌõÊı¾İ£¬·µ»ØµÚÒ»Ò³
+> é»˜è®¤ä¸ºæ¯é¡µ10æ¡æ•°æ®ï¼Œè¿”å›ç¬¬ä¸€é¡µ
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
-        total:×ÜÌõÊı,
-        pages:×ÜÒ³Êı,
+        total:æ€»æ¡æ•°,
+        pages:æ€»é¡µæ•°,
         data:
         [
             {
@@ -476,7 +521,7 @@ return:
                 "content_type": ".txt",
                 "create_timed": "2018-04-12T15:47:34.446858+00:00",
                 "currency": "ULD",
-                "des": "ÕâÊÇÊ¹ÓÃUDFSºÍÇø¿éÁ´Éú³ÉµÄµÚ2Æª²©¿ÍµÄÃèÊöĞÅÏ¢",
+                "des": "è¿™æ˜¯ä½¿ç”¨UDFSå’ŒåŒºå—é“¾ç”Ÿæˆçš„ç¬¬2ç¯‡åšå®¢çš„æè¿°ä¿¡æ¯",
                 "id": 5,
                 "price": 1.3,
                 "status": 1,
@@ -485,7 +530,7 @@ return:
                     "java",
                     "javascript",
                 ],
-                "title": "µÚ2Æª¼¼Êõ²©¿Í",
+                "title": "ç¬¬2ç¯‡æŠ€æœ¯åšå®¢",
                 "update_timed": null
             }
         ]
@@ -493,28 +538,28 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## check isbought  ¼ì²é²©¿ÍÊÇ·ñ¸¶·Ñ
+## check isbought  æ£€æŸ¥åšå®¢æ˜¯å¦ä»˜è´¹
 
 POST http://127.0.0.1:5000/blog/isbought
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|claim_ids|²©¿ÍµÄidÁĞ±í|ÊÇ|
+|claim_ids|åšå®¢çš„idåˆ—è¡¨|æ˜¯|
 
 ```python
 {
@@ -531,45 +576,45 @@ args£ºjson
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
         "25e48b12694b4704aeff32ba0a568c21ad8dd5d6": "QmUH2NbKrURA6hAmJnhfP4VTDtkjUs3fVCN2L7DoE3JLmm",
-        "2d4bbaf369464feeb90ac957af72a641f9a1bc9c": false,  # Î´¸¶·Ñ
+        "2d4bbaf369464feeb90ac957af72a641f9a1bc9c": false,  # æœªä»˜è´¹
         "a5b899fe01d633b6f0b809c4af2312524c081576": "QmUH2NbKrURA6hAmJnhfP4VTDtkjUs3fVCN2L7DoE3JLmm",
-        "e1b98bcc018950ac4684c663d0ea4fa9fc19543d": null,  # Ã»ÓĞ´Ë¼ÇÂ¼
+        "e1b98bcc018950ac4684c663d0ea4fa9fc19543d": null,  # æ²¡æœ‰æ­¤è®°å½•
         "e1b98bcc018950ac4684c663d0ea4fa9fc19543f": false,
         "ec3c93680884d8b1aee25242f64f79f8bd847c57": "QmUH2NbKrURA6hAmJnhfP4VTDtkjUs3fVCN2L7DoE3JLmm"
     }
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## Pay blogs Ö§¸¶²©¿Í
+## Pay blogs æ”¯ä»˜åšå®¢
 
 POST http://127.0.0.1:5000/pay/blogs
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|password | ÃÜÂë |ÊÇ|
-|claim_id | ²©¿Íid |ÊÇ|
+|password | å¯†ç  |æ˜¯|
+|claim_id | åšå®¢id |æ˜¯|
 
 ```python
 {
@@ -580,7 +625,7 @@ args£ºjson
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -590,32 +635,32 @@ return:
     }
 }
 
-# Ö§¸¶³É¹¦·µ»ØÎÄ¼şµÄhashÖµ£¬Í¨¹ıUDFS½Ó¿Ú»ñÈ¡Êı¾İ
+# æ”¯ä»˜æˆåŠŸè¿”å›æ–‡ä»¶çš„hashå€¼ï¼Œé€šè¿‡UDFSæ¥å£è·å–æ•°æ®
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## Pay ADs Ö§¸¶¹ã¸æ
+## Pay ADs æ”¯ä»˜å¹¿å‘Š
 
 POST http://127.0.0.1:5000/pay/ads
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|author | ²©¿Í×÷ÕßÃû |ÊÇ|
-|claim_id | ²©¿Íid |ÊÇ|
+|author | åšå®¢ä½œè€…å |æ˜¯|
+|claim_id | åšå®¢id |æ˜¯|
 
 ```python
 {
@@ -626,7 +671,7 @@ args£ºjson
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -636,21 +681,21 @@ return:
     }
 }
 
-# Ö§¸¶³É¹¦·µ»ØÎÄ¼şµÄhashÖµ£¬Í¨¹ıUDFS½Ó¿Ú»ñÈ¡Êı¾İ
+# æ”¯ä»˜æˆåŠŸè¿”å›æ–‡ä»¶çš„hashå€¼ï¼Œé€šè¿‡UDFSæ¥å£è·å–æ•°æ®
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Personal Info ÁĞ³ö¸öÈËĞÅÏ¢
+## List Personal Info åˆ—å‡ºä¸ªäººä¿¡æ¯
 
 GET http://127.0.0.1:5000/user/info
 
@@ -658,7 +703,7 @@ head:token
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
 	'errcode':0,
@@ -671,18 +716,18 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Personal Balance ÁĞ³ö¸öÈËÓà¶î
+## List Personal Balance åˆ—å‡ºä¸ªäººä½™é¢
 
 GET http://127.0.0.1:5000/user/balance
 
@@ -690,32 +735,32 @@ head:token
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result":{
-        "total":×ÜÓà¶î,
-        "confirmed":ÒÑÈ·ÈÏÓà¶î,
-        "unconfirmed":Î´È·ÈÏÓà¶î,
-        "unmatured":Î´³ÉÊìµÄÓà¶î(ÍÚ¿óËùµÃ,100¸ö¿é²Å³ÉÊì),
+        "total":æ€»ä½™é¢,
+        "confirmed":å·²ç¡®è®¤ä½™é¢,
+        "unconfirmed":æœªç¡®è®¤ä½™é¢,
+        "unmatured":æœªæˆç†Ÿçš„ä½™é¢(æŒ–çŸ¿æ‰€å¾—,100ä¸ªå—æ‰æˆç†Ÿ),
     }
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Personal Published ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´
+## List Personal Published åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æº
 
 POST http://127.0.0.1:5000/user/published
 
@@ -723,10 +768,10 @@ head:token
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
 
 ```python
 {
@@ -738,7 +783,7 @@ args:json
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -746,14 +791,14 @@ return:
     "result": {
         "data": [
             {
-                "claim_id": ×ÊÔ´µÄclaim_id,
-                "create_timed": ´ËÌõÏû·ÑµÄÊ±¼ä,
-                "customer": Ïû·ÑÕß,
-                "enabled": ×ÊÔ´ÊÇ·ñÉ¾³ı,
-                "id": ×ÊÔ´ÔÚDBÖĞµÄid,
-                "price": 0.6,  # ¼Û¸ñÎªÕı, ÊÇ·¢²¼ÕßµÄÊÕÈë
-                "title": ×ÊÔ´±êÌâ,
-                "txid": ´ËÌõÏû·ÑµÄtxid
+                "claim_id": èµ„æºçš„claim_id,
+                "create_timed": æ­¤æ¡æ¶ˆè´¹çš„æ—¶é—´,
+                "customer": æ¶ˆè´¹è€…,
+                "enabled": èµ„æºæ˜¯å¦åˆ é™¤,
+                "id": èµ„æºåœ¨DBä¸­çš„id,
+                "price": 0.6,  # ä»·æ ¼ä¸ºæ­£, æ˜¯å‘å¸ƒè€…çš„æ”¶å…¥
+                "title": èµ„æºæ ‡é¢˜,
+                "txid": æ­¤æ¡æ¶ˆè´¹çš„txid
             }
         ],
         "pages": 1,
@@ -762,18 +807,18 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Personal Published num ÁĞ³ö¸öÈË·¢²¼¹ıµÄ×ÊÔ´ÊıÁ¿
+## List Personal Published num åˆ—å‡ºä¸ªäººå‘å¸ƒè¿‡çš„èµ„æºæ•°é‡
 
 GET http://127.0.0.1:5000/user/published/num
 
@@ -781,7 +826,7 @@ head:token
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -792,18 +837,18 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## ~~List Personal Bought ÁĞ³ö¸öÈË¹ºÂò¹ıµÄ×ÊÔ´~~
+## ~~List Personal Bought åˆ—å‡ºä¸ªäººè´­ä¹°è¿‡çš„èµ„æº~~
 
 ~~POST http://127.0.0.1:5000/user/bought~~
 
@@ -811,11 +856,11 @@ example Ê¾Àı
 
 ~~args:json~~
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
-|category|²éÑ¯Ìõ¼ş|·ñ
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
+|category|æŸ¥è¯¢æ¡ä»¶|å¦
 
 ```python
 {
@@ -824,11 +869,11 @@ example Ê¾Àı
     "category":0
 }
 ```
-> Ä¬ÈÏÎªÃ¿Ò³10ÌõÊı¾İ£¬·µ»ØµÚÒ»Ò³¡£²éÑ¯Ìõ¼şÎª0-Ïû·ÑÖ§³ö£¬1-¹ã¸æÊÕÈë£¬ÆäËû-ËùÓĞ
+> é»˜è®¤ä¸ºæ¯é¡µ10æ¡æ•°æ®ï¼Œè¿”å›ç¬¬ä¸€é¡µã€‚æŸ¥è¯¢æ¡ä»¶ä¸º0-æ¶ˆè´¹æ”¯å‡ºï¼Œ1-å¹¿å‘Šæ”¶å…¥ï¼Œå…¶ä»–-æ‰€æœ‰
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -837,14 +882,14 @@ return:
         "pages": 1,
         "records": [
             {
-                "author": ×ÊÔ´·¢²¼Õß,
-                "claim_id": ×ÊÔ´ÔÚÁ´ÉÏµÄclaim_id,
-                "create_timed": Ïû·ÑÊ±¼ä,
-                "enabled": ×ÊÔ´ÊÇ·ñÉ¾³ı,
-                "id": ×ÊÔ´ÔÚDBÖĞid,
-                "price": 0.5, # ¼Û¸ñÎªÕıÊ±, ÊÇÏû·ÑÕßµÄÖ§³ö
-                "title": ×ÊÔ´±êÌâ,
-                "txid": ´ËÌõÏû·ÑµÄtxid
+                "author": èµ„æºå‘å¸ƒè€…,
+                "claim_id": èµ„æºåœ¨é“¾ä¸Šçš„claim_id,
+                "create_timed": æ¶ˆè´¹æ—¶é—´,
+                "enabled": èµ„æºæ˜¯å¦åˆ é™¤,
+                "id": èµ„æºåœ¨DBä¸­id,
+                "price": 0.5, # ä»·æ ¼ä¸ºæ­£æ—¶, æ˜¯æ¶ˆè´¹è€…çš„æ”¯å‡º
+                "title": èµ„æºæ ‡é¢˜,
+                "txid": æ­¤æ¡æ¶ˆè´¹çš„txid
             }
         ],
         "total": 7
@@ -852,18 +897,18 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Billings detail ÁĞ³ö¸öÈËÕËµ¥ÏêÏ¸ĞÅÏ¢(ÊÕÈëºÍÖ§³ö½Ó¿Ú×ÜºÍ)
+## List Billings detail åˆ—å‡ºä¸ªäººè´¦å•è¯¦ç»†ä¿¡æ¯(æ”¶å…¥å’Œæ”¯å‡ºæ¥å£æ€»å’Œ)
 
 POST http://127.0.0.1:5000/user/billings/details
 
@@ -871,10 +916,10 @@ head:token
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
 
 ```python
 {
@@ -882,11 +927,11 @@ args:json
     "num":6
 }
 ```
-> Ä¬ÈÏÎªÃ¿Ò³10ÌõÊı¾İ£¬·µ»ØµÚÒ»Ò³
+> é»˜è®¤ä¸ºæ¯é¡µ10æ¡æ•°æ®ï¼Œè¿”å›ç¬¬ä¸€é¡µ
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -894,16 +939,16 @@ return:
     "result": {
         "pages": 1,
         "records": [
-            {  # ×÷Îª·¢²¼Õß, priceÕıÎª×ÊÔ´ÊÕÈë
+            {  # ä½œä¸ºå‘å¸ƒè€…, priceæ­£ä¸ºèµ„æºæ”¶å…¥
                 "author": "uuu",
                 "claim_id": "1eaeee8108d2ddeefebd5dc811c3722857e32165",
                 "create_timed": "2018-04-21T08:40:07.045958+00:00",
                 "customer": "935827234",
                 "price": 0.65255,
-                "title": "²âÊÔ1111111",
+                "title": "æµ‹è¯•1111111",
                 "txid": "346bb03f63287b8c19ff0deee42ffe561d266beaeea80cff58f8098c4a4f42ab"
             },
-            {  # ×÷Îª·¢²¼Õß, price¸ºÎª¹ã¸æÖ§³ö
+            {  # ä½œä¸ºå‘å¸ƒè€…, priceè´Ÿä¸ºå¹¿å‘Šæ”¯å‡º
                 "author": "ttt",
                 "claim_id": "ca067e452618915fab2d33cdb6cecca83ae95659",
                 "create_timed": "2018-04-20T16:10:25.831104+00:00",
@@ -912,7 +957,7 @@ return:
                 "title": "df",
                 "txid": "d70c00b042b0fabd9279290f72af233d7e50f3092a0c341b05b3a7fc5cd784be"
             },
-            {  #×÷ÎªÏû·ÑÕß, priceÕıÎª×ÊÔ´Ö§³ö
+            {  #ä½œä¸ºæ¶ˆè´¹è€…, priceæ­£ä¸ºèµ„æºæ”¯å‡º
                 "author": "tttttttttttt",
                 "claim_id": "010d23be8ce1e23da9dad94c61618d1e0b484c77",
                 "create_timed": "2018-04-20T16:09:38.522716+00:00",
@@ -921,7 +966,7 @@ return:
                 "title": "the first blog",
                 "txid": "1b05ff6234eb95f5836afe6e8caf2617206d1f0d540c3798d8a2004f1ac0e299"
             },
-            {  # ×÷ÎªÏû·ÑÕß, price¸ºÎª¹ã¸æÊÕÈë
+            {  # ä½œä¸ºæ¶ˆè´¹è€…, priceè´Ÿä¸ºå¹¿å‘Šæ”¶å…¥
                 "author": "yyy",
                 "claim_id": "798aedf4fab2fa77a77b56528abe6e50afce37e6",
                 "create_timed": "2018-04-20T15:55:16.285238+00:00",
@@ -936,18 +981,18 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## List Billings ÁĞ³ö¸öÈËÕËµ¥
+## List Billings åˆ—å‡ºä¸ªäººè´¦å•
 
 POST http://127.0.0.1:5000/user/billings/
 
@@ -955,10 +1000,10 @@ head:token
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|sdate|¿ªÊ¼ÈÕÆÚ|ÊÇ|
-|edate|½áÊøÈÕÆÚ|ÊÇ|
+|sdate|å¼€å§‹æ—¥æœŸ|æ˜¯|
+|edate|ç»“æŸæ—¥æœŸ|æ˜¯|
 
 ```python
 {
@@ -968,25 +1013,25 @@ args:json
 ```
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
-        "customer_expenditure": {  # Ïû·ÑÖ§³ö
-            "count": 2,  # ¼ÇÂ¼ÊıÁ¿
-            "sum": 1.17755  # ×ÜÖ§³ö
+        "customer_expenditure": {  # æ¶ˆè´¹æ”¯å‡º
+            "count": 2,  # è®°å½•æ•°é‡
+            "sum": 1.17755  # æ€»æ”¯å‡º
         },
-        "customer_income": {  # Ïû·ÑÊÕÈë
+        "customer_income": {  # æ¶ˆè´¹æ”¶å…¥
             "count": 0,
             "sum": null
         },
-        "publisher_expenditure": {  # ·¢²¼Ö§³ö
+        "publisher_expenditure": {  # å‘å¸ƒæ”¯å‡º
             "count": 0,
             "sum": null
         },
-        "publisher_income": {  # ·¢²¼ÊÕÈë
+        "publisher_income": {  # å‘å¸ƒæ”¶å…¥
             "count": 0,
             "sum": null
         }
@@ -994,20 +1039,20 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## ~~List Customer's Billings ÁĞ³ö×÷ÎªÏû·ÑÕß¸öÈËÕËµ¥~~
+## ~~List Customer's Billings åˆ—å‡ºä½œä¸ºæ¶ˆè´¹è€…ä¸ªäººè´¦å•~~
 
-## List User's Outgos ÁĞ³ö¸öÈËÖ§³ö
+## List User's Outgos åˆ—å‡ºä¸ªäººæ”¯å‡º
 
 ~~POST http://127.0.0.1:5000/user/billings/customer~~
 
@@ -1017,30 +1062,30 @@ head:token
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
-|category|ÀàĞÍ|·ñ|
-|sdate|¿ªÊ¼ÈÕÆÚ|ÊÇ|
-|edate|½áÊøÈÕÆÚ|ÊÇ|
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
+|category|ç±»å‹|å¦|
+|sdate|å¼€å§‹æ—¥æœŸ|æ˜¯|
+|edate|ç»“æŸæ—¥æœŸ|æ˜¯|
 
 ```python
 {
 	"page":1,
 	"num":2,
-	"category":2£¬
+	"category":2ï¼Œ
 	"sdate":"2018-03-15",
 	"edate":"2018-03-16"
 }
 ```
-> Ä¬ÈÏÎªÃ¿Ò³10ÌõÊı¾İ£¬·µ»ØµÚÒ»Ò³¡£ÀàĞÍÎª2
+> é»˜è®¤ä¸ºæ¯é¡µ10æ¡æ•°æ®ï¼Œè¿”å›ç¬¬ä¸€é¡µã€‚ç±»å‹ä¸º2
 
-> ÀàĞÍ0-Îª×ÊÔ´£¬1-Îª¹ã¸æ£¬2-ÎªËùÓĞ
+> ç±»å‹0-ä¸ºèµ„æºï¼Œ1-ä¸ºå¹¿å‘Šï¼Œ2-ä¸ºæ‰€æœ‰
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -1048,16 +1093,16 @@ return:
     "result": {
         "pages": 1,
         "records": [
-            {  # ÓÃ»§×÷Îª·¢²¼Õß Ö§³ö¹ã¸æ·Ñ
-                "author": "719355782",  # ·¢²¼Õß
+            {  # ç”¨æˆ·ä½œä¸ºå‘å¸ƒè€… æ”¯å‡ºå¹¿å‘Šè´¹
+                "author": "719355782",  # å‘å¸ƒè€…
                 "claim_id": "870c3a35a8b82f1d4f8e89b89b5c7d3b80d6bc5b",
                 "create_timed": "2018-04-21T08:39:25.883777+00:00",
-                "customer": "935827234",  # Ïû·ÑÕß
-                "price": 0.525,  # ½»Ò×½ğ¶î
+                "customer": "935827234",  # æ¶ˆè´¹è€…
+                "price": 0.525,  # äº¤æ˜“é‡‘é¢
                 "title": "123123123123",
                 "txid": "31af05db89decfcd561ba79fbd130aacb8f02de4b75e55f4548626c1d9732c51"
             },
-            {  # ÓÃ»§×÷ÎªÏû·ÑÕß, Ö§³ö×ÊÔ´Ïû·Ñ
+            {  # ç”¨æˆ·ä½œä¸ºæ¶ˆè´¹è€…, æ”¯å‡ºèµ„æºæ¶ˆè´¹
                 "author": "tttttttttttt",
                 "claim_id": "010d23be8ce1e23da9dad94c61618d1e0b484c77",
                 "create_timed": "2018-04-21T11:55:43.680047+00:00",
@@ -1072,20 +1117,20 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## ~~List Author's Billings ÁĞ³ö×÷Îª·¢²¼Õß¸öÈËÕËµ¥~~
+## ~~List Author's Billings åˆ—å‡ºä½œä¸ºå‘å¸ƒè€…ä¸ªäººè´¦å•~~
 
-## List User's Incomes ÁĞ³ö¸öÈËÊÕÈëÕËµ¥
+## List User's Incomes åˆ—å‡ºä¸ªäººæ”¶å…¥è´¦å•
 
 ~~POST http://127.0.0.1:5000/user/billings/author~~
 
@@ -1095,13 +1140,13 @@ head:token
 
 args:json
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|page|Ò³Êı|·ñ|
-|num|Ã¿Ò³ÏÔÊ¾Êı|·ñ|
-|category|ÀàĞÍ|·ñ|
-|sdate|¿ªÊ¼ÈÕÆÚ|ÊÇ|
-|edate|½áÊøÈÕÆÚ|ÊÇ|
+|page|é¡µæ•°|å¦|
+|num|æ¯é¡µæ˜¾ç¤ºæ•°|å¦|
+|category|ç±»å‹|å¦|
+|sdate|å¼€å§‹æ—¥æœŸ|æ˜¯|
+|edate|ç»“æŸæ—¥æœŸ|æ˜¯|
 
 ```python
 {
@@ -1112,13 +1157,13 @@ args:json
 	"edate":"2018-03-16"
 }
 ```
-> Ä¬ÈÏÎªÃ¿Ò³10ÌõÊı¾İ£¬·µ»ØµÚÒ»Ò³¡£ÀàĞÍÎª2
+> é»˜è®¤ä¸ºæ¯é¡µ10æ¡æ•°æ®ï¼Œè¿”å›ç¬¬ä¸€é¡µã€‚ç±»å‹ä¸º2
 
-> ÀàĞÍ0-Îª×ÊÔ´£¬1-Îª¹ã¸æ£¬2-ÎªËùÓĞ
+> ç±»å‹0-ä¸ºèµ„æºï¼Œ1-ä¸ºå¹¿å‘Šï¼Œ2-ä¸ºæ‰€æœ‰
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -1126,7 +1171,7 @@ return:
     "result": {
         "pages": 1,
         "records": [
-            {  # ÓÃ»§×÷ÎªÏû·ÑÕâ, µã»÷¹ã¸æÊÕÈë
+            {  # ç”¨æˆ·ä½œä¸ºæ¶ˆè´¹è¿™, ç‚¹å‡»å¹¿å‘Šæ”¶å…¥
                 "author": "yyy",
                 "claim_id": "798aedf4fab2fa77a77b56528abe6e50afce37e6",
                 "create_timed": "2018-04-21T13:37:41.983595+00:00",
@@ -1135,7 +1180,7 @@ return:
                 "title": "666",
                 "txid": "d162db3c4185720d287b7fabbe560546c9bce06f0812fadeb9d78c8d0fe2a2aa"
             },
-            {  # ÓÃ»§×÷Îª·¢²¼Õß, ·¢²¼×ÊÔ´ÊÕÈë
+            {  # ç”¨æˆ·ä½œä¸ºå‘å¸ƒè€…, å‘å¸ƒèµ„æºæ”¶å…¥
                 "author": "719355782",
                 "claim_id": "870c3a35a8b82f1d4f8e89b89b5c7d3b80d6bc5b",
                 "create_timed": "2018-04-21T09:47:05.902228+00:00",
@@ -1150,73 +1195,73 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## Add Blog View Ôö¼Ó²©¿Í·ÃÎÊÁ¿
+## Add Blog View å¢åŠ åšå®¢è®¿é—®é‡
 
 POST http://127.0.0.1:5000/blog/views
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|id | Êı¾İ¿âID(²»ÊÇclaimID) |ÊÇ|
+|id | æ•°æ®åº“ID(ä¸æ˜¯claimID) |æ˜¯|
 
 ```python
 {
-    'id':×ÊÔ´id
+    'id':èµ„æºid
 }
 ```
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
     "reason": "success",
     "result": {
-        "num": ĞŞ¸ÄÓ°ÏìĞĞÊı
+        "num": ä¿®æ”¹å½±å“è¡Œæ•°
     }
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## Modify Personal Info ĞŞ¸Ä¸öÈËĞÅÏ¢
+## Modify Personal Info ä¿®æ”¹ä¸ªäººä¿¡æ¯
 POST http://127.0.0.1:5000/user/modify
 
 head:token
 
-args£ºjson
+argsï¼šjson
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|username | ÓÃ»§Ãû |·ñ|
-|password | Ô­Ê¼ÃÜÂë |ÊÇ|
-|cellphone | ÊÖ»úºÅ |·ñ|
-|email | ÓÊÏä |·ñ|
-|new_password | ĞÂÃÜÂë |·ñ|
+|username | ç”¨æˆ·å |å¦|
+|password | åŸå§‹å¯†ç  |æ˜¯|
+|cellphone | æ‰‹æœºå· |å¦|
+|email | é‚®ç®± |å¦|
+|new_password | æ–°å¯†ç  |å¦|
 
 ```python
 {
@@ -1230,7 +1275,7 @@ args£ºjson
 
 return:
 
-³É¹¦
+æˆåŠŸ
 ```python
 {
     "errcode": 0,
@@ -1244,32 +1289,32 @@ return:
 }
 ```
 
-Ê§°Ü
+å¤±è´¥
 ```python
 {
-    "errcode": ´íÎóÂë,
-    "reason": "´íÎóÔ­Òò"
+    "errcode": é”™è¯¯ç ,
+    "reason": "é”™è¯¯åŸå› "
 }
 ```
-example Ê¾Àı
+example ç¤ºä¾‹
 ```bash
 
 ```
-## ~~Modify Blog Info ĞŞ¸ÄÎÄÕÂĞÅÏ¢~~
+## ~~Modify Blog Info ä¿®æ”¹æ–‡ç« ä¿¡æ¯~~
 
 ~~POST http://127.0.0.1:5000/blog/modify~~
 
 ~~head:token~~
 
-~~args£ºjson~~
+~~argsï¼šjson~~
 
-| arg      | comment   |  ÊÇ·ñ±ØÌî  |
+| arg      | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|~~title~~ | ~~±êÌâ ~~ |~~ÊÇ~~|
-|~~body~~ | ~~²©¿ÍÄÚÈİ ~~ |~~·ñ~~|
-|~~amount~~ | ~~¶¨¼Û ~~ |~~·ñ~~|
-|~~tag~~ | ~~±êÇ© ~~ |~~·ñ~~|
-|~~description~~|~~ÃèÊö~~|~~·ñ~~|
+|~~title~~ | ~~æ ‡é¢˜ ~~ |~~æ˜¯~~|
+|~~body~~ | ~~åšå®¢å†…å®¹ ~~ |~~å¦~~|
+|~~amount~~ | ~~å®šä»· ~~ |~~å¦~~|
+|~~tag~~ | ~~æ ‡ç­¾ ~~ |~~å¦~~|
+|~~description~~|~~æè¿°~~|~~å¦~~|
 
 ~~return:~~
 ```python
@@ -1279,17 +1324,17 @@ example Ê¾Àı
 }
 ```
 
-## ~~Record Blog Ìí¼Ó²©¿Í·ÃÎÊ~~
+## ~~Record Blog æ·»åŠ åšå®¢è®¿é—®~~
 
 ~~POST http://127.0.0.1:5000/blog/record~~
 
 ~~head:token~~
 
-~~args£ºjson~~
+~~argsï¼šjson~~
 
-| arg     | comment   |  ÊÇ·ñ±ØÌî  |
+| arg     | comment   |  æ˜¯å¦å¿…å¡«  |
 | ----  | :-----:  |  :----:  |
-|~~blog_ID~~ | ~~²©¿ÍµÄID~~ |~~ÊÇ~~|
+|~~blog_ID~~ | ~~åšå®¢çš„ID~~ |~~æ˜¯~~|
 
 ~~return:~~
 ```python
@@ -1299,59 +1344,59 @@ example Ê¾Àı
 }
 ```
 
-## ¸½Â¼A:´íÎóÂë¶ÔÕÕ±í
+## é™„å½•A:é”™è¯¯ç å¯¹ç…§è¡¨
 
 ```python
 {
-    # Õı³£
-    0:{'errcode':0,'reason':'success'},  # ¿ÉÒÔÖØĞ´reasonÓëresultÄÚÈİ
+    # æ­£å¸¸
+    0:{'errcode':0,'reason':'success'},  # å¯ä»¥é‡å†™reasonä¸resultå†…å®¹
 
-    # HTTPĞ­Òé´íÎóÂë
-    400:{'errcode':400,'reason':'´íÎóµÄÇëÇó.'},
-    403:{'errcode':403,'reason':'ÄúÃ»ÓĞÈ¨ÏŞ½øĞĞ´Ë²Ù×÷.'},
-    404:{'errcode':404,'reason':'Api²»´æÔÚ.'},
-    405:{'errcode':405,'reason':'httpÇëÇó·½·¨²»ÔÊĞí.'},
-    500:{'errcode':500,'reason':'Api³ö´íÁË, Çë¼ì²éurlÒÔ¼°²ÎÊı.'},
+    # HTTPåè®®é”™è¯¯ç 
+    400:{'errcode':400,'reason':'é”™è¯¯çš„è¯·æ±‚.'},
+    403:{'errcode':403,'reason':'æ‚¨æ²¡æœ‰æƒé™è¿›è¡Œæ­¤æ“ä½œ.'},
+    404:{'errcode':404,'reason':'Apiä¸å­˜åœ¨.'},
+    405:{'errcode':405,'reason':'httpè¯·æ±‚æ–¹æ³•ä¸å…è®¸.'},
+    500:{'errcode':500,'reason':'Apiå‡ºé”™äº†, è¯·æ£€æŸ¥urlä»¥åŠå‚æ•°.'},
 
-    # ÏµÍ³¼¶´íÎóÂë
-    10001:{'errcode':10001,'reason':'´íÎóµÄÇëÇóKEY.'},
-    10002:{'errcode':10002,'reason':'¸ÃKEYÎŞÇëÇóÈ¨ÏŞ.'},
-    10003:{'errcode':10003,'reason':'KEY¹ıÆÚ.'},
-    10004:{'errcode':10004,'reason':'±»½ûÖ¹µÄIP.'},
-    10005:{'errcode':10005,'reason':'±»½ûÖ¹µÄKEY.'},
-    10006:{'errcode':10006,'reason':'µ±Ç°IPÇëÇó³¬¹ıÏŞÖÆ.'},
-    10007:{'errcode':10007,'reason':'ÇëÇó³¬¹ı´ÎÊıÏŞÖÆ.'},
-    10008:{'errcode':10008,'reason':'ÏµÍ³ÄÚ²¿Òì³£.'},
-    10009:{'errcode':10009,'reason':'½Ó¿ÚÎ¬»¤.'},
-    10010:{'errcode':10010,'reason':'½Ó¿ÚÍ£ÓÃ.'},
-    10011:{'errcode':10011,'reason':'µ±Ç°Ã»ÓĞµÇÂ¼ÓÃ»§,ÇëµÇÂ¼.'},
-    10012:{'errcode':10012,'reason':'È±ÉÙÓ¦ÓÃKEYÖµ.'},
-    10013:{'errcode':10013,'reason':'ÎŞÈ¨ÏŞ½øĞĞ´Ë²Ù×÷.'},
+    # ç³»ç»Ÿçº§é”™è¯¯ç 
+    10001:{'errcode':10001,'reason':'é”™è¯¯çš„è¯·æ±‚KEY.'},
+    10002:{'errcode':10002,'reason':'è¯¥KEYæ— è¯·æ±‚æƒé™.'},
+    10003:{'errcode':10003,'reason':'KEYè¿‡æœŸ.'},
+    10004:{'errcode':10004,'reason':'è¢«ç¦æ­¢çš„IP.'},
+    10005:{'errcode':10005,'reason':'è¢«ç¦æ­¢çš„KEY.'},
+    10006:{'errcode':10006,'reason':'å½“å‰IPè¯·æ±‚è¶…è¿‡é™åˆ¶.'},
+    10007:{'errcode':10007,'reason':'è¯·æ±‚è¶…è¿‡æ¬¡æ•°é™åˆ¶.'},
+    10008:{'errcode':10008,'reason':'ç³»ç»Ÿå†…éƒ¨å¼‚å¸¸.'},
+    10009:{'errcode':10009,'reason':'æ¥å£ç»´æŠ¤.'},
+    10010:{'errcode':10010,'reason':'æ¥å£åœç”¨.'},
+    10011:{'errcode':10011,'reason':'å½“å‰æ²¡æœ‰ç™»å½•ç”¨æˆ·,è¯·ç™»å½•.'},
+    10012:{'errcode':10012,'reason':'ç¼ºå°‘åº”ç”¨KEYå€¼.'},
+    10013:{'errcode':10013,'reason':'æ— æƒé™è¿›è¡Œæ­¤æ“ä½œ.'},
 
-    # ·şÎñ¼¶´íÎóÂë
-    # 1. DB²éÑ¯ÑéÖ¤
-    20000:{'errcode':20000,'reason':'ÓÃ»§ÒÑ´æÔÚ.'},
-    20001:{'errcode':20001,'reason':'ÓÊÏäÒÑ´æÔÚ.'},
-    20002:{'errcode':20002,'reason':'Ó¦ÓÃÃûÒÑ´æÔÚ.'},
-    20003:{'errcode':20003,'reason':'ÓÃ»§²»´æÔÚ.'},
-    20004:{'errcode':20004,'reason':'ÃÜÂë´íÎó.'},
-    20005:{'errcode':20005,'reason':'Êı¾İ²»´æÔÚ.'},
-    20006:{'errcode':20006,'reason':'ÓÃ»§±»½ûÓÃ.'},
-    20007:{'errcode':20007,'reason':'×ÊÔ´²»´æÔÚ.'},
-    20008:{'errcode':20008,'reason':'×ÊÔ´Ğè¸¶·Ñ.'},
+    # æœåŠ¡çº§é”™è¯¯ç 
+    # 1. DBæŸ¥è¯¢éªŒè¯
+    20000:{'errcode':20000,'reason':'ç”¨æˆ·å·²å­˜åœ¨.'},
+    20001:{'errcode':20001,'reason':'é‚®ç®±å·²å­˜åœ¨.'},
+    20002:{'errcode':20002,'reason':'åº”ç”¨åå·²å­˜åœ¨.'},
+    20003:{'errcode':20003,'reason':'ç”¨æˆ·ä¸å­˜åœ¨.'},
+    20004:{'errcode':20004,'reason':'å¯†ç é”™è¯¯.'},
+    20005:{'errcode':20005,'reason':'æ•°æ®ä¸å­˜åœ¨.'},
+    20006:{'errcode':20006,'reason':'ç”¨æˆ·è¢«ç¦ç”¨.'},
+    20007:{'errcode':20007,'reason':'èµ„æºä¸å­˜åœ¨.'},
+    20008:{'errcode':20008,'reason':'èµ„æºéœ€ä»˜è´¹.'},
 
-    # 2. ÇëÇó²ÎÊıÑéÖ¤Ïà¹Ø
-    20100:{'errcode':20100,'reason':'È±ÉÙ²ÎÊı.'},
-    20101:{'errcode':20101,'reason':'²ÎÊı³¤¶È²»·û.'},
-    20102:{'errcode':20102,'reason':'²ÎÊı±ØĞëÎªjson¸ñÊ½.'},
-    # 3. Ç®°üÏà¹Ø½Ó¿Úµ÷ÓÃ
-    20200:{'errcode':20200,'reason':'µ÷ÓÃÇ®°ü½Ó¿ÚÊ§°Ü.'},
-    20201:{'errcode':20201,'reason':'×ÊÔ´·¢²¼Ê§°Ü.'},
-    20202:{'errcode':20202,'reason':'×ÊÔ´Ïû·ÑÊ§°Ü.'},
-    20203:{'errcode':20203,'reason':'²éÑ¯Óà¶îÊ§°Ü.'},
-    20204:{'errcode':20204,'reason':'´´½¨Ç®°üÊ§°Ü.'},
+    # 2. è¯·æ±‚å‚æ•°éªŒè¯ç›¸å…³
+    20100:{'errcode':20100,'reason':'ç¼ºå°‘å‚æ•°.'},
+    20101:{'errcode':20101,'reason':'å‚æ•°é•¿åº¦ä¸ç¬¦.'},
+    20102:{'errcode':20102,'reason':'å‚æ•°å¿…é¡»ä¸ºjsonæ ¼å¼.'},
+    # 3. é’±åŒ…ç›¸å…³æ¥å£è°ƒç”¨
+    20200:{'errcode':20200,'reason':'è°ƒç”¨é’±åŒ…æ¥å£å¤±è´¥.'},
+    20201:{'errcode':20201,'reason':'èµ„æºå‘å¸ƒå¤±è´¥.'},
+    20202:{'errcode':20202,'reason':'èµ„æºæ¶ˆè´¹å¤±è´¥.'},
+    20203:{'errcode':20203,'reason':'æŸ¥è¯¢ä½™é¢å¤±è´¥.'},
+    20204:{'errcode':20204,'reason':'åˆ›å»ºé’±åŒ…å¤±è´¥.'},
 
-    #Ç®°ü´íÎó
+    #é’±åŒ…é”™è¯¯
     https://github.com/UlordChain/Ulord-platform/blob/master/Uwallet/uwallet/errors.py#L28
     '51000': 'command not found',
     '51001': 'password error',
@@ -1367,7 +1412,7 @@ example Ê¾Àı
 
     '50000': "Unknown Error",
     '52001': 'payment Failed',
-    '52002': "can't find fee in the claim.",  #  ÓÅ»¯
+    '52002': "can't find fee in the claim.",  #  ä¼˜åŒ–
     '52003': 'permission denied',
     '52004': 'Not enough funds',
     '52005': 'broadcast transaction fail',
@@ -1383,27 +1428,27 @@ example Ê¾Àı
     '53000': 'Decode claim value error',
     '53001': 'invalid claim address',
 
-    # Ó¦ÓÃ·şÎñ¼¶´íÎóÂë
-    # 1¡¢DB²éÑ¯ÑéÖ¤
-    60000:{'errcode':60000,'reason':'ÓÃ»§ÒÑ´æÔÚ.'},
-    60001:{'errcode':60001,'reason':'ÓÊÏäÒÑ´æÔÚ.'},
-    60002:{'errcode':60002,'reason':'ÓÃ»§²»´æÔÚ.'},
-    60003:{'errcode':60003,'reason':'ÃÜÂë´íÎó.'},
-    60004:{'errcode':60001,'reason':'ÓÊÏäÒÑ´æÔÚ.'},
-    60005:{'errcode':60005,'reason':'Êı¾İ¿âÌá½»Ê§°Ü.'},
-    60006:{'errcode':60006,'reason':'×÷ÕßÒÑÊ§Ğ§.'},
-    # 2. ÇëÇó²ÎÊıÑéÖ¤Ïà¹Ø
-    60100:{'errcode':60100,'reason':'È±ÉÙ²ÎÊı.'},
-    60101:{'errcode':60101,'reason':'²ÎÊı³¤¶È²»·û.'},
-    60102:{'errcode':60102,'reason':'²ÎÊı±ØĞëÎªjson¸ñÊ½.'},
-    60103:{'errcode':60103,'reason':'ĞèÒªtoken.'},
-    60104:{'errcode':60104,'reason':'ÎŞĞ§µÄtoken.'},
-    60105:{'errcode':60105,'reason':'ÎŞĞ§µÄÓÊÏä.'},
-    60106:{'errcode':60106,'reason':'ÎŞĞ§µÄÊÖ»úºÅ.'},
-    # 3.ÎÄ¼ş²Ù×÷
-    60200:{'errcode':60200,'reason':'ÉÏ´«ÎÄ¼şÊ§°Ü.'},
-    # 4.»î¶¯Ïà¹Ø
-    60300:{'errcode':60200,'reason':'»î¶¯È¡Ïû.'},
-    60301:{'errcode':60301,'reason':'ÒÑÔùËÍ.'},
+    # åº”ç”¨æœåŠ¡çº§é”™è¯¯ç 
+    # 1ã€DBæŸ¥è¯¢éªŒè¯
+    60000:{'errcode':60000,'reason':'ç”¨æˆ·å·²å­˜åœ¨.'},
+    60001:{'errcode':60001,'reason':'é‚®ç®±å·²å­˜åœ¨.'},
+    60002:{'errcode':60002,'reason':'ç”¨æˆ·ä¸å­˜åœ¨.'},
+    60003:{'errcode':60003,'reason':'å¯†ç é”™è¯¯.'},
+    60004:{'errcode':60001,'reason':'é‚®ç®±å·²å­˜åœ¨.'},
+    60005:{'errcode':60005,'reason':'æ•°æ®åº“æäº¤å¤±è´¥.'},
+    60006:{'errcode':60006,'reason':'ä½œè€…å·²å¤±æ•ˆ.'},
+    # 2. è¯·æ±‚å‚æ•°éªŒè¯ç›¸å…³
+    60100:{'errcode':60100,'reason':'ç¼ºå°‘å‚æ•°.'},
+    60101:{'errcode':60101,'reason':'å‚æ•°é•¿åº¦ä¸ç¬¦.'},
+    60102:{'errcode':60102,'reason':'å‚æ•°å¿…é¡»ä¸ºjsonæ ¼å¼.'},
+    60103:{'errcode':60103,'reason':'éœ€è¦token.'},
+    60104:{'errcode':60104,'reason':'æ— æ•ˆçš„token.'},
+    60105:{'errcode':60105,'reason':'æ— æ•ˆçš„é‚®ç®±.'},
+    60106:{'errcode':60106,'reason':'æ— æ•ˆçš„æ‰‹æœºå·.'},
+    # 3.æ–‡ä»¶æ“ä½œ
+    60200:{'errcode':60200,'reason':'ä¸Šä¼ æ–‡ä»¶å¤±è´¥.'},
+    # 4.æ´»åŠ¨ç›¸å…³
+    60300:{'errcode':60200,'reason':'æ´»åŠ¨å–æ¶ˆ.'},
+    60301:{'errcode':60301,'reason':'å·²èµ é€.'},
 }
 ```
