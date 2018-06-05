@@ -108,8 +108,8 @@ def main():
     parser_basic_queryuserpublished = subparsers_up.add_parser('queryuserpublished', help="query user's published")
     parser_basic_queryuserpublished.set_defaults(func=senior.queryuserpublished)
 
-    parser_basic_queryuserbought = subparsers_up.add_parser('queryuserbought', help="query user's bought")
-    parser_basic_queryuserbought.set_defaults(func=senior.queryuserbought)
+    parser_basic_queryuserbought = subparsers_up.add_parser('queryresourcebyID', help="query user's bought")
+    parser_basic_queryuserbought.set_defaults(func=senior.query_resourc_by_ID)
 
     parser_basic_queryincomebillings = subparsers_up.add_parser('queryincomebillings', help="query user's income billings")
     parser_basic_queryincomebillings.set_defaults(func=senior.queryincomebillings)

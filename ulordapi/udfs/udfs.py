@@ -379,7 +379,7 @@ class UdfsHelper():
                             }
                         })
                     i += 1
-                filehash.saveFile(tempjson, json.dumps(self.chunks))
+                fileHelper.saveFile(tempjson, json.dumps(self.chunks))
             else:
                 print("no chunks.Error get the {} chunks result".format(filehash))
         # download chunk
