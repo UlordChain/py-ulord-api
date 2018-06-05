@@ -222,16 +222,19 @@ class UlordHelper(object):
         """
         return self.post(self.ulord_update, data)
 
-    def delete(self, id):
+    def delete(self, id, password):
         """
         delete resource on the ulord-platform
 
         :param id: resource ulord-platform DB ID
         :type id: int
+        :param password: user wallet password
+        :type password: str
         :return: errcode.You can query from the errcode dict.
         """
         data = {
-            "id": id
+            "id": id,
+            "pay_password": password
         }
         return self.post(self.ulord_delete, data)
 
