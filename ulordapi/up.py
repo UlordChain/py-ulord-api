@@ -116,7 +116,6 @@ class UlordHelper(object):
                 'ulord_curtime':self.curtime
             })
         USign = self.appkey + result + self.ulord_secret + str(self.curtime)
-
         self.USign = utils.generateMD5(USign).upper()
         ulordconfig.update({
             'ulord_head':{
@@ -139,8 +138,8 @@ class UlordHelper(object):
         :type data: dict
         :return: return result.you can query the errcode
         """
-        self.log.info(url)
-        self.log.info(data)
+        self.log.info("url is {}".format(url))
+        self.log.info("data is {}".format(data))
 
         # deal with unicode and utf-8
         from utils import _byteify
@@ -154,12 +153,12 @@ class UlordHelper(object):
         except Exception, e:
             self.log.error("Failed request from the ulord-platform: {}".format(e))
             return return_result(60400)
-        self.log.debug(r.status_code)
+        self.log.info(r.status_code)
         if r.status_code == requests.codes.ok:
-            self.log.info(r.json())
+            self.log.debug(r.json())
             return r.json()
         else:
-            self.log.info(r)
+            self.log.debug(r)
             return return_result(60400)
 
     def get(self, url):
@@ -178,12 +177,13 @@ class UlordHelper(object):
             self.log.error("Failed request from the ulord-platform: {}".format(e))
             return return_result(60400)
         self.log.info(url)
+        self.log.debug(self.ulord_head)
         self.log.info(r.status_code)
         if (r.status_code == requests.codes.ok):
-            self.log.info(r.json())
+            self.log.debug(r.json())
             return r.json()
         else:
-            self.log.info(r)
+            self.log.debug(r)
             return return_result(60400)
 
     def regist(self, username, password):

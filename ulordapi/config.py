@@ -213,7 +213,7 @@ else:
 
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=level,
     filename=log_file_path,
     format=log_format)
 

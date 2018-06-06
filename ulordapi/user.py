@@ -74,9 +74,9 @@ class Developer(up.UlordHelper):
         except:
             # todo need to think twice
             try:
-                self.log.info("{0} cann't decrypt,using {0}".format(str(args)))
+                self.log.warning("{0} cann't decrypt,using {0}".format(str(args)))
             except:
-                self.log.info("args is unicode")
+                self.log.debug("args is unicode")
         if result:
             return result
         else:
@@ -235,7 +235,7 @@ class Senior(Developer):
         """
         Developer.__init__(self, appkey, secret)
         self.log = logging.getLogger("Senior:")
-        self.log.info("Senior init")
+        self.log.debug("Senior init")
 
 
 class Junior(Developer):
@@ -252,7 +252,7 @@ class Junior(Developer):
         """
         Developer.__init__(self, appkey, secret)
         self.log = logging.getLogger("Junior:")
-        self.log.info("Junior init")
+        self.log.debug("Junior init")
 
     # up functions
     def user_regist(self, username, password, cellphone=None, email=None, wallet=None, pay_password=None, encrypted=False):
@@ -673,7 +673,7 @@ class Junior(Developer):
         """
         # check if the database is exited
         if dbconfig.get('IsCreated'):
-            self.log.info("DB has created!")
+            self.log.warning("DB has created!")
         else:
             self.log.info("Creating DB...")
             if path:
