@@ -1,10 +1,10 @@
-# py-ulord-api
+ï»¿# py-ulord-api
 
 [![](https://img.shields.io/badge/py--ulord--api-incomplete-red.svg)](https://github.com/UlordChain/py-ulord-api#todo-list)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 [![](https://img.shields.io/badge/cli-completed-green.svg)](https://github.com/UlordChain/py-ulord-api#cli)
 
-[ÖÐÎÄ](https://github.com/UlordChain/py-ulord-api/blob/master/readme_zh-cn.md)
+[ä¸­æ–‡](https://github.com/UlordChain/py-ulord-api/blob/master/readme_zh-cn.md)
 
 Ulord-platform HTTP Client Library
 

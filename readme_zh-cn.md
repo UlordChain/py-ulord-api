@@ -1,4 +1,4 @@
-# py-ulord-api
+ï»¿# py-ulord-api
 
 [![](https://img.shields.io/badge/py--ulord--api-incomplete-red.svg)](https://github.com/UlordChain/py-ulord-api#todo-list)
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
@@ -6,47 +6,47 @@
 
 [English](https://github.com/UlordChain/py-ulord-api)
 
-UlordÆ½Ì¨HTTP½Ó¿Ú¿Í»§¶Ë
+Ulordå¹³å°HTTPæ¥å£å®¢æˆ·ç«¯
 
-²éÔÄ[ÎÄµµ](http://py-ulord-api.readthedocs.io/en/latest/)²é¿´ËùÓĞAPIÎÄµµÒÔ¼°Ïà¹ØÊ¹ÓÃ¡£
+æŸ¥é˜…[æ–‡æ¡£](http://py-ulord-api.readthedocs.io/en/latest/)æŸ¥çœ‹æ‰€æœ‰APIæ–‡æ¡£ä»¥åŠç›¸å…³ä½¿ç”¨ã€‚
 
-*ÖØÒª*: µ±Ç°py-ulord-apiÏîÄ¿Ö»Õë¶ÔulordÆ½Ì¨²ã0.1°æ±¾£¬ÊÊÓÃpython2.7£¬Ôİ²»Ö§³Öpython3¡£
+*é‡è¦*: å½“å‰py-ulord-apié¡¹ç›®åªé’ˆå¯¹ulordå¹³å°å±‚0.1ç‰ˆæœ¬ï¼Œé€‚ç”¨python2.7ï¼Œæš‚ä¸æ”¯æŒpython3ã€‚
 
-*×¢Òâ*: ÎªÁË±£³ÖÓëulordÆ½Ì¨²ã±£³ÖÍ¬²½×´Ì¬£¬µ±Ç°ÏîÄ¿¿ÉÄÜ»á¸üĞÂµÄ±È½ÏÆµ·±¡£Ä¿Ç°Ö»Õë¶ÔÆ½Ì¨²ã0.1°æ±¾½øĞĞÁË²âÊÔ¡£½²µ±Ç°¿âÓëÆäËû°æ±¾µÄulordÆ½Ì¨¹²ÓÃÊ±¿ÉÄÜ»á³öÏÖ¼æÈİÎÊÌâ¡£
+*æ³¨æ„*: ä¸ºäº†ä¿æŒä¸ulordå¹³å°å±‚ä¿æŒåŒæ­¥çŠ¶æ€ï¼Œå½“å‰é¡¹ç›®å¯èƒ½ä¼šæ›´æ–°çš„æ¯”è¾ƒé¢‘ç¹ã€‚ç›®å‰åªé’ˆå¯¹å¹³å°å±‚0.1ç‰ˆæœ¬è¿›è¡Œäº†æµ‹è¯•ã€‚è®²å½“å‰åº“ä¸å…¶ä»–ç‰ˆæœ¬çš„ulordå¹³å°å…±ç”¨æ—¶å¯èƒ½ä¼šå‡ºç°å…¼å®¹é—®é¢˜ã€‚
 
-## Ä¿Â¼
+## ç›®å½•
 
-- [°²×°](#°²×°)
-- [Ê¹ÓÃ](#Ê¹ÓÃ)
-- [ÎÄµµ](#ÎÄµµ)
-- [ÌØĞÔ](#ÌØĞÔ)
-- [´ı°ìÊÂÏî](#´ı°ìÊÂÏî)
-- [¹±Ï×](#¹±Ï×)
-  - [Â©¶´±¨¸æ](#Â©¶´±¨¸æ)
-  - [À­È¡ÇëÇó](#À­È¡ÇëÇó)
-- [°æÈ¨](#°æÈ¨)
+- [å®‰è£…](#å®‰è£…)
+- [ä½¿ç”¨](#ä½¿ç”¨)
+- [æ–‡æ¡£](#æ–‡æ¡£)
+- [ç‰¹æ€§](#ç‰¹æ€§)
+- [å¾…åŠäº‹é¡¹](#å¾…åŠäº‹é¡¹)
+- [è´¡çŒ®](#è´¡çŒ®)
+  - [æ¼æ´æŠ¥å‘Š](#æ¼æ´æŠ¥å‘Š)
+  - [æ‹‰å–è¯·æ±‚](#æ‹‰å–è¯·æ±‚)
+- [ç‰ˆæƒ](#ç‰ˆæƒ)
 
-## °²×°
-> *ÖØÒª*: »¹Î´Íê³É£¡
+## å®‰è£…
+> *é‡è¦*: è¿˜æœªå®Œæˆï¼
 
-°²×°pip:
+å®‰è£…pip:
 
 ```sh
 pip install ulordapi
 ```
 
-»òÕßÊ¹ÓÃÕâ¸öÏîÄ¿½øĞĞ°²×°
+æˆ–è€…ä½¿ç”¨è¿™ä¸ªé¡¹ç›®è¿›è¡Œå®‰è£…
 ```sh
 git clone https://github.com/UlordChain/py-ulord-api.git
 cd py-ulord-api
 python setup.py install
 ```
 
-## Ê¹ÓÃ
-µ±Ç°ÏîÄ¿ÓĞÈıÖÖ·½Ê½£¬°üº¬ÃüÁîĞĞ£¬python½Ó¿ÚÒÔ¼°web½Ó¿Ú¡£
+## ä½¿ç”¨
+å½“å‰é¡¹ç›®æœ‰ä¸‰ç§æ–¹å¼ï¼ŒåŒ…å«å‘½ä»¤è¡Œï¼Œpythonæ¥å£ä»¥åŠwebæ¥å£ã€‚
 
-### ÃüÁîĞĞ
-Äã¿ÉÒÔÊ¹ÓÃÃüÁîĞĞ´òÓ¡°ïÖúºÍÆäËûµÄÒ»Ğ©·½·¨:
+### å‘½ä»¤è¡Œ
+ä½ å¯ä»¥ä½¿ç”¨å‘½ä»¤è¡Œæ‰“å°å¸®åŠ©å’Œå…¶ä»–çš„ä¸€äº›æ–¹æ³•:
 
 ```sh
 usage: ulordapi [options|sub-command] [-h]
@@ -77,9 +77,9 @@ The CLI will exit with one of the following values:
 0   Successful execution.
 1   Failed executions.
 ```
-### python½Ó¿Ú:
+### pythonæ¥å£:
 
-´ı¸üĞÂ...
+å¾…æ›´æ–°...
 
 ```sh
 In [1]: from ulordapi import Junior
@@ -143,52 +143,52 @@ Out[3]:
   'token_expired': 86400}}
 ```
 
-### web½Ó¿Ú:
+### webæ¥å£:
 
-´ı¸üĞÂ...
+å¾…æ›´æ–°...
 
-## ÎÄµµ
+## æ–‡æ¡£
 
-APIÎÄµµ:[ÕâÀï](https://github.com/UlordChain/py-ulord-api/blob/master/docs/API.md)
+APIæ–‡æ¡£:[è¿™é‡Œ](https://github.com/UlordChain/py-ulord-api/blob/master/docs/API.md)
 
-[ÏêÇé](http://py-ulord-api.readthedocs.io/en/latest/)
+[è¯¦æƒ…](http://py-ulord-api.readthedocs.io/en/latest/)
 
-ÃüÁîĞĞÎÄµµ:[ÕâÀï](https://github.com/UlordChain/py-ulord-api/blob/master/docs/cli_help.md)
+å‘½ä»¤è¡Œæ–‡æ¡£:[è¿™é‡Œ](https://github.com/UlordChain/py-ulord-api/blob/master/docs/cli_help.md)
 
-web½Ó¿ÚÎÄµµ:[ÕâÀï](https://github.com/UlordChain/py-ulord-api/blob/master/docs/web-server.md)
+webæ¥å£æ–‡æ¡£:[è¿™é‡Œ](https://github.com/UlordChain/py-ulord-api/blob/master/docs/web-server.md)
 
 ## Featured Projects
 
- ´ı¸üĞÂ...
+ å¾…æ›´æ–°...
 
-## ´ı°ìÊÂÏî
-- [x] Ìí¼Ó´ú°ìÊÂÏî
-- [ ] Ò»Ğ©ÎÄµµ
-- [ ] Ö§³Ö python3
-- [ ] ¸üÓÑÉÆµÄ±íÏÖ½Ó¿Ú
-- [ ] Ìí¼Ó¶àÏß³ÌÏÂÔØ
-- [ ] Ìí¼Óµ¥Ôª²âÊÔ
-- [ ] docker »·¾³
+## å¾…åŠäº‹é¡¹
+- [x] æ·»åŠ ä»£åŠäº‹é¡¹
+- [ ] ä¸€äº›æ–‡æ¡£
+- [ ] æ”¯æŒ python3
+- [ ] æ›´å‹å–„çš„è¡¨ç°æ¥å£
+- [ ] æ·»åŠ å¤šçº¿ç¨‹ä¸‹è½½
+- [ ] æ·»åŠ å•å…ƒæµ‹è¯•
+- [ ] docker ç¯å¢ƒ
 
-## ¹±Ï×
+## è´¡çŒ®
 
-### Â©¶´±¨¸æ
+### æ¼æ´æŠ¥å‘Š
 
-Äã¿ÉÒÔÊ¹ÓÃ[GitHub issue tracker](https://github.com/UlordChain/py-ulord-api/issues)À´Ìá½»·¢ÏÖµÄÂ©¶´.
+ä½ å¯ä»¥ä½¿ç”¨[GitHub issue tracker](https://github.com/UlordChain/py-ulord-api/issues)æ¥æäº¤å‘ç°çš„æ¼æ´.
 
-### À­È¡ÇëÇó
+### æ‹‰å–è¯·æ±‚
 
-·Ç³£»¶Ó­À­È¡ÇëÇó¡£À­È¡Ö®Ç°, ÓĞĞ©±ê×¼ÔİÊ±»¹Î´ÏëºÃ...
+éå¸¸æ¬¢è¿æ‹‰å–è¯·æ±‚ã€‚æ‹‰å–ä¹‹å‰, æœ‰äº›æ ‡å‡†æš‚æ—¶è¿˜æœªæƒ³å¥½...
 
-### ¸üºÃµØÔÄ¶Á±¾ÏîÄ¿?
+### æ›´å¥½åœ°é˜…è¯»æœ¬é¡¹ç›®?
 
-Ò»Ğ©Äã¿ªÊ¼µÄµØ·½¡£ (WIP)
+ä¸€äº›ä½ å¼€å§‹çš„åœ°æ–¹ã€‚ (WIP)
 
-³õ¼¶¿ª·¢ÕßÖ÷ÎÄ¼ş: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L174) <br>
-ÖĞ¼¶¿ª·¢ÕßÖ÷ÎÄ¼ş: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L191) <br>
-ÃüÁîĞĞ: [ulordapi/daemonCLI.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/daemonCLI.py) <br>
-web½Ó¿Ú: [ulordapi/webServer.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/webServer.py) <br>
+åˆçº§å¼€å‘è€…ä¸»æ–‡ä»¶: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L174) <br>
+ä¸­çº§å¼€å‘è€…ä¸»æ–‡ä»¶: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L191) <br>
+å‘½ä»¤è¡Œ: [ulordapi/daemonCLI.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/daemonCLI.py) <br>
+webæ¥å£: [ulordapi/webServer.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/webServer.py) <br>
 
-## °æÈ¨
+## ç‰ˆæƒ
 
-¸ÃÏîÄ¿´úÂë×ñÑ­ [MIT Ğ­Òé](https://opensource.org/licenses/MIT)¡£ÏêÇé²ÎÔÄÏîÄ¿ÖĞµÄ[LICENSE](LICENSE)ÎÄµµ¡£
+è¯¥é¡¹ç›®ä»£ç éµå¾ª [MIT åè®®](https://opensource.org/licenses/MIT)ã€‚è¯¦æƒ…å‚é˜…é¡¹ç›®ä¸­çš„[LICENSE](LICENSE)æ–‡æ¡£ã€‚
