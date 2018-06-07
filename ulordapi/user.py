@@ -281,9 +281,9 @@ class Junior(Developer):
         # check arg
         if User.query.filter_by(username=username).first() is not None:
             return _errcodes.get(60000)
-        if email and utils.isMail(email):
+        if email and not utils.isMail(email):
             return _errcodes.get(60105)
-        if cellphone and utils.isCellphone(cellphone):
+        if cellphone and not utils.isCellphone(cellphone):
             return _errcodes.get(60106)
 
         user = User(username=username)
