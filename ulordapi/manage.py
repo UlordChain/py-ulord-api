@@ -201,7 +201,7 @@ class Resource(db.Model):
     description = db.Column(db.String(128))
     views = db.Column(db.Integer)
     date = db.Column(db.Integer)
-    UPID = db.Column(db.Integer)
+    UPID = db.Column(db.Integer,index=True)
     claimID = db.Column(db.String(40))
     resource_type = db.Column(db.String(10))
 

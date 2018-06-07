@@ -154,6 +154,7 @@ class Developer(up.UlordHelper):
         :return: dict fileinfo - True/False
         """
         result = {}
+        error = {}
         if isinstance(fileinfos, list):
             for fileinfo in fileinfos:
                 # TODO multi threading
@@ -161,17 +162,29 @@ class Developer(up.UlordHelper):
                     filehash = self.udfs.upload_file(fileinfo)
                 else:
                     filehash = self.udfs.upload_stream(fileinfo)
-                result.update({
-                    fileinfo: filehash
-                })
+                if filehash:
+                    result.update({
+                        fileinfo: filehash
+                    })
+                else:
+                    self.log.error("Failed update:{}".format(fileinfo))
+                    error.update({
+                        fileinfo: filehash
+                    })
         else:
             if os.path.isfile(fileinfos):
                 filehash = self.udfs.upload_file(fileinfos)
             else:
                 filehash = self.udfs.upload_stream(fileinfos)
-            result.update({
-                fileinfos: filehash
-            })
+            if filehash:
+                result.update({
+                    fileinfos: filehash
+                })
+            else:
+                self.log.error("Failed update:{}".format(fileinfos))
+                error.update({
+                    fileinfos: filehash
+                })
         return result
 
     def udfs_cat(self, udfshashs):
@@ -478,7 +491,70 @@ class Junior(Developer):
         #     return publish_result
         return publish_result
 
-    def resource_update(self, id, pay_password, encrypted=True, **kwargs):
+    # def resource_update(self, id, pay_password, encrypted=True, **kwargs):
+    #     """
+    #     user update data to the ulord-platform
+    #
+    #     :param id: data id
+    #     :type id: str
+    #     :param pay_password: auther wallet pay password
+    #     :type pay_password: str
+    #     :param encrypted: if encrypt password
+    #     :type encrypted: bool
+    #     :param kwargs: key-value
+    #     :type kwargs:
+    #     :return: errcode.You can query from the errcode.
+    #     """
+    #     current_resource = Resource.query.filter_by(UPID=id).first()
+    #     if encrypted:
+    #         pay_password = self.decrypt(pay_password)
+    #     current_user = User.query.filter_by(id=current_resource.userid).first()
+    #     if not current_user:
+    #         return return_result(60002)
+    #     if not current_user.verify_password(pay_password):
+    #         return return_result(60003)
+    #     data = {
+    #         'id': id,
+    #         'pay_password': current_user.pay_password
+    #     }
+    #     # upload data to the udfs
+    #     if 'body' in kwargs and kwargs.get('body'):
+    #         body = kwargs.get('body')
+    #         udfs_hash_dict = self.udfs_upload(body)
+    #         data.update({
+    #             'udfs_hash':udfs_hash_dict.get(body)
+    #         })
+    #     key_dict = ["title","content_type", "des"]
+    #
+    #     for key in key_dict:
+    #         value = kwargs.get(key)
+    #         if value:
+    #             # value = value.encode('utf-8')
+    #             data.update({
+    #                 key: value
+    #             })
+    #             try:
+    #                 setattr(current_resource, key, value)
+    #             except Exception, e:
+    #                 print e
+    #                 print key
+    #                 print value
+    #     if "tags" in kwargs:
+    #         tags = kwargs.get("tags")
+    #         for tag in tags:
+    #             current_tag = Tag.query.filter_by(tagname=tag).first()
+    #             if current_tag is None:
+    #                 current_resource.tags.append(Tag(tag))
+    #             else:
+    #                 current_resource.tags.append(current_tag)
+    #         data.update({
+    #             'tags':tags
+    #         })
+    #     result = self.update(data)
+    #     if result and result.get('errcode') == 0:
+    #         db.session.commit()
+    #     return result
+    def resource_update(self, id, pay_password, encrypted=True, title=None, body=None, price=None, tags=None, des=None):
         """
         user update data to the ulord-platform
 
@@ -488,8 +564,16 @@ class Junior(Developer):
         :type pay_password: str
         :param encrypted: if encrypt password
         :type encrypted: bool
-        :param kwargs: key-value
-        :type kwargs:
+        :param title: resource title
+        :type title: str
+        :param body: resource
+        :type body: str
+        :param price: resource price
+        :type price: float
+        :param tags: resource tags
+        :type tags: list
+        :param des: resource description
+        :type des: str
         :return: errcode.You can query from the errcode.
         """
         current_resource = Resource.query.filter_by(UPID=id).first()
@@ -504,21 +588,39 @@ class Junior(Developer):
             'id': id,
             'pay_password': current_user.pay_password
         }
-        # upload data to the udfs
-        if 'body' in kwargs and kwargs.get('body'):
-            udfs_hash = self.udfs_upload(kwargs.get('body'))
+        if title:
             data.update({
-                'udfs_hash':udfs_hash
+                'title': title
             })
-        key_dict = ["title", "tags", "price", "content_type", "des"]
-
-        for key in key_dict:
-            value = kwargs.get(key)
-            if value:
-                data.update({
-                    key: value
-                })
-                setattr(current_resource, key, value)
+            current_resource.title = title
+        if body:
+            udfs_hash_dict = self.udfs_upload(body)
+            if not udfs_hash_dict or not udfs_hash_dict.get(body):
+                return return_result(60200)
+            data.update({
+                'udfs_hash': udfs_hash_dict.get(body)
+            })
+            current_resource.body = udfs_hash_dict.get(body)
+        if price:
+            data.update({
+                'price': price
+            })
+            current_resource.amount = price
+        if des:
+            data.update({
+                'des': des
+            })
+            current_resource.description = des
+        if tags:
+            for tag in tags:
+                current_tag = Tag.query.filter_by(tagname=tag).first()
+                if current_tag is None:
+                    current_resource.tags.append(Tag(tag))
+                else:
+                    current_resource.tags.append(current_tag)
+            data.update({
+                'tags':tags
+            })
         result = self.update(data)
         if result and result.get('errcode') == 0:
             db.session.commit()

@@ -151,7 +151,7 @@ class UlordHelper(object):
         try:
             r = requests.post(url=url, json=data, headers=self.ulord_head)
         except Exception, e:
-            self.log.error("Failed request from the ulord-platform: {}".format(e))
+            self.log.error("Failed request from the ulord-platform: {0}, URL is {1}".format(e, url))
             return return_result(60400)
         self.log.info(r.status_code)
         if r.status_code == requests.codes.ok:
@@ -174,7 +174,7 @@ class UlordHelper(object):
         try:
             r = requests.get(url=url, headers=self.ulord_head)
         except Exception, e:
-            self.log.error("Failed request from the ulord-platform: {}".format(e))
+            self.log.error("Failed request from the ulord-platform: {0}, URL is {1}".format(e, url))
             return return_result(60400)
         self.log.info(url)
         self.log.debug(self.ulord_head)
