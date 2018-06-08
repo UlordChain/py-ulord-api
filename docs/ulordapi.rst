@@ -1,17 +1,14 @@
-ulordapi package
+ulordapi
 ================
 
-Subpackages
+udfs
 -----------
 
 .. toctree::
 
     ulordapi.udfs
 
-Submodules
-----------
-
-ulordapi.config module
+config
 ----------------------
 
 .. automodule:: ulordapi.config
@@ -19,7 +16,7 @@ ulordapi.config module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.daemonCLI module
+daemonCLI
 -------------------------
 
 .. automodule:: ulordapi.daemonCLI
@@ -27,7 +24,7 @@ ulordapi.daemonCLI module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.errcode module
+errcode
 -----------------------
 
 .. automodule:: ulordapi.errcode
@@ -35,7 +32,7 @@ ulordapi.errcode module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.manage module
+manage
 ----------------------
 
 .. automodule:: ulordapi.manage
@@ -43,7 +40,7 @@ ulordapi.manage module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.up module
+up
 ------------------
 
 .. automodule:: ulordapi.up
@@ -51,7 +48,7 @@ ulordapi.up module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.user module
+user
 --------------------
 
 .. automodule:: ulordapi.user
@@ -59,7 +56,7 @@ ulordapi.user module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.utils module
+utils
 ---------------------
 
 .. automodule:: ulordapi.utils
@@ -67,7 +64,7 @@ ulordapi.utils module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.version module
+version
 -----------------------
 
 .. automodule:: ulordapi.version
@@ -75,19 +72,10 @@ ulordapi.version module
     :undoc-members:
     :show-inheritance:
 
-ulordapi.webServer module
+webServer
 -------------------------
 
 .. automodule:: ulordapi.webServer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: ulordapi
     :members:
     :undoc-members:
     :show-inheritance:

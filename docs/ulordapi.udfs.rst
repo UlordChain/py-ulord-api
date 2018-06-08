@@ -1,10 +1,7 @@
-ulordapi.udfs package
+ulordapi.udfs
 =====================
 
-Submodules
-----------
-
-ulordapi.udfs.udfs module
+udfs
 -------------------------
 
 .. automodule:: ulordapi.udfs.udfs
@@ -12,11 +9,3 @@ ulordapi.udfs.udfs module
     :undoc-members:
     :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: ulordapi.udfs
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -184,8 +184,8 @@ Pull requests are welcome.  Before submitting a new pull request, please waiting
 
 Some places to get you started. (WIP)
 
-Senior programmer Main file: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L174) <br>
-Junior Programmer Main file: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L191) <br>
+Senior programmer Main file: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L237) <br>
+Junior Programmer Main file: [ulordapi/user.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L254) <br>
 CLI Commands: [ulordapi/daemonCLI.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/daemonCLI.py) <br>
 Web Server: [ulordapi/webServer.py](https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/webServer.py) <br>
 

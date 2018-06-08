@@ -10,8 +10,14 @@ Welcome to Python Ulord-platform SDK API's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   self
+   overview
+   whatsnew
+   install
+   config
+   example
    ulordapi
-
+   about
 
 Indices and tables
 ==================
