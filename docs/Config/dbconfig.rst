@@ -6,7 +6,7 @@ DBconfig
 Overview
 --------
 
-This config contains basic operaction.Including debug,config_file and version.
+This config contains database operaction.It's compatible with flask.
 
 IsCreated
 -----
@@ -16,31 +16,32 @@ This package debug module.If start debug module,SDK will start some useful infos
 JSON_AS_ASCII
 -----
 
-Current file's path.It appears at the cli command help.
+Default is false.It supports your web server appears at chinese,not a string of utf-8 code.
 
 SECRET_KEY
 -------
 
-Current package's version.You should check the version between the ulord-platform's version.
+It's a common private key.
 
 SQLALCHEMY_COMMIT_ON_TEARDOWN
 -------
 
-Current package's version.You should check the version between the ulord-platform's version.
+Flask-sqlalchemy setting.It will make your session commit automatically.
 
-SQLALCHEMY_COMMIT_TEARDOWN
--------
-
-Current package's version.You should check the version between the ulord-platform's version.
 
 SQLALCHEMY_DATABASE_URI
 -------
 
-Current package's version.You should check the version between the ulord-platform's version.
+Database URI.It's compatible with sqlalchemy's syntax.
+
+.. code-block:: bash
+    Example:
+    sqlite:////tmp/test.db
+    mysql://username:password@server/db
 
 SQLALCHEMY_TRACK_MODIFICATIONS
 -------
 
-Current package's version.You should check the version between the ulord-platform's version.
+If set to True, Flask-SQLAlchemy will track modifications of objects and emit signals. The default is None, which enables tracking but issues a warning that it will be disabled by default in the future. This requires extra memory and should be disabled if not needed.
 
 

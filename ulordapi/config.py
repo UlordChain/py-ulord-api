@@ -179,7 +179,6 @@ dbconfig = Config(
     SQLALCHEMY_COMMIT_ON_TEARDOWN=True,
     JSON_AS_ASCII=False, # support chinese
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
-    SQLALCHEMY_COMMIT_TEARDOWN=True
 )
 
 
