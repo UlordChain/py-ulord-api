@@ -45,8 +45,7 @@ Contribute
 Bug reports
 --------------------------------------
 
-You can submit bug reports using the `GitHub issue tracker`__.
-.. __: https://github.com/UlordChain/py-ulord-api/issues
+You can submit bug reports using the `GitHub issue tracker<https://github.com/UlordChain/py-ulord-api/issues>`_.
 
 Pull requests
 --------------------------------------
@@ -58,8 +57,8 @@ Want to read this repository?
 
 Some places to get you started. (WIP)
 
-Senior programmer Main file: `ulordapi/user.py https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L237`
-Junior Programmer Main file: `ulordapi/user.py https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L254`
-CLI Commands: `ulordapi/daemonCLI.py https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/daemonCLI.py`
-Web Server: `ulordapi/webServer.py https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/webServer.py`
+Senior programmer Main file: `ulordapi/user.py <https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L237>`_
+Junior Programmer Main file: `ulordapi/user.py <https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/user.py#L254>`_
+CLI Commands: `ulordapi/daemonCLI.py <https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/daemonCLI.py>`_
+Web Server: `ulordapi/webServer.py <https://github.com/UlordChain/py-ulord-api/blob/master/ulordapi/webServer.py>`_
 
