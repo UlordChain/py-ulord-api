@@ -49,11 +49,11 @@ class UlordHelper(object):
         self.ulord_publish_data =  {
             "author": "justin",
             "title": "第一篇技术博客",
-            "tags": ["blockchain", "IPFS"],
+            "tags": ["blockchain", "UDFS"],
             "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
             "price": 0.1,
             "content_type": ".txt",
-            "des": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+            "des": "这是使用UDFS和区块链生成的第一篇博客的描述信息"
         }  # ulord publish data
         # query URL
         self.ulord_queryresource = ulordconfig.get('ulord_url') + ulordconfig.get('ulord_queryresourcelist') # query resource list webURL #resource2

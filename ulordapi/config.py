@@ -114,7 +114,7 @@ logconfig = Config(
 
 
 ulordconfig = Config(
-    ulord_url = "http://192.168.14.67:5000/v1",
+    ulord_url = "http://114.67.37.2:10583/v1",
     ulord_secret = "5d42b27f581c11e8bf63f48e3889c8ab",
     ulord_appkey = '5d42b27e581c11e88b12f48e3889c8ab',
     ulord_curtime = int(time.time()),
@@ -129,12 +129,12 @@ ulordconfig = Config(
     # ulord_publish_data = {
     #         "author": "justin",
     #         "title": "第一篇技术博客",
-    #         "tags": ["blockchain", "IPFS"],
+    #         "tags": ["blockchain", "UDFS"],
     #         "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
     #         "price": 0.1,
     #         "content_type": ".txt",
     #         "pay_password": "123",
-    #         "descriptions": "这是使用IPFS和区块链生成的第一篇博客的描述信息"
+    #         "descriptions": "这是使用UDFS和区块链生成的第一篇博客的描述信息"
     #     },
     ulord_createwallet = "/transactions/createwallet", #1
     ulord_transaction = "/transactions/consume", #6
