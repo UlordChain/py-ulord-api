@@ -294,7 +294,7 @@ class UlordHelper(object):
         :param num: how many pieces of datas in one page?.Default is 10.
         :type num: int
         :param kwargs: key-value query
-        :type kwargs; key-value
+        :type kwargs: key-value
         :return: errcode.You can query from the errcode dict.
         """
         temp_url = self.ulord_queryresource + "/{0}/{1}".format(page, num)

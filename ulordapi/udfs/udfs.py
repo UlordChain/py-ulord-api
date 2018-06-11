@@ -204,6 +204,7 @@ class UdfsHelper():
     def update(self, host='127.0.0.1', port='5001'):
         """
         update udfs dameon connection
+
         :param host: udfs daemon host
         :type host: str
         :param port: udfs daemon port
@@ -231,6 +232,7 @@ class UdfsHelper():
     def upload_stream(self, stream):
         """
         upload the stream to the ulord
+
         :param stream:  stream data
         :type stream: unicode
         :return:

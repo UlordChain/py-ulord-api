@@ -43,36 +43,24 @@ users_resource = db.Table('users_resource',
 class User(db.Model):
     """
     User table: create user database.
-
-    :Column id: Table id.Default is a uuid.
-    :Column username: Needed
-    :Column password_hash: Ciphertext password
-    :Column email: email
-    :Column cellphone: cellphone
-    :Column token: user's token,a uuid
-    :Column timestamp: token's effective time
-    :Column balance: user's balance.# todo need to think about time
-    :Column wallet: user's wallet name.Default is username.
-    :Column pay_password: user's wallet password.Default is password_hash.It won't change if password has changed.
-    :Column boughts: realtion table resource.
     """
     __tablename__ = 'users'
-    id = db.Column(db.String(45), primary_key=True)
-    username = db.Column(db.String(32), index = True)
-    password_hash = db.Column(db.String(128))
+    id = db.Column(db.String(45), primary_key=True) # Table id.Default is a uuid.
+    username = db.Column(db.String(32), index = True) # Needed
+    password_hash = db.Column(db.String(128)) # Ciphertext password
     email = db.Column(db.String(32))
     cellphone = db.Column(db.String(12))
-    token = db.Column(db.String(128), index=True)
-    timestamp = db.Column(db.String(10))
-    balance = db.Column(db.Float)
-    wallet = db.Column(db.String(34))
-    pay_password = db.Column(db.String(128))
+    token = db.Column(db.String(128), index=True) # user's token,a uuid
+    timestamp = db.Column(db.String(10)) # token's effective time
+    balance = db.Column(db.Float) #  user's balance.todo need to think about time
+    wallet = db.Column(db.String(34)) # user's wallet name.Default is username.
+    pay_password = db.Column(db.String(128)) # user's wallet password.Default is password_hash.It won't change if password has changed.
     activity = db.Column(db.Float, default=0)
     boughts = db.relationship(
         'Resource',
         secondary=users_resource,
         backref=db.backref('resource', lazy='dynamic')
-    )
+    ) # realtion table resource.
 
     def hash_password(self, password):
         """
@@ -185,9 +173,6 @@ class User(db.Model):
 class Resource(db.Model):
     """
     Resource table: create resource table
-
-    :column id: table id,primay key
-    :co
     """
     id = db.Column(db.String(45), primary_key=True)
     title = db.Column(db.String(32), index=True)
@@ -211,28 +196,33 @@ class Resource(db.Model):
 
 
 class Content(Resource):
+    """
+    Content,viewer need to pay a few ulord to view.
+    """
     __mapper_args__ = {
         'polymorphic_identity': 'content'
     }
 
 
 class Ads(Resource):
+    """
+    Advertisement.Viewer will get a few ulord from the author when they view it.
+    """
     __mapper_args__ = {
         'polymorphic_identity': 'ad'
     }
 
 
 class Tag(db.Model):
+    """
+    tag table
+    """
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     tagname = db.Column(db.String(32), index=True)
     # Reserved field
     pre1 = db.Column(db.String())
     pre2 = db.Column(db.String())
-
-    def __init__(self, name):
-        self.tagname = name
-
 
 
 def create():

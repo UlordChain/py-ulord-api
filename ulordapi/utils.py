@@ -145,7 +145,7 @@ class RSAHelper(object):
         :type pubkey: Crypto.PublicKey.RSA.RsaKey
         :param comment: information
         :type comment: str
-        :return:
+        :return: encrypted data
         """
         cipher = PKCS1_v1_5.new(pubkey)
         return base64.b64encode(cipher.encrypt(comment))

@@ -717,7 +717,7 @@ class Junior(Developer):
         :param cellphone: user new cellphone
         :type cellphone: str
         :param email: user new email
-        ;:type email: str
+        :type email: str
         :param new_password: user new password
         :type new_password: str
         :return: dict.User info
