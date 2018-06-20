@@ -17,6 +17,7 @@ Ulord平台HTTP接口客户端
 ## 目录
 
 - [安装](#安装)
+- [教程](#教程)
 - [使用](#使用)
 - [文档](#文档)
 - [特性](#特性)
@@ -41,6 +42,10 @@ git clone https://github.com/UlordChain/py-ulord-api.git
 cd py-ulord-api
 python setup.py install
 ```
+
+## 教程
+
+这是一个使用SDK并且以初级开发者身份去创建博客的[教程](https://github.com/UlordChain/py-ulord-api/blob/master/docs/%E6%95%99%E7%A8%8B.md)
 
 ## 使用
 当前项目有三种方式，包含命令行，python接口以及web接口。
