@@ -4,7 +4,9 @@
 # @Author: PuJi
 # @Date  : 2018/5/16 0016
 # @Description : Second import.Just after utils
+
 import os, json, logging, io, time
+from logging.handlers import RotatingFileHandler
 
 from ulordapi import utils
 
@@ -217,6 +219,9 @@ logging.basicConfig(
     format=log_format)
 
 
+Rthandler = RotatingFileHandler(log_file_path, maxBytes=10*1024*1024,backupCount=5)
+Rthandler.setFormatter(log_format)
+Rthandler.setLevel(level)
 # if __name__ == '__main__':
 #     import pprint
 #     pprint.pprint(config)
