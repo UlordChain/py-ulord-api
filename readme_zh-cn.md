@@ -28,15 +28,7 @@ Ulord平台HTTP接口客户端
 - [版权](#版权)
 
 ## 安装
-> *重要*: 还未完成！
 
-安装pip:
-
-```sh
-pip install ulordapi
-```
-
-或者使用这个项目进行安装
 ```sh
 git clone https://github.com/UlordChain/py-ulord-api.git
 cd py-ulord-api
@@ -48,11 +40,14 @@ python setup.py install
 这是一个使用SDK并且以初级开发者身份去创建博客的[教程](https://github.com/UlordChain/py-ulord-api/blob/master/docs/%E6%95%99%E7%A8%8B.md)
 
 ## 使用
+
 当前项目有三种方式，包含命令行，python接口以及web接口。
 
 ### 命令行
-你可以使用命令行打印帮助和其他的一些方法:
 
+你可以使用命令行打印帮助和其他的一些方法，具体可以查阅[文档](https://github.com/UlordChain/py-ulord-api/blob/master/docs/cli_help.md)
+
+示例如下：
 ```sh
 usage: ulordapi [options|sub-command] [-h]
 
@@ -84,8 +79,9 @@ The CLI will exit with one of the following values:
 ```
 ### python接口:
 
-待更新...
+python接口可以通过实例化开发者角色调用对应的接口。详情可以查阅[文档](https://github.com/UlordChain/py-ulord-api/blob/master/docs/API.md)
 
+示例如下：
 ```sh
 In [1]: from ulordapi import Junior
 
@@ -150,7 +146,7 @@ Out[3]:
 
 ### web接口:
 
-待更新...
+web接口只针对中级开发者提供对应接口，具体细节可以查阅[文档](https://github.com/UlordChain/py-ulord-api/blob/master/docs/web-server.md)
 
 ## 文档
 

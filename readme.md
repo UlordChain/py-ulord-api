@@ -28,15 +28,7 @@ Check out [the client API reference](http://py-ulord-api.readthedocs.io/en/lates
 - [License](#license)
 
 ## Install
-> *import*: haven't completed!
 
-Install with pip:
-
-```sh
-pip install ulordapi
-```
-
-Or you can use this repository to set up
 ```sh
 git clone https://github.com/UlordChain/py-ulord-api.git
 cd py-ulord-api
@@ -48,10 +40,12 @@ python setup.py install
 This is a development [tutorial](https://github.com/UlordChain/py-ulord-api/blob/master/docs/%E6%95%99%E7%A8%8B.md) of how to develop a blog using SDK.
 
 ## Usage
+
 This package has three functions,including cli, py-api and web-API.
 
 ### cli
-You can use cli to print help and other functions:
+
+You can use cli to print help and other functions.[More details](https://github.com/UlordChain/py-ulord-api/blob/master/docs/cli_help.md)
 
 ```sh
 usage: ulordapi [options|sub-command] [-h]
@@ -84,7 +78,7 @@ The CLI will exit with one of the following values:
 ```
 ### py-api:
 
-waiting...
+You can using python API according to init a develop role.[More details](https://github.com/UlordChain/py-ulord-api/blob/master/docs/API.md)
 
 ```sh
 In [1]: from ulordapi import Junior
@@ -150,7 +144,7 @@ Out[3]:
 
 ### web-api:
 
-waiting document...
+The web interface only encapsulates the Senior's python interface.[More details](https://github.com/UlordChain/py-ulord-api/blob/master/docs/web-server.md)
 
 ## Documentation
 
