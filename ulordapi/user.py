@@ -117,10 +117,10 @@ class Developer(up.UlordHelper):
                 result = result.get(arg)
         return result
 
-    def config_init(self):
-        """
-        init config
-        """
+    # def config_init(self):
+    #     """
+    #     init config
+    #     """
 
     # udfs operations
     def udfs_download(self, udfshashs):
@@ -226,12 +226,12 @@ class Developer(up.UlordHelper):
         if method.lower() == 'get':
             return self.get(url=url)
 
-    def help(self):
-        """
-        :return: dict.self method
-        """
-        # todo create self help
-        return inspect.getmembers(self, predicate=inspect.ismethod)
+    # def help(self):
+    #     """
+    #     :return: dict.self method
+    #     """
+    #     # todo create self help
+    #     return inspect.getmembers(self, predicate=inspect.ismethod)
 
 
 class Senior(Developer):

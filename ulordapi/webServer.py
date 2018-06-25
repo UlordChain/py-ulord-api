@@ -15,7 +15,8 @@ from ulordapi.user import Junior
 
 log = logging.getLogger('webServer')
 
-junior = Junior(appkey="5d42b27e581c11e88b12f48e3889c8ab", secret="5d42b27f581c11e8bf63f48e3889c8ab")
+junior = Junior(appkey="8326648868ad11e8b894fa163e37b4c3", secret="8326648968ad11e8b894fa163e37b4c3")
+# junior = Junior(appkey="5d42b27e581c11e88b12f48e3889c8ab", secret="5d42b27f581c11e8bf63f48e3889c8ab")
 # blog_config = {
 #     'baseconfig':{
 #         'config_file':'E:\ulord\ulord-blog-demo\config'
@@ -25,6 +26,7 @@ junior = Junior(appkey="5d42b27e581c11e88b12f48e3889c8ab", secret="5d42b27f581c1
 #     }
 # }
 # junior.config_edit(blog_config)
+
 dbpath = os.getcwd()
 junior.create_database(dbpath)
 
@@ -61,7 +63,7 @@ def get_pubkey():
         return jsonify(return_result(0, result={"pubkey":junior.rsahelper.pubkeybytes}))
     elif request.method == 'POST':
         message = request.json.get("password")
-        return jsonify(return_result(0, result={'password': junior.get_purearg(message)}))
+        return jsonify(return_result(0, result={'password': junior.rsahelper._decrypt(message)}))
 
 
 @app.route('/user/encrypt',methods=['POST'])
@@ -307,6 +309,8 @@ def pay_blogs():
             'reason':"缺少参数"
         })
     return jsonify(junior.pay_resources(current_user, claim_id, password, encrypted=True))
+
+@app.route('/blog/update',methods=['POST'])
 
 
 @app.route('/pay/ads',methods=['POST'])
