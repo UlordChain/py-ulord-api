@@ -275,3 +275,149 @@ SDK¸ù¾ÝÓÃ»§µÄ½ÇÉ«Ìá¹©²»Í¬µÄ½Ó¿Ú¹¦ÄÜ¡£ÓÃ»§½ÇÉ«°üº¬³õ¼¶¿ª·¢Õß½ÇÉ«ÓëÖÐ¼¶¿ª·¢Õß½ÇÉ«Á
 
 ¸ù¾ÝÊäÈë²éÑ¯Õâ¶ÎÊ±¼äÄÚµÄÒÑ·¢²¼µÄ×ÊÔ´×ÜÊý¡£
 
+# Èý¡¢³õ¼¶¿ª·¢Õß½Ó¿Ú
+
+³õ¼¶¿ª·¢Õß½Ó¿Ú¼Ì³ÐÓëÖÐ¼¶¿ª·¢Õß½Ó¿Ú£¬¹ÊÖÐ¼¶¿ª·¢ÕßµÄËùÓÐ½Ó¿Ú³õ¼¶¿ª·¢Õß¾ù¿ÉÊ¹ÓÃ¡£³õ¼¶¿ª·¢ÕßÓëÖÐ¼¶¿ª·¢ÕßµÄÖ÷ÒªÇø±ðÔÚÓÚÎª³õ¼¶¿ª·¢ÕßÌá¹©ÁËÒ»Ð©»ù±¾µÄÊý¾Ý¿â½á¹¹´æ´¢£¬Ò»Ð©½Ó¿Úµ÷ÓÃÖ±½ÓÊ¹ÓÃÄÚÖÃµÄÊý¾Ý¿âÈ¥µ÷ÓÃ£¬ÊÇ¿ª·¢Õß¿ÉÒÔ¿ìËÙ¿ª·¢¼òµ¥Ó¦ÓÃ£¬Èç¹ûÐèÒª¸ü¸´ÔÓµÄÊý¾Ý½á¹¹ÔòÐèÒªÊ¹ÓÃÖÐ¼¶¿ª·¢Õß´´½¨×Ô¼ºµÄÊý¾Ý¿â£¬»òÕßÖ±½ÓÐÞ¸ÄSDKµÄÄÚÈÝ·á¸»×Ô¼ºµÄÊý¾Ý¿â½á¹¹¡£
+
+¼ÓÃÜ²¿·Ö²ÉÓÃRSA¼ÓÃÜ£¬¹«Ë½Ô¿×Ô¶¯Éú³É£¬Ò²¿ÉÒÔµÚÈý·½Éú³ÉÔÚÅäÖÃÎÄ¼þÖÐÖ¸¶¨µ½¶ÔÓ¦µÄ¹«Ë½Ô¿ÎÄ¼þµØÖ·¡£
+
+## 27¡¢ÓÃ»§×¢²á
+
+ÊäÈë£ºÓÃ»§Ãû£¬ÃÜÂë£¬ÊÖ»úºÅ£¨Ä¬ÈÏÎª¿Õ£©£¬ÓÊÏä£¨Ä¬ÈÏÎª¿Õ£©£¬Ç®°üÃû£¨Ä¬ÈÏºÍÓÃ»§ÃûÏàÍ¬£©£¬Ç®°üÃÜÂë£¨Ä¬ÈÏºÍÃÜÂëÏàÍ¬£©£¬ÃÜÂëÊÇ·ñ¼ÓÃÜ£¨Ä¬ÈÏ²»¼ÓÃÜ£©
+
+Êä³ö£º³É¹¦·µ»ØÓÃ»§ÓÐÐ§µÇÂ¼µÄtoken¡£´íÎóÔò·µ»ØÆ½Ì¨²ã´´½¨Ç®°ü´íÎó¡£
+
+·½·¨Ãû£ºuser\_regist
+
+¸ù¾ÝÊäÈë×¢²áÐÂÓÃ»§¡£
+
+## 28¡¢ÓÃ»§µÇÂ¼
+
+ÊäÈë£ºÓÃ»§Ãû£¬ÃÜÂë£¬ÃÜÂëÊÇ·ñ¼ÓÃÜ£¨Ä¬ÈÏ²»¼ÓÃÜ£©
+
+Êä³ö£º³É¹¦·µ»ØÓÃ»§ÓÐÐ§µÇÂ¼µÄtoken¡£´íÎóÔò·µ»Ø¶ÔÓ¦µÄ´íÎóÂë¡£
+
+·½·¨Ãû£ºuser\_login
+
+¸ù¾ÝÊäÈëµÇÂ¼¡£
+
+## 29¡¢ÓÃ»§µÇ³ö
+
+ÊäÈë£ºtoken£¨Ä¬ÈÏÎªnone£©£¬username£¨Ä¬ÈÏÎªnone£©£¨tokenÓëusernameÐèÒªÌîÐ´Ò»¸ö¼´¿É¡££©
+
+Êä³ö£º³É¹¦Ôò·µ»ØÓÃ»§Ãû£¬´íÎóÔò·µ»Ø¶ÔÓ¦µÄ´íÎóÂë¡£
+
+·½·¨Ãû£ºuser\_logout
+
+¸ù¾ÝÊäÈë²éÑ¯Õâ¶ÎÊ±¼äÄÚµÄÒÑ·¢²¼µÄ×ÊÔ´×ÜÊý¡£
+
+## 30¡¢ÓÅ»Ý»î¶¯
+
+ÊäÈë£ºtoken£¨Ä¬ÈÏÎªnone£©£¬username£¨Ä¬ÈÏÎªnone£©£¨tokenÓëusernameÐèÒªÌîÐ´Ò»¸ö¼´¿É¡££©
+
+Êä³ö£º³É¹¦Ôò·µ»ØÓÅ»ÝÔùËÍµÄulordÊýÁ¿£¬´íÎóÔò·µ»Ø¶ÔÓ¦µÄ´íÎóÂë¡£
+
+·½·¨Ãû£ºuser\_activity
+
+¸ù¾ÝÊäÈë¸øÓÃ»§ÔùËÍÒ»¶¨ÊýÁ¿µÄulord¡£ÓÉ¿ª·¢ÕßÕË»§ÔùËÍ£¬ÊýÁ¿¿ÉÒÔÔÚÅäÖÃÎÄ¼þÖÐÐÞ¸Ä£¬Ä¬ÈÏÎª10¸ö¡£
+
+## 31¡¢×ÊÔ´·¢²¼
+
+ÊäÈë£º×ÊÔ´±êÌâ£¬×ÊÔ´µÄudfs¹þÏ£Öµ£¬¶¨¼Û¼Û¸ñ£¬×ÊÔ´±êÇ©ÁÐ±í£¬×ÊÔ´ÃèÊö£¬ÓÃ»§Ìõ¼þ¡£(ÓÃ»§Ìõ¼þÎªÒ»¸ö×Öµä£¬keyÖµ¿ÉÒÔÎªuserid£¬username»òusertoken£¬¸ù¾ÝÆäÖÐÖ®Ò»ÔÚ±¾µØÊý¾Ý¿â²éÕÒ¶ÔÓ¦ÓÃ»§)
+
+Êä³ö£ºÆ½Ì¨²ã×ÊÔ´·¢²¼json½á¹û
+
+·½·¨Ãû£ºresource\_publish
+
+¸ù¾ÝÊäÈë·¢²¼×ÊÔ´£¬½«×ÊÔ´ÉÏÁ´¡£
+
+## 32¡¢×ÊÔ´¸üÐÂ
+
+ÊäÈë£º×ÊÔ´ÔÚÆ½Ì¨²ãÖÐµÄID£¬ÓÃ»§Ç®°üÃÜÂë£¬ÃÜÂëÊÇ·ñ¼ÓÃÜ£¨Ä¬ÈÏ¼ÓÃÜ£©£¬±êÌâ£¨Ä¬ÈÏÎª¿Õ£©£¬ÄÚÈÝ£¨Ä¬ÈÏÎª¿Õ£©£¬¼Û¸ñ£¨Ä¬ÈÏÎª¿Õ£©£¬±êÇ©ÁÐ±í£¨Ä¬ÈÏÎª¿Õ£©£¬×ÊÔ´ÃèÊö£¨Ä¬ÈÏÎª¿Õ£©¡£¸ù¾ÝºóÃæµÄ²ÎÊý¸üÐÂ×ÊÔ´µÄ¶ÔÓ¦Öµ¡£Îª¿ÕÔò²»¸üÐÂ¸Ã×Ö¶Î¡£
+
+Êä³ö£ºÆ½Ì¨²ã¸üÐÂ×ÊÔ´µÄjson½á¹û
+
+·½·¨Ãû£ºresource\_update
+
+¸ù¾ÝÊäÈë¸üÐÂ¶ÔÓ¦×ÊÔ´¡£¸ù¾Ý´«ÈëµÄ²ÎÊý¸üÐÂ¶ÔÓ¦µÄ×Ö¶Î¡£
+
+## 33¡¢Ìí¼Ó×ÊÔ´·ÃÎÊÁ¿
+
+ÊäÈë£º×ÊÔ´±êÌâ
+
+Êä³ö£º×ÊÔ´µÄ·ÃÎÊÁ¿
+
+·½·¨Ãû£ºresource\_views
+
+¸ù¾ÝÊäÈëÏò×ÊÔ´µÄ·ÃÎÊÁ¿Ôö¼Ó1¡£
+
+## 34¡¢Ö§¸¶×ÊÔ´
+
+ÊäÈë£ºÓÃ»§Àà£¬×ÊÔ´ÔÚÁ´ÉÏµÄID£¨claim\_id£©£¬ÓÃ»§ÃÜÂë(²»ÊÇÇ®°üÃÜÂë)£¬ ÃÜÂëÊÇ·ñ¼ÓÃÜ£¨Ä¬ÈÏ²»¼ÓÃÜ£©
+
+Êä³ö£ºÆ½Ì¨²ãÖ§¸¶½Ó¿Újson½á¹û
+
+·½·¨Ãû£ºpay\_resource
+
+¸ù¾ÝÊäÈëÖ§¸¶×ÊÔ´ÒÔ»ñÈ¡×ÊÔ´µÄudfs¹þÏ£Öµ¡£
+
+## 35¡¢Ö§¸¶¹ã¸æ
+
+ÊäÈë£ºÓÃ»§Ç®°üÃû£¬×ÊÔ´ÔÚÁ´ÉÏµÄID£¬×÷ÕßÃû
+
+Êä³ö£ºÆ½Ì¨²ãÖ§¸¶½Ó¿Újson½á¹û
+
+·½·¨Ãû£ºpay\_ads
+
+¸ù¾ÝÊäÈëÖ§¸¶¹ã¸æ£¬×÷Õß¶ÔÓÃ»§½øÐÐÖ§¸¶¡£
+
+## 36¡¢ÓÃ»§ÐÅÏ¢²éÑ¯
+
+ÊäÈë£ºÓÃ»§Ãû£¨Ä¬ÈÏÎªnone£©£¬token£¨Ä¬ÈÏÎªnone£©²ÎÊýÌîÐ´¶þÕßÖ®Ò»¼´¿É¡£
+
+Êä³ö£º³É¹¦Ôò·µ»ØÓÃ»§ÓÃ»§Ãû¡¢ÊÖ»ú¡¢ÓÊÏä£¬Ê§°ÜÔò·µ»Ø¶ÔÓ¦µÄ´íÎóÂë¡£
+
+·½·¨Ãû£ºuser\_info\_query
+
+¸ù¾ÝÊäÈë²éÑ¯ÓÃ»§ÐÅÏ¢¡£×¢Òâ£¬Êý¾Ý¿âÖÐÃÜÂëÎªÃÜÎÄ´æ´¢£¬¹Ê²»¿ÉÖªÃÜÂë¡£ËùÒÔÎÞ·¨·µ»Ø¡£
+
+## 37¡¢ÓÃ»§ÐÅÏ¢ÐÞ¸Ä
+
+ÊäÈë£ºÓÃ»§Ãû£¨Ä¬ÈÏÎª¿Õ£©£¬token£¨Ä¬ÈÏÎª¿Õ£©£¬ÃÜÂëÊÇ·ñ¼ÓÃÜ£¨Ä¬ÈÏ²»¼ÓÃÜ,¶ÔÐÂ¾ÉÃÜÂë¾ù¼ÓÃÜ£©£¬ÓÃ»§ÃÜÂë£¨Ä¬ÈÏÎª¿Õ£©£¬ÊÖ»úºÅ£¨Ä¬ÈÏÎª¿Õ£©£¬ÓÊÏä£¨Ä¬ÈÏÎª¿Õ£©,ÐÂÃÜÂë£¨Ä¬ÈÏÎª¿Õ£©
+
+Êä³ö£º³É¹¦ÔòÐÞ¸ÄºóµÄÓÃ»§Ãû¡¢ÊÖ»ú¡¢ÓÊÏä£¬Ê§°ÜÔò·µ»Ø¶ÔÓ¦µÄ´íÎóÂë¡£
+
+·½·¨Ãû£ºuser\_infor\_modify
+
+¸ù¾ÝÊäÈëÖÐµÄÓÃ»§Ãû»òÕßtoken£¨¶þÕß´«Ò»¸ö¼´¿É£©²éÑ¯³ö¶ÔÓ¦µÄÓÃ»§ÐÅÏ¢£¬È»ºó¸ù¾Ý´«ÈëµÄ²ÎÊýÐÞ¸Ä¶ÔÓ¦Öµ£¬²»´«»ò´«¿ÕÔò±íÊ¾²»ÐÞ¸Ä¡£
+
+## 38¡¢´´½¨Êý¾Ý¿â
+
+ÊäÈë£ºÊý¾Ý¿âµØÖ·(Ä¬ÈÏÎª¿Õ£¬µØÖ·Îª½ÇÉ«³õÊ¼»¯ÎÄ¼þÎ»ÖÃ)
+
+Êä³ö£ºÎÞ
+
+·½·¨Ãû£ºcreate\_database
+
+¸ù¾ÝÊäÈë²éÑ¯Õâ¶ÎÊ±¼äÄÚµÄÒÑ·¢²¼µÄ×ÊÔ´×ÜÊý¡£
+
+## 39¡¢¿ªÆôweb
+
+ÊäÈë£ºÎÞ
+
+Êä³ö£ºÎÞ
+
+·½·¨Ãû£ºstart\_web
+
+¿ªÆôweb·þÎñ¡£
+
+## 40¡¢¸ß¼¶²éÑ¯
+
+ÊäÈë£ºsqlÓï¾ä
+
+Êä³ö£ºsqlÖ´ÐÐ½á¹û
+
+·½·¨Ãû£ºquery
+
+¸ù¾ÝÊäÈë¶ÔÊý¾Ý¿âÖ´ÐÐ²Ù×÷¡£
+
