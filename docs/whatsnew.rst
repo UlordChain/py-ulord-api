@@ -1,6 +1,6 @@
 .. whatsnew:
 
 ========
-Whatsnew
+What'snew
 ========
 

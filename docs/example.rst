@@ -1,7 +1,7 @@
 .. exapmle:
 
 ========
-Examle
+Example
 ========
 
 This is a tutorial thar uses SDK to develop a blog demo.
