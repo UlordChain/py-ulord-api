@@ -9,8 +9,9 @@ import site
 from setuptools import setup,find_packages
 from distutils.sysconfig import get_python_lib
 
+py_version = int(platform.python_version().split('.')[0])
 
-requires=[
+requires2=[
     'backports-abc==0.5',
     'certifi==2018.4.16',
     'chardet==3.0.4',
@@ -39,6 +40,25 @@ requires=[
     'urllib3==1.22',
     'Werkzeug==0.14.1',
 ]
+requires3=[
+    'certifi==2018.4.16',
+    'chardet==3.0.4',
+    'click==6.7',
+    'Flask==1.0.2',
+    'Flask-Cors==3.0.6',
+    'Flask-SQLAlchemy==2.3.2',
+    'idna==2.7',
+    'ipfsapi==0.4.3',
+    'itsdangerous==0.24',
+    'Jinja2==2.10',
+    'MarkupSafe==1.0',
+    'requests==2.19.1',
+    'six==1.11.0',
+    'SQLAlchemy==1.2.9',
+    'urllib3==1.23',
+    'Werkzeug==0.14.1',
+]
+
 # about = {}
 # here = os.path.abspath(os.path.dirname(__file__))
 
@@ -51,6 +71,13 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(base_dir, 'readme.md'), 'rb') as f:
     long_description = f.read().decode('utf-8')
 
+if py_version == 2:
+    requires = requires2
+elif py_version == 3:
+    requires = requires3
+else:
+    print("error python version")
+    exit(-1)
 
 setup(
     name="ulordapi",
@@ -72,7 +99,7 @@ setup(
             'ulordapi = ulordapi.daemonCLI:main'
         ]},
     Platform=['win32','linux'],
-    python_requires='>=2.6, <3',
+    # python_requires='>=2.6, <3',
     classifiers=[
         # How mature is this project? Common values are
         #   3 - Alpha
@@ -89,12 +116,12 @@ setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: both',
     ]
 )
 
 current_place = get_python_lib()
-
+dst = None #  tool dir
 try:
     lib_paths = site.getsitepackages()
     for lib_path in lib_paths:
@@ -116,7 +143,7 @@ try:
 except:
     try:
         os.makedirs(dst)
-    except Exception, e:
+    except Exception as e:
         print(e)
 if platform.system().startswith('Win'):
     shutil.copy2(os.path.join('ulordapi', 'udfs', 'tools', 'udfs.exe'),

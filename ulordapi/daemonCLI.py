@@ -211,7 +211,7 @@ def formatResult(func):
         result = func(*args, **kwargs)
         try:
             print(json.dumps(result, indent=2, ensure_ascii=False))
-        except Exception, e:
+        except Exception as e:
             print(e)
         # pprint.pprint(result)
         return result
