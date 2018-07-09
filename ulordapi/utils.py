@@ -359,7 +359,7 @@ def _change_to_unicode(data, ignore_dicts=False):
     if isinstance(data, dict) and not ignore_dicts:
         return {
             _change_to_unicode(key, ignore_dicts=True): _change_to_unicode(value)
-            for key, value in data.iteritems()
+            for key, value in data.items()
         }
     # if it's anything else, return it in its original form
     return data

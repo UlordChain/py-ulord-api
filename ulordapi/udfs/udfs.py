@@ -388,7 +388,7 @@ class UdfsHelper():
         with open(tempjson) as target_file:
             self.chunks = json.load(target_file)
         if self.chunks:
-            for chunk, chunk_result in self.chunks.iteritems():
+            for chunk, chunk_result in self.chunks.items():
                 if not chunk_result.get('success'):
                     chunk_result['success'] = self.downloadhash(chunk_result.get('filehash'),
                                                                 filehash_path) or chunk_result.get('success')

@@ -47,7 +47,7 @@ class Config(dict):
         save config to the config file.Just for the config,not support for it's sub config.
 
         """
-        # data ={k: unicode(v).encode("utf-8") for k,v in self.iteritems()}
+        # data ={k: unicode(v).encode("utf-8") for k,v in self.itmes()}
         # Just think about config.maybe need to think about other instance.
         # if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
         if 'baseconfig' in self and 'config_file' in self['baseconfig']: # adapt py3
