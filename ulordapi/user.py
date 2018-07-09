@@ -7,7 +7,7 @@
 import inspect, logging, os, time
 from uuid import uuid1
 
-import utils, up
+from ulordapi import utils, up
 from ulordapi.udfs import udfs
 from ulordapi.config import config, ulordconfig, webconfig, dbconfig, ROOTPATH
 from ulordapi.manage import db, User, Resource, Tag, create

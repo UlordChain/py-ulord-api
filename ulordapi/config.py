@@ -9,7 +9,7 @@ import os, json, logging, io, time
 from logging.handlers import RotatingFileHandler
 
 from ulordapi import utils
-
+from ulordapi.version import __py_version__
 
 PROJECT_ROOTPATH = os.path.dirname(os.path.realpath(__file__))
 ROOTPATH = os.getcwd()
@@ -49,10 +49,17 @@ class Config(dict):
         """
         # data ={k: unicode(v).encode("utf-8") for k,v in self.iteritems()}
         # Just think about config.maybe need to think about other instance.
-        if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
+        # if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
+        if 'baseconfig' in self and 'config_file' in self['baseconfig']: # adapt py3
             # print(json.dumps(self, ensure_ascii=False, indent=2, sort_keys=True))
             with open(self['baseconfig']['config_file'], 'w') as target:
-                json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
+                if 2 <= __py_version__ < 3:
+                    json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
+                elif 3 <= __py_version__ < 4:
+                    json.dump(self, target, ensure_ascii=False, indent=2, sort_keys=True)
+                else:
+                    print("error python version")
+                    exit(-1)
         else:
             self.log.error("cann't find config.Please check if has config_file in config.It will using original path {}".format(os.path.join(ROOTPATH, 'config')))
             # self.update({
@@ -78,11 +85,21 @@ class Config(dict):
         :type init: bool
         """
         # read and config from self['baseconfig']['config_file']
-        if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file') and \
+        if 'baseconfig' in self and 'config_file' in self['baseconfig'] and \
                 os.path.isfile(self.get('baseconfig').get('config_file')):
-            with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                # self.update(utils.json_load_byteified(target))
-                utils.Update(self, utils.json_load_byteified((target)))
+            # TODO:error config file handle
+            if 2 <= __py_version__ < 3:
+                with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
+                    utils.Update(self, utils.json_load_byteified(target))
+            elif 3 <= __py_version__ < 4:
+                with open(self['baseconfig']['config_file']) as target:
+                    utils.Update(self, utils.json_load_byteified(target))
+            else:
+                print("error python version")
+                exit(-1)
+            # with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
+            #     utils.Update(self, utils.json_load_byteified(target))
+
         elif init:
             # first init
             self.save()
@@ -206,11 +223,20 @@ level=logconfig.get('level')
 log_format=logconfig.get('format')
 log_file_path=logconfig.get('log_file_path')
 
-
-if level in logging._levelNames.keys():
-    level = logging._levelNames.get(level)
+if 2 <= __py_version__ < 3:
+    if level in logging._levelNames.keys():
+        level = logging._levelNames.get(level)
+    else:
+        level = logging.INFO
+elif 3 <= __py_version__ < 4:
+    if level in logging._nameToLevel.keys():
+        level = logging._nameToLevel.get(level)
+    else:
+        level = logging.INFO
 else:
-    level = logging.INFO
+    print("error python version")
+    exit(-1)
+
 
 
 logging.basicConfig(

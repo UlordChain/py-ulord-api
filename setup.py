@@ -8,8 +8,7 @@ import os, shutil,platform
 import site
 from setuptools import setup,find_packages
 from distutils.sysconfig import get_python_lib
-
-py_version = int(platform.python_version().split('.')[0])
+from ulordapi.version import __py_version__, __packagename__
 
 requires2=[
     'backports-abc==0.5',
@@ -71,9 +70,9 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(base_dir, 'readme.md'), 'rb') as f:
     long_description = f.read().decode('utf-8')
 
-if py_version == 2:
+if 2 <= __py_version__ < 3:
     requires = requires2
-elif py_version == 3:
+elif 3 <= __py_version__ < 4:
     requires = requires3
 else:
     print("error python version")
@@ -125,19 +124,19 @@ dst = None #  tool dir
 try:
     lib_paths = site.getsitepackages()
     for lib_path in lib_paths:
-        if os.path.isdir(os.path.join(lib_path, 'ulordapi-0.0.1-py2.7.egg')):
+        if os.path.isdir(os.path.join(lib_path, __packagename__)):
             # current python lib path
-            dst = os.path.join(lib_path, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
+            dst = os.path.join(lib_path, __packagename__, 'ulordapi', 'udfs', 'tools')
 except:
     # venv path
     # import platform
     # if platform.system() in ["Windows", "Win32"]:
     #     print(""current os is windows)
     # print("current python using venv")
-    dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
+    dst = os.path.join(current_place, __packagename__, 'ulordapi', 'udfs', 'tools')
 
 if not dst:
-    dst = os.path.join(current_place, 'ulordapi-0.0.1-py2.7.egg', 'ulordapi', 'udfs', 'tools')
+    dst = os.path.join(current_place, __packagename__, 'ulordapi', 'udfs', 'tools')
 try:
     os.stat(dst)
 except:
@@ -154,3 +153,4 @@ else:
     # change udfs stat
     import stat
     os.chmod(os.path.join(dst, 'udfs'), stat.S_IXOTH)
+

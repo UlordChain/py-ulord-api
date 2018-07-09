@@ -7,9 +7,9 @@ import logging, copy, time
 
 import requests
 
-import utils
-from config import ulordconfig, config, webconfig
-from errcode import return_result
+from ulordapi import utils
+from ulordapi.config import ulordconfig, config, webconfig
+from ulordapi.errcode import return_result
 
 
 class UlordHelper(object):

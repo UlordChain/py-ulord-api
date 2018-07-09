@@ -9,7 +9,7 @@ import re, os, hashlib, base64, logging, json, codecs, collections
 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
-
+from ulordapi.version import __py_version__
 
 def isCellphone(number):
     """
@@ -376,8 +376,14 @@ def _byteify(data, ignore_dicts=False):
     :return: encoded json(utf-8)
     """
     # if this is a unicode string, return its string representation
-    if isinstance(data, unicode):
-        return data.encode('utf-8')
+    if 2 <= __py_version__ < 3:
+        if isinstance(data, unicode):
+            return data.encode('utf-8')
+    elif 3 <= __py_version__ < 4:
+        pass
+    else:
+        print("error python version")
+        exit(-1)
     # if this is a list of values, return list of byteified values
     if isinstance(data, list):
         return [_byteify(item, ignore_dicts=True) for item in data]
@@ -386,7 +392,7 @@ def _byteify(data, ignore_dicts=False):
     if isinstance(data, dict) and not ignore_dicts:
         return {
             _byteify(key, ignore_dicts=True): _byteify(value, ignore_dicts=True)
-            for key, value in data.iteritems()
+            for key, value in data.items()
         }
     # if it's anything else, return it in its original form
     return data
@@ -437,7 +443,7 @@ def Update(orgin_dict, dict_father):
             Out[10]: {'t': 2, 'test': 1, 'ttt': {'123': 1, 'a': 1}}
 
     """
-    for k, v in dict_father.iteritems():
+    for k, v in dict_father.items():
         if isinstance(orgin_dict.get(k, None), collections.Mapping) and isinstance(v, collections.Mapping):
             orgin_dict[k] = Update(orgin_dict.get(k, {}), v)
         else:

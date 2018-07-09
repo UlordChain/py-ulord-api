@@ -9,7 +9,7 @@
 import pprint, argparse, sys, os, textwrap, json
 
 
-import utils
+from ulordapi import utils
 from ulordapi.config import config,ulordconfig
 from ulordapi.manage import create
 from ulordapi.user import Senior
