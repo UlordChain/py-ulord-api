@@ -162,12 +162,13 @@ webServer-help:[here](https://github.com/UlordChain/py-ulord-api/blob/master/doc
 
 ## TODO list
 - [x] add TODO list
-- [ ] some docs
+- [x] some docs
 - [ ] support python3
 - [ ] more friendly expression
 - [ ] add multi-threading download
 - [ ] add unit test
 - [ ] docker environment
+- [ ] rebuild the cli module
 
 ## Contribute
 

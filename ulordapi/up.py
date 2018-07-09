@@ -142,15 +142,22 @@ class UlordHelper(object):
         self.log.info("data is {}".format(data))
 
         # deal with unicode and utf-8
-        from utils import _byteify
-        data = _byteify(data=data)
-
+        from setup import py_version
+        if py_version == 3:
+            pass
+        elif py_version == 2:
+            from utils import _byteify
+            data = _byteify(data=data)
+        else:
+            info = 'unknown python version'
+            self.log.error(info)
+            print(info)
         # calculate  U-Sign
         self.calculate_sign(data)
         # self.ulord_head = ulordconfig.get('ulord_head')
         try:
             r = requests.post(url=url, json=data, headers=self.ulord_head)
-        except Exception, e:
+        except Exception as e:
             self.log.error("Failed request from the ulord-platform: {0}, URL is {1}".format(e, url))
             return return_result(60400)
         self.log.info(r.status_code)
@@ -173,7 +180,7 @@ class UlordHelper(object):
         self.ulord_head = ulordconfig.get('ulord_head')
         try:
             r = requests.get(url=url, headers=self.ulord_head)
-        except Exception, e:
+        except Exception as e:
             self.log.error("Failed request from the ulord-platform: {0}, URL is {1}".format(e, url))
             return return_result(60400)
         self.log.info(url)

@@ -164,12 +164,13 @@ web接口文档:[这里](https://github.com/UlordChain/py-ulord-api/blob/master/
 
 ## 待办事项
 - [x] 添加代办事项
-- [ ] 一些文档
+- [x] 一些文档
 - [ ] 支持 python3
 - [ ] 更友善的表现接口
 - [ ] 添加多线程下载
 - [ ] 添加单元测试
 - [ ] docker 环境
+- [ ] 重构命令行模块
 
 ## 贡献
 

@@ -82,7 +82,7 @@ class Udfs():
         FNULL = open(os.devnull, 'w')
         try:
             pl = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=FNULL)
-        except Exception, e:
+        except Exception as e:
             self.log.error("start command \n{0}\n failed! Exception is {1}".format(str(cmd), e))
             pl = None
         # self.log.info("end command,result is {}".format(pl.communicate()))
@@ -155,7 +155,7 @@ class Udfs():
                 self.log.debug("excute taskkill")
                 try:
                     os.popen('taskkill.exe /pid:{0} /F'.format(self.udfs_daemon_pid))
-                except Exception,e:
+                except Exception as e:
                     self.log.error("Kill task error!Exception is {}".format(e))
             elif self.current_os in ["Mac OSX", "Darwin"]:
                 try:
@@ -165,7 +165,7 @@ class Udfs():
             elif self.current_os == "Linux":
                 try:
                     os.killpg(self.udfs_daemon_pid, signal.SIGTERM)
-                except Exception, e:
+                except Exception as e:
                     self.log.error("Kill task error!Exception is {}".format(e))
             else:
                 self.log.critical("Unknow operating system")
@@ -175,7 +175,7 @@ class Udfs():
             if os.path.isfile(self.lock):
                 try:
                     os.remove(self.lock)
-                except Exception, e:
+                except Exception as e:
                     self.log.error('remove self.lock({0}) failed!'.format(e))
 
 
@@ -250,12 +250,12 @@ class UdfsHelper():
                 result = self.connect.add(file_temp)
                 try:
                     os.remove(file_temp)
-                except Exception, e:
+                except Exception as e:
                     self.log.error("del temp file {0} error: {1}".format(file_temp, e))
                 end = time.time()
                 self.log.info('upload stream cost:{}'.format(end - start))
                 return result.get('Hash')
-        except Exception, e:
+        except Exception as e:
             logging.error("Failed upload.{}".format(e))
             return None
 
@@ -280,7 +280,7 @@ class UdfsHelper():
                 return result.get('Hash')
             else:
                 return False
-        except Exception, e:
+        except Exception as e:
             # save e in the log
             self.log.error("upload file failed!Exception is {}".format(e))
             return False
@@ -305,7 +305,7 @@ class UdfsHelper():
                             self.links.append(link)
             else:
                 self.links = "test"
-        except Exception, e:
+        except Exception as e:
             logging.error("ls fail:{}".format(e))
 
     def downloadfile(self, localfile):
@@ -347,7 +347,7 @@ class UdfsHelper():
                 print('download {0} cost:{1}'.format(filehash, (end - start)))
             self.log.info("download {} successfully!".format(filehash))
             return True
-        except Exception, e:
+        except Exception as e:
             logging.error("download fail:{}".format(e))
             return False
 
@@ -406,11 +406,11 @@ class UdfsHelper():
                             target_file.write(line)
                     try:
                         os.remove(chunk)  # delete chunk to save the space
-                    except Exception, e:
+                    except Exception as e:
                         print("{0}:{1} remove failed:{2}".format(chunk, os.path.isfile(chunk), e))
                 try:
                     os.remove(tempjson)
-                except Exception, e:
+                except Exception as e:
                     print("{0}:{1} remove failed:{2}".format(tempjson, os.path.isfile(tempjson), e))
 
 

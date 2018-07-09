@@ -535,7 +535,7 @@ class Junior(Developer):
     #             })
     #             try:
     #                 setattr(current_resource, key, value)
-    #             except Exception, e:
+    #             except Exception as e:
     #                 print e
     #                 print key
     #                 print value
@@ -817,7 +817,7 @@ class Junior(Developer):
         """
         try:
             result = db.engine.execute(sql)
-        except Exception, e:
+        except Exception as e:
             self.log.error("Execute sql({0}) failed! Exception is{1}".format(sql, e))
             result = None
         return result

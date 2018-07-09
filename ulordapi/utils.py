@@ -282,7 +282,7 @@ class FileHelper():
                 for line in source:
                     target_file.write(line)
                 return True
-        except Exception, e:
+        except Exception as e:
             self.log.error("saveFile error:{}".format(e))
             return False
 
@@ -304,10 +304,10 @@ class FileHelper():
                             target_file.write(line)
                     try:
                         os.remove(chunk)  # delete chunk,save space
-                    except Exception, e:
+                    except Exception as e:
                         self.log.error("{0}:{1} remove failed:{2}".format(chunk, os.path.isfile(chunk), e))
             return True
-        except Exception,e:
+        except Exception as e:
             self.log.error("Error mergeFile:{}".format(e))
             return False
 
@@ -323,7 +323,7 @@ class FileHelper():
         try:
             with open(filepath, 'rb') as target_file:
                 result = target_file
-        except Exception, e:
+        except Exception as e:
             self.log.error("Error: read file{0}:{1}".format(filepath, e))
         return result
 
