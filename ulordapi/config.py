@@ -92,7 +92,7 @@ class Config(dict):
                 with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
                     utils.Update(self, utils.json_load_byteified(target))
             elif 3 <= __py_version__ < 4:
-                with open(self['baseconfig']['config_file']) as target:
+                with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
                     utils.Update(self, utils.json_load_byteified(target))
             else:
                 print("error python version")
