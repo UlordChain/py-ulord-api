@@ -532,6 +532,7 @@ def start():
     # http_server = HTTPServer(WSGIContainer(app))
     # http_server.listen(5000)
     # IOLoop.instance().start()
+    print("start web server at 5000")
     app.run(host='0.0.0.0', port=5000)
 
 

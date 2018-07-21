@@ -368,7 +368,7 @@ class Junior(Developer):
             login_user = User.query.filter_by(username=username).first()
         if login_user:
             login_user.timestamp = int(time.time()) - 1
-            return return_result(0, result={username:login_user.username})
+            return return_result(0, result={'username':login_user.username})
         else:
             return _errcodes.get(60002)
 
@@ -428,7 +428,7 @@ class Junior(Developer):
             current_user = User.query.filter_by(id=userid).first()
         elif 'username' in usercondition:
             username = usercondition.get('username')
-            current_user = User.query.filter_by(name=username).first()
+            current_user = User.query.filter_by(username=username).first()
         elif 'usertoken' in usercondition:
             token = usercondition.get('usertoken')
             current_user = User.query.filter_by(token=token).first()
@@ -626,15 +626,15 @@ class Junior(Developer):
             db.session.commit()
         return result
 
-    def resouce_views(self, title):
+    def resouce_views(self, claim_id):
         """
         add resource view
 
-        :param title: resource title
-        :type title: str
+        :param claim_id: resource claim_id
+        :type claim_id: str
         :return: resource current view
         """
-        resources = Resource.query.filter_by(title=title).first()
+        resources = Resource.query.filter_by(claimID=claim_id).first()
         resources.views += 1
         db.commit()
         return resources.views
@@ -702,7 +702,7 @@ class Junior(Developer):
         else:
             return return_result(60002)
 
-    def user_infor_modify(self, username=None, token=None, encrypted=False, password=None, cellphone=None, email=None, new_password=None):
+    def user_infor_modify(self, password, username=None, token=None, encrypted=False, cellphone=None, email=None, new_password=None):
         """
          user information
 
@@ -824,12 +824,187 @@ class Junior(Developer):
 
 
 if __name__ == '__main__':
-    develop = Developer()
-    result = develop.help()
-    try:
-        import json
-
-        print(json.dumps(result, indent=2, ensure_ascii=False))
-    except:
-        # print(type(result))
-        print(result)
+    # ************************中级开发者接口测试***************************************************
+    # develop = Senior(
+    #     appkey='8326648868ad11e8b894fa163e37b4c3',
+    #     secret='8326648968ad11e8b894fa163e37b4c3'
+    # )
+    # test = develop.rsahelper._encry("test")
+    # print(test)
+    # result = develop.decrypt(args='I9FrluvSwrtmmd7MIZgvfNlbwHU2g4R/v88eoU28cfHXt0x/wWWHNeEAJenFPEc76fmDgcvASHPMUXYAkeJlzqsq5MhleFQMRaxR6dpsVL3rCAd9feOQbl3kMg4oaJqpAKcJ71v8J2EGAOf4suTnGEmj2kYshrR1PdxSsThRLc8=')
+    # print(result)
+    # result = develop.config_edit(['dbconfig','JSON_AS_ASCII', True])
+    # print(result)
+    # result = develop.config_show(['dbconfig'])
+    # print(result)
+    # result = develop.udfs_download(['QmQng3FX98mSe34z3jM1QFQ7XVsoEDWPbKg25ygPaWzgv4'])
+    # print(result)
+    # result = develop.udfs_upload('E:\ulord\py-ulord-api\ulordapi\udfs\upapi.log')
+    # print(result)
+    # result = develop.udfs_cat(['QmRtvbkn8sa47rhxf6ujUYJFxhinNVkh5LH2iCsgvNJVKe'])
+    # print(result)
+    # result = develop.request(method='get',url='http://114.67.37.2:10583/v1/content/list/1/1')
+    # print(result)
+    # result = develop.regist(username='tests',password='123')
+    # print(result)
+    # result = develop.publish(data={
+    #     "author": "tests",
+    #     'pay_password': '123',
+    #     "title": "第一篇技术博客",
+    #     "tags": ["blockchain", "UDFS"],
+    #     "udfs_hash": "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+    #     "price": 0.1,
+    #     "content_type": ".txt",
+    #     "des": "这是使用UDFS和区块链生成的第一篇博客的描述信息"
+    # })
+    # print(result)
+    # result = develop.update(data={
+    #     "id": "38",  # 资源在db中的id
+    #     "pay_password": "123",  # 支付密码
+    #     "tags": ["update"],
+    #     "price": 1.2,
+    #     "content_type": ".exe",
+    #     "des": "update blog description"
+    # })
+    # print(result)
+    # result = develop.delete(id=38, password='123')
+    # print(result)
+    # result = develop.transaction(
+    #     payer='tests',
+    #     claim_id='6af5772b0887ce1a92b0123d4c8e098b2d73ad55',
+    #     pay_password='123',
+    #     isads=False
+    # )
+    # print(result)
+    # result = develop.paytouser('3')
+    # print(result)
+    # result = develop.queryresource(page=1,num=1)
+    # print(result)
+    # result = develop.querybalance(payer='tests', pay_password='123')
+    # print(result)
+    # result = develop.checkisbought(payer='tests', claim_ids=['6af5772b0887ce1a92b0123d4c8e098b2d73ad55','b357caf6f6de4ab68334ea8ebc661323d3dc8e2a'])
+    # print(result)
+    # result = develop.queryuserpublished(wallet_username='tests',page=1,num=1)
+    # print(result)
+    # result = develop.query_resourc_by_ID(ids=["1","2"])
+    # print(result)
+    # result = develop.queryBillingDetailByID(claim_id='6af5772b0887ce1a92b0123d4c8e098b2d73ad55', page=1,num=1)
+    # print(result)
+    # result = develop.queryincomebillings(
+    #     author='tests',
+    #     start='2018-03-29',
+    #     end='2018-07-21'
+    # )
+    # print(result)
+    # result = develop.queryoutgobillings(
+    #     author='tests',
+    #     start='2018-03-29',
+    #     end='2018-07-21'
+    # )
+    # print(result)
+    # result = develop.querybillingsdetail(
+    #     author='tests'
+    # )
+    # print(result)
+    # result = develop.querybillings(
+    #     username='tests',
+    #     start='2018-03-29',
+    #     end='2018-07-21'
+    # )
+    # print(result)
+    # result = develop.querypublishnum(
+    #     author='tests',
+    #     start='2018-03-29',
+    #     end='2018-07-21'
+    # )
+    # print(result)
+    # ************************初级开发者接口测试***************************************************
+    junior = Junior(
+        appkey='8326648868ad11e8b894fa163e37b4c3',
+        secret='8326648968ad11e8b894fa163e37b4c3'
+    )
+    # result = junior.create_database()
+    # print(result)
+    # result = junior.user_regist(
+    #     username='3',
+    #     password='1'
+    # )
+    # print(result)
+    # result = junior.user_login(
+    #     username='3',
+    #     password='1'
+    # )
+    # print(result)
+    # result = junior.user_logout(
+    #     token='2b94fd00-8c8a-11e8-920b-f48e388c65be'
+    # )
+    # print(result)
+    # result = junior.user_activity(
+    #     token='7fa38b00-8c8a-11e8-8085-f48e388c65be'
+    # )
+    # print(result)
+    # result = junior.resource_publish(
+    #     title = "第一篇技术博客",
+    #     tags = ["blockchain", "UDFS"],
+    #     udfshash = "QmVcVaHhMeWNNetSLTZArmqaHMpu5ycqntx7mFZaci63VF",
+    #     amount = 0.1,
+    #     des ="这是使用UDFS和区块链生成的第一篇博客的描述信息",
+    #     usercondition={
+    #         "username" : "3",
+    #         # "userid":1,
+    #         # 'usertoken':"7fa38b00-8c8a-11e8-8085-f48e388c65be"
+    # })
+    # print(result)
+    result = junior.paytouser(username='3')
+    print(result)
+    # result = junior.querybalance(
+    #     payer='as',
+    #     pay_password='123'
+    # )
+    # print(result)
+    # result = junior.querybalance(
+    #     payer='3',
+    #     pay_password='$5$rounds=535000$BVxw4KDybwsFKIjW$AvOv7D1QCogO5G7ZD04cb3sIn4t3Jz5oDR4HDUkUy9B'
+    # )
+    # print(result)
+    # result = junior.user_activity(
+    #     token='7fa38b00-8c8a-11e8-8085-f48e388c65be'
+    # )
+    # print(result)
+    # result = junior.resource_update(
+    #     id='',
+    #     pay_password='',
+    #     title=''
+    # )
+    # print(result)
+    # result = junior.resouce_views(
+    #     claim_id=''
+    # )
+    # print(result)
+    # user = User.
+    # result = junior.pay_resources(
+    #     payer=user,
+    #     claim_id='',
+    #     password='1'
+    # )
+    # print(result)
+    # result = junior.pay_ads(
+    #     wallet='3',
+    #     claim_id='',
+    #     authername='3'
+    # )
+    # print(result)
+    # result = junior.user_info_query(
+    #     username='3'
+    # )
+    # print(result)
+    # result = junior.user_infor_modify(
+    #     username='3',
+    #     password='1',
+    #     cellphone='15237548624'
+    # )
+    # print(result)
+    # result = junior.query("select * from users ")
+    # for i in result:
+    #     print(i)
+    # junior.start_web()

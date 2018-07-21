@@ -28,8 +28,9 @@ ulordapi/test
 # config
 ulordapi/up/config
 ulordapi/udfs/config
-ulordapi/config
+ulordapi/config.json
 /config
+ulordapi/udfs/temp
 
 # Database migrations
 

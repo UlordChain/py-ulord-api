@@ -142,16 +142,15 @@ class UlordHelper(object):
         self.log.info("data is {}".format(data))
 
         # deal with unicode and utf-8
-        from setup import py_version
-        if py_version == 3:
-            pass
-        elif py_version == 2:
+        from version import __py_version__
+        if 2 <= __py_version__ < 3:
             from utils import _byteify
             data = _byteify(data=data)
+        elif 3 <= __py_version__ < 4:
+            pass
         else:
-            info = 'unknown python version'
-            self.log.error(info)
-            print(info)
+            print("error python version")
+            exit(-1)
         # calculate  U-Sign
         self.calculate_sign(data)
         # self.ulord_head = ulordconfig.get('ulord_head')
@@ -378,18 +377,23 @@ class UlordHelper(object):
         }
         return self.post(self.ulord_reource_byID, data)
 
-    def queryBillingDetailByID(self, claim_id):
+    def queryBillingDetailByID(self, claim_id, page=1, num=10):
         """
         query all billing details according to the claimID
 
         :param claim_id: resource on the ulord-chain ID
         :type claim_id: str
+        :param page: which page of result do you want to view?Default is 1.
+        :type page: int
+        :param num: how many pieces of data of result do you want to view?Default is 10.
+        :type num: int
         :return: errcode.You can query from the errcode dict.
         """
         data = {
             'claim_id': claim_id,
         }
-        return self.post(self.ulord_expenserecords_byID, data)
+        temp_url = self.ulord_expenserecords_byID + "/{0}/{1}".format(page, num)
+        return self.post(temp_url, data)
 
     def queryStatisticsByID(self, claim_ids):
         """

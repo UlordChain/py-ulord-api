@@ -240,7 +240,6 @@ class UdfsHelper():
         if not self.connect:
             self.udfs.start(False)
             self.connect = ipfsapi.connect(self.udfs_host, self.udfs_port)
-        # TODO need fix
         try:
             # py-api doesn't support add stream.But the js-api supports.So sad.Maybe need to use HTTP-api.
             start = time.time()
@@ -415,5 +414,7 @@ class UdfsHelper():
 
 
 if __name__ == '__main__':
-    udfs = Udfs()
-    print(udfs.udfs_path)
+    udfshelper = UdfsHelper()
+    # udfshelper.upload_file(r'E:\ulord\py-ulord-api\ulordapi\udfs\config.json')
+    with open(r'E:\ulord\py-ulord-api\ulordapi\udfs\config.json', 'r') as target:
+        udfshelper.upload_stream(target)

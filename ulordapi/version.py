@@ -17,10 +17,8 @@ __py_version__ = float(str(sys.version_info.major) + '.' + str(sys.version_info.
 __packagename__ = 'ulordapi-'+ __version__ + '-py' + str(__py_version__) + '.egg' # ulordapi-0.0.1-py2.7.egg
 
 
-
 if __name__ == '__main__':
     print(__py_version__)
     print(type(__py_version__))
-
-
     print(__packagename__)
+

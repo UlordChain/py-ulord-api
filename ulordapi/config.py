@@ -51,7 +51,7 @@ class Config(dict):
         # Just think about config.maybe need to think about other instance.
         # if self.has_key('baseconfig') and self['baseconfig'].has_key('config_file'):
         if 'baseconfig' in self and 'config_file' in self['baseconfig']: # adapt py3
-            # print(json.dumps(self, ensure_ascii=False, indent=2, sort_keys=True))
+            # todo windows permission denied
             with open(self['baseconfig']['config_file'], 'w') as target:
                 if 2 <= __py_version__ < 3:
                     json.dump(self, target, encoding='utf-8', ensure_ascii=False, indent=2, sort_keys=True)
@@ -87,18 +87,27 @@ class Config(dict):
         # read and config from self['baseconfig']['config_file']
         if 'baseconfig' in self and 'config_file' in self['baseconfig'] and \
                 os.path.isfile(self.get('baseconfig').get('config_file')):
-            # TODO:error config file handle
             if 2 <= __py_version__ < 3:
                 with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                    utils.Update(self, utils.json_load_byteified(target))
+                    try:
+                        utils.Update(self, utils.json_load_byteified(target))
+                    except:
+                        message = "error read config {}.It's not a json file.".format(self['baseconfig']['config_file'])
+                        print(message)
+                        self.log.error(message)
+                        # todo may recover a new config
             elif 3 <= __py_version__ < 4:
                 with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-                    utils.Update(self, utils.json_load_byteified(target))
+                    try:
+                        utils.Update(self, utils.json_load_byteified(target))
+                    except:
+                        message = "error read config {}.It's not a json file.".format(self['baseconfig']['config_file'])
+                        print(message)
+                        self.log.error(message)
+                        # todo may recover a new config
             else:
                 print("error python version")
                 exit(-1)
-            # with io.open(self['baseconfig']['config_file'], encoding='utf-8') as target:
-            #     utils.Update(self, utils.json_load_byteified(target))
 
         elif init:
             # first init
@@ -115,7 +124,7 @@ class Config(dict):
 baseconfig = Config(
     version="0.0.1",
     Debug=True,
-    config_file=os.path.join(ROOTPATH, 'config')
+    config_file=os.path.join(ROOTPATH, 'config.json')
 )
 
 
@@ -171,7 +180,7 @@ ulordconfig = Config(
     ulord_querysinglebilling = "/content/claim/list",  #resource4
     ulord_querysingleresourceaccount = "/content/claim/account", # resource5
 
-    # TODO ulord other URL
+    # update with ulord other URL
 )
 
 
