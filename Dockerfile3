@@ -2,7 +2,7 @@ FROM python:3.6.3-alpine3.6
 LABEL maintainer="Ulord-platform HTTP Client Library Docker Maintainers <caolinan@ulord.net>"
 
 ENV SDK_DIR "/home/py-ulord-sdk"
-COPY . SDK
+COPY . SDK_DIR
 RUN cd $SDK_DIR \
   && pip install -r requirements3.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
   && python3 setup.py install
