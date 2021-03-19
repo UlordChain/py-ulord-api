@@ -7,7 +7,7 @@ Flask-SQLAlchemy==2.3.2
 idna==2.7
 ipfsapi==0.4.3
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 MarkupSafe==1.0
 passlib==1.7.1
 pycryptodome==3.6.3
