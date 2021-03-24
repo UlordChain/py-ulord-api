@@ -17,7 +17,7 @@ pyasn1==0.4.2
 pycryptodome==3.6.1
 PyYAML==3.12
 requests==2.18.4
-rsa==3.4.2
+rsa==4.2
 shellescape==3.4.1
 singledispatch==3.4.0.3
 six==1.11.0
